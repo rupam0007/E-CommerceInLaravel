@@ -50,7 +50,7 @@
                     <select name="category_id" class="mt-1 block w-full border rounded px-3 py-2" required>
                         <option value="">Select a category</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @selected(old('category_id')==$category->id)>{{ $category->name }}</option>
                         @endforeach
                     </select>
                     @error('category_id')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
