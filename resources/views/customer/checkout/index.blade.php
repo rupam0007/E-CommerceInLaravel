@@ -181,7 +181,7 @@
                                             <p class="text-xs text-gray-600">Qty: {{ $item->quantity }}</p>
                                         </div>
                                     </div>
-                                    <span class="text-sm font-medium text-gray-900">${{ number_format($item->total_price, 2) }}</span>
+                                    <span class="text-sm font-medium text-gray-900">₹{{ number_format($item->total, 2) }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -191,20 +191,20 @@
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Subtotal:</span>
-                                <span class="font-medium">${{ number_format($subtotal, 2) }}</span>
+                                <span class="font-medium">₹{{ number_format($subtotal, 2) }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Shipping:</span>
-                                <span class="font-medium">${{ number_format($shipping, 2) }}</span>
+                                <span class="font-medium">₹{{ number_format($shipping, 2) }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Tax:</span>
-                                <span class="font-medium">${{ number_format($tax, 2) }}</span>
+                                <span class="font-medium">₹{{ number_format($tax, 2) }}</span>
                             </div>
                             <hr class="my-2">
                             <div class="flex justify-between text-lg font-bold">
                                 <span>Total:</span>
-                                <span>${{ number_format($total, 2) }}</span>
+                                <span>₹{{ number_format($total, 2) }}</span>
                             </div>
                         </div>
                         

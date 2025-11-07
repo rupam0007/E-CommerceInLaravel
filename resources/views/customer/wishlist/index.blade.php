@@ -41,7 +41,7 @@
                             <p class="text-sm text-gray-600 mb-2">{{ $item->product->category->name }}</p>
                             
                             <div class="flex items-center justify-between mb-4">
-                                <span class="text-xl font-bold text-gray-900">${{ number_format($item->product->price, 2) }}</span>
+                                <span class="text-xl font-bold text-gray-900">₹{{ number_format($item->product->price, 2) }}</span>
                                 @if($item->product->stock_quantity > 0)
                                     <span class="text-sm text-green-600 font-medium">In Stock</span>
                                 @else

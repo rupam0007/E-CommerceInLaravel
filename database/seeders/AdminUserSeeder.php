@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,17 +15,11 @@ class AdminUserSeeder extends Seeder
     {
         $email = 'admin@nexora.com';
 
-        $user = User::firstOrCreate(
+        $user = Admin::firstOrCreate(
             ['email' => $email],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('Admin@123456'),
-                'phone' => '0000000000',
-                'address' => 'Admin Street 1',
-                'city' => 'Admin City',
-                'state' => 'Admin State',
-                'postal_code' => '000000',
-                'country' => 'Adminland',
             ]
         );
 

@@ -44,7 +44,7 @@ class OrderController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        $subtotal = $cartItems->sum('total_price');
+        $subtotal = $cartItems->sum('total');
         $shipping = $subtotal > 100 ? 0 : 10; // Free shipping over $100
         $tax = $subtotal * 0.08; // 8% tax
         $total = $subtotal + $shipping + $tax;
@@ -73,7 +73,7 @@ class OrderController extends Controller
         }
 
         // Calculate totals
-        $subtotal = $cartItems->sum('total_price');
+        $subtotal = $cartItems->sum('total');
         $shipping = $subtotal > 100 ? 0 : 10;
         $tax = $subtotal * 0.08;
         $total = $subtotal + $shipping + $tax;
@@ -124,7 +124,7 @@ class OrderController extends Controller
                 'product_id' => $cartItem->product_id,
                 'quantity' => $cartItem->quantity,
                 'price' => $cartItem->product->price,
-                'total' => $cartItem->total_price,
+                'total' => $cartItem->total,
             ]);
         }
 

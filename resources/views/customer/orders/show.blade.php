@@ -50,12 +50,12 @@
                                         <div class="flex items-center mt-1">
                                             <span class="text-sm text-gray-600">Qty: {{ $item->quantity }}</span>
                                             <span class="mx-2 text-gray-400">•</span>
-                                            <span class="text-sm text-gray-600">${{ number_format($item->price, 2) }} each</span>
+                                            <span class="text-sm text-gray-600">₹{{ number_format($item->price, 2) }} each</span>
                                         </div>
                                     </div>
 
                                     <div class="text-right">
-                                        <p class="text-lg font-semibold text-gray-900">${{ number_format($item->total, 2) }}</p>
+                                        <p class="text-lg font-semibold text-gray-900">₹{{ number_format($item->total, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                     <div class="space-y-3 mb-4">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal:</span>
-                            <span class="font-medium">${{ number_format($order->orderItems->sum('total'), 2) }}</span>
+                            <span class="font-medium">₹{{ number_format($order->orderItems->sum('total'), 2) }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Shipping:</span>
@@ -104,18 +104,18 @@
                                 @if($shipping == 0)
                                     <span class="text-green-600">FREE</span>
                                 @else
-                                    ${{ number_format($shipping, 2) }}
+                                    ₹{{ number_format($shipping, 2) }}
                                 @endif
                             </span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Tax:</span>
-                            <span class="font-medium">${{ number_format($subtotal * 0.08, 2) }}</span>
+                            <span class="font-medium">₹{{ number_format($subtotal * 0.08, 2) }}</span>
                         </div>
                         <hr class="my-3">
                         <div class="flex justify-between text-lg font-bold">
                             <span>Total:</span>
-                            <span>${{ number_format($order->total_amount, 2) }}</span>
+                            <span>₹{{ number_format($order->total_amount, 2) }}</span>
                         </div>
                     </div>
 

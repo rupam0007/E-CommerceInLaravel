@@ -65,7 +65,7 @@
 
                 <div class="mt-3">
                     <h2 class="sr-only">Product information</h2>
-                    <p class="text-3xl text-gray-900 font-bold">${{ number_format($product->price, 2) }}</p>
+                    <p class="text-3xl text-gray-900 font-bold">₹{{ number_format($product->price, 2) }}</p>
                 </div>
 
                 {{-- Stock Status --}}
@@ -196,7 +196,7 @@
                             </a>
                         </h3>
                         <p class="text-base font-semibold text-gray-900">{{ $relatedProduct->name }}</p>
-                        <p class="mt-1 text-lg font-medium text-gray-900">${{ number_format($relatedProduct->price, 2) }}</p>
+                        <p class="mt-1 text-lg font-medium text-gray-900">₹{{ number_format($relatedProduct->price, 2) }}</p>
                     </div>
                 </div>
                 @endforeach

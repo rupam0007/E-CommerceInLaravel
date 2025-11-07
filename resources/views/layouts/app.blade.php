@@ -10,6 +10,18 @@
     <!-- jQuery for AJAX-based pages -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
+        (function() {
+            var tokenMeta = document.querySelector('meta[name="csrf-token"]');
+            if (tokenMeta && window.jQuery) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': tokenMeta.getAttribute('content')
+                    }
+                });
+            }
+        })();
+    </script>
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -65,12 +77,14 @@
                             <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
+                            <span id="wishlist-count-badge" class="absolute -top-1 -right-2 hidden min-w-[1.25rem] h-5 px-1 rounded-full bg-red-600 text-white text-xs flex items-center justify-center"></span>
                             <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Wishlist</span>
                         </a>
                         <a href="{{ route('cart.index') }}" class="text-gray-700 hover:text-black relative group transition-colors duration-200">
                             <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h12.5M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z"></path>
                             </svg>
+                            <span id="cart-count-badge" class="absolute -top-1 -right-2 hidden min-w-[1.25rem] h-5 px-1 rounded-full bg-red-600 text-white text-xs flex items-center justify-center"></span>
                             <span class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Cart</span>
                         </a>
                         <div class="flex items-center space-x-3">
@@ -83,9 +97,6 @@
                             </form>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                            Admin Login
-                        </a>
                         <a href="{{ route('login') }}" class="text-gray-800 hover:text-black px-2 py-2 text-sm font-medium transition-colors">Login</a>
                         <a href="{{ route('register') }}" class="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
                             Register
@@ -155,6 +166,109 @@
 
     @yield('scripts')
     @stack('scripts')
+    <script>
+    (function(){
+        const cartBadge = document.getElementById('cart-count-badge');
+        const wishlistBadge = document.getElementById('wishlist-count-badge');
+        // If badges aren't present (e.g., guest), do nothing
+        if (!cartBadge && !wishlistBadge) return;
+        const cartCountUrl = "{{ route('cart.count') }}";
+        const wishlistCountUrl = "{{ route('wishlist.count') }}";
+        async function fetchCartCount() {
+            try {
+                if (!cartBadge) return;
+                const res = await fetch(cartCountUrl, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const count = Number(data.count || 0);
+                if (count > 0) {
+                    cartBadge.textContent = count > 99 ? '99+' : String(count);
+                    cartBadge.classList.remove('hidden');
+                } else {
+                    cartBadge.textContent = '';
+                    cartBadge.classList.add('hidden');
+                }
+            } catch (e) { /* ignore */ }
+        }
+        async function fetchWishlistCount() {
+            try {
+                if (!wishlistBadge) return;
+                const res = await fetch(wishlistCountUrl, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const count = Number(data.count || 0);
+                if (count > 0) {
+                    wishlistBadge.textContent = count > 99 ? '99+' : String(count);
+                    wishlistBadge.classList.remove('hidden');
+                } else {
+                    wishlistBadge.textContent = '';
+                    wishlistBadge.classList.add('hidden');
+                }
+            } catch (e) { /* ignore */ }
+        }
+        // Initial load
+        fetchCartCount();
+        fetchWishlistCount();
+        // Update on visibility change (when user returns to the tab)
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) { fetchCartCount(); fetchWishlistCount(); } });
+        // Intercept add-to-cart forms to update badge without full reload
+        document.addEventListener('submit', async function(e){
+            const form = e.target;
+            if (!(form instanceof HTMLFormElement)) return;
+            const action = form.getAttribute('action') || '';
+            if (!action.includes('/cart/add/')) return;
+            // Use fetch to submit
+            e.preventDefault();
+            try {
+                const formData = new FormData(form);
+                const res = await fetch(action, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: formData,
+                    credentials: 'same-origin'
+                });
+                // Update badge from response or refetch
+                if (res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    if (typeof data.count !== 'undefined') {
+                        const count = Number(data.count || 0);
+                        if (cartBadge) {
+                            if (count > 0) { cartBadge.textContent = count > 99 ? '99+' : String(count); cartBadge.classList.remove('hidden'); }
+                            else { cartBadge.textContent = ''; cartBadge.classList.add('hidden'); }
+                        }
+                    } else {
+                        fetchCartCount();
+                    }
+                } else {
+                    fetchCartCount();
+                }
+            } catch (err) {
+                fetchCartCount();
+            }
+        });
+        // Intercept wishlist toggle forms to update wishlist badge
+        document.addEventListener('submit', async function(e){
+            const form = e.target;
+            if (!(form instanceof HTMLFormElement)) return;
+            const action = form.getAttribute('action') || '';
+            if (!action.includes('/wishlist/toggle')) return;
+            // Let normal navigation happen if not authenticated or server redirects
+            // But also trigger a background count refresh
+            setTimeout(fetchWishlistCount, 300);
+        });
+        // Listen clicks on remove buttons in wishlist page to refresh badge
+        document.addEventListener('click', function(e){
+            const target = e.target.closest && e.target.closest('.remove-wishlist-btn');
+            if (target) {
+                setTimeout(fetchWishlistCount, 500);
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
 

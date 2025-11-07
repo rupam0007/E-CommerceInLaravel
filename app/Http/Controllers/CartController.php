@@ -17,6 +17,7 @@ class CartController extends Controller
             ->get();
 
         $total = $cartItems->sum('total');
+        // echo ($cartItems->product->price);
 
         return view('customer.cart.index', compact('cartItems', 'total'));
     }
@@ -28,7 +29,7 @@ class CartController extends Controller
         ]);
 
         $quantity = $request->quantity;
-        
+
         // Check if product is already in cart
         $cartItem = Cart::where('user_id', Auth::id())
             ->where('product_id', $product->id)
@@ -40,23 +41,26 @@ class CartController extends Controller
             if ($newQuantity > $product->stock_quantity) {
                 return redirect()->back()->with('error', 'The requested quantity exceeds available stock.');
             }
-            
+
             $cartItem->quantity = $newQuantity;
-            $cartItem->total = $product->price * $newQuantity;
             $cartItem->save();
         } else {
             // Create new cart item
             if ($quantity > $product->stock_quantity) {
                 return redirect()->back()->with('error', 'The requested quantity exceeds available stock.');
             }
-            
+
             Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
                 'quantity' => $quantity,
                 'price' => $product->price,
-                'total' => $product->price * $quantity
             ]);
+        }
+
+        if ($request->expectsJson() || $request->ajax()) {
+            $count = Cart::where('user_id', Auth::id())->sum('quantity');
+            return response()->json(['success' => true, 'message' => 'Product added to cart!', 'count' => $count]);
         }
 
         return redirect()->back()->with('success', 'Product added to cart!');
@@ -75,7 +79,6 @@ class CartController extends Controller
 
         $cart->update([
             'quantity' => $request->quantity,
-            'total' => $cart->price * $request->quantity
         ]);
 
         return redirect()->back()->with('success', 'Cart updated!');
@@ -87,7 +90,7 @@ class CartController extends Controller
         if ($cart->user_id !== Auth::id()) {
             abort(403);
         }
-        
+
         $cart->delete();
 
         return redirect()->back()->with('success', 'Item removed from cart!');
@@ -98,5 +101,12 @@ class CartController extends Controller
         Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->back()->with('success', 'Cart cleared!');
+    }
+
+    public function count(Request $request)
+    {
+        $userId = Auth::id();
+        $count = $userId ? Cart::where('user_id', $userId)->sum('quantity') : 0;
+        return response()->json(['count' => $count]);
     }
 }

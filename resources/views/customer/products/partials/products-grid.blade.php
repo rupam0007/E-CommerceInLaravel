@@ -2,17 +2,42 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($products as $product)
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                @if($product->image)
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
-                         class="w-full h-48 object-cover">
-                @else
-                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                        <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                @endif
-                
+                <div class="relative">
+                    @if($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
+                             class="w-full h-48 object-cover">
+                    @else
+                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                            <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    @endif
+
+                    @auth
+                        @php
+                            $inWishlist = \App\Models\Wishlist::where('user_id', auth()->id())
+                                ->where('product_id', $product->id)
+                                ->exists();
+                        @endphp
+                        <form method="POST" action="{{ route('wishlist.toggle', $product) }}" class="absolute top-2 right-2">
+                            @csrf
+                            <button type="submit" aria-label="Toggle wishlist"
+                                    class="p-2 rounded-full shadow {{ $inWishlist ? 'bg-red-600 text-white' : 'bg-white text-gray-700 hover:text-red-600' }}">
+                                @if($inWishlist)
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                @else
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                @endif
+                            </button>
+                        </form>
+                    @endauth
+                </div>
+
                 <div class="p-4">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-lg font-semibold text-gray-900 line-clamp-2">{{ $product->name }}</h3>
@@ -26,7 +51,7 @@
                     <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ Str::limit($product->description, 80) }}</p>
                     
                     <div class="flex justify-between items-center mb-3">
-                        <span class="text-2xl font-bold text-indigo-600">${{ number_format($product->price, 2) }}</span>
+                        <span class="text-2xl font-bold text-indigo-600">₹{{ number_format($product->price, 2) }}</span>
                         <span class="text-sm text-gray-500">{{ $product->category->name }}</span>
                     </div>
                     
