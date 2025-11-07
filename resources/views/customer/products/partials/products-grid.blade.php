@@ -1,7 +1,8 @@
 @if($products->count() > 0)
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     @foreach($products as $product)
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg group">
+    {{-- --- FIX: "relative" IS ADDED TO THIS LINE --- --}}
+    <div class="relative bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg group">
         <div class="relative">
             <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden">
                 @if($product->image)
@@ -16,7 +17,7 @@
                 @endif
             </div>
 
-            {{-- Wishlist Button (Guests see it but will be redirected to login) --}}
+            {{-- Wishlist Button --}}
             @php
             $inWishlist = false;
             if(auth()->check()) {
@@ -25,7 +26,7 @@
             ->exists();
             }
             @endphp
-            <form method="POST" action="{{ route('wishlist.toggle', $product) }}" class="absolute top-3 right-3 z-10">
+            <form method="POST" action="{{ route('wishlist.toggle', $product) }}" class="absolute top-3 right-3 z-20"> {{-- z-20 --}}
                 @csrf
                 <button type="submit" aria-label="Toggle wishlist"
                     class="p-2 rounded-full shadow-sm
@@ -50,30 +51,28 @@
                     <p class="text-sm text-gray-500">{{ optional($product->category)->name }}</p>
                     <h3 class="text-base font-semibold text-gray-900 mt-1">
                         <a href="{{ route('products.show', $product) }}" class="hover:text-indigo-600">
-                            <span class="absolute inset-0"></span>
+                            <span class="absolute inset-0 z-0"></span> {{-- This is the hidden link --}}
                             {{ $product->name }}
                         </a>
                     </h3>
                 </div>
                 @if($product->stock_quantity <= 5 && $product->stock_quantity > 0)
-                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">Low Stock</span>
+                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium relative z-10">Low Stock</span>
                     @elseif($product->stock_quantity == 0)
-                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">Out of Stock</span>
+                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium relative z-10">Out of Stock</span>
                     @endif
             </div>
 
-            <p class="text-2xl font-bold text-gray-900 mb-4">₹{{ number_format($product->price, 2) }}</p>
+            <p class="text-2xl font-bold text-gray-900 mb-4 relative z-10">₹{{ number_format($product->price, 2) }}</p>
 
-            <div class="flex gap-2">
+            <div class="flex gap-2 relative z-10"> {{-- Buttons are z-10 --}}
                 <a href="{{ route('products.show', $product) }}"
-                    class="relative z-10 flex-1 bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-md text-sm font-medium text-center hover:bg-gray-50 transition-colors">
+                    class="flex-1 bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-md text-sm font-medium text-center hover:bg-gray-50 transition-colors">
                     View Details
                 </a>
 
-                {{-- --- START FIX --- --}}
-                {{-- Show the "Add to Cart" button for everyone --}}
                 @if($product->stock_quantity > 0)
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-1 relative z-10">
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-1">
                     @csrf
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit"
@@ -82,17 +81,27 @@
                     </button>
                 </form>
                 @else
-                <button disabled class="w-full flex-1 relative z-10 bg-gray-200 text-gray-500 px-4 py-2 rounded-md text-sm font-medium cursor-not-allowed">
+                <button disabled class="w-full flex-1 bg-gray-200 text-gray-500 px-4 py-2 rounded-md text-sm font-medium cursor-not-allowed">
                     Out of Stock
                 </button>
                 @endif
-                {{-- --- END FIX --- --}}
-
             </div>
         </div>
     </div>
     @endforeach
 </div>
 @else
-{{-- ... (no changes to this "No products found" part) ... --}}
+<div class="text-center py-16 col-span-full">
+    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+    </svg>
+    <h3 class="mt-2 text-lg font-semibold text-gray-900">No products found</h3>
+    <p class="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
+    <div class="mt-6">
+        <a href="{{ route('products.index') }}"
+            class="inline-flex items-center px-5 py-2.5 shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            Clear Filters
+        </a>
+    </div>
+</div>
 @endif

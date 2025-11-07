@@ -1,13 +1,36 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Register')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Choice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-@section('content')
-<div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-2xl font-semibold mb-6 text-center">Choose Registration Type</h1>
-    <div class="bg-white rounded-md shadow p-6 space-y-4">
-        <a href="{{ route('register.user') }}" class="w-full block text-center bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-md">Register as User</a>
-        <a href="{{ route('admin.register') }}" class="w-full block text-center border px-4 py-2 rounded-md">Register as Admin</a>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+        <h2 class="text-2xl font-bold text-center mb-6">Register As</h2>
+        <div class="space-y-4">
+            {{-- --- FIX: Route 'register.user' se 'register' mein change kiya gaya hai --- --}}
+            <a href="{{ route('register') }}"
+                class="block w-full text-center bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition-colors">
+                Register as User
+            </a>
+
+            <a href="{{ route('admin.register') }}"
+                class="block w-full text-center bg-gray-600 text-white py-2 rounded-md font-medium hover:bg-gray-700 transition-colors">
+                Register as Admin
+            </a>
+        </div>
+        <p class="text-sm text-gray-600 text-center mt-6">
+            Already have an account?
+            {{-- --- FIX: Route 'login' se 'login.choice' mein change kiya gaya hai --- --}}
+            <a href="{{ route('login.choice') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                Login here
+            </a>
+        </p>
     </div>
-</div>
-@endsection
+</body>
+
+</html>

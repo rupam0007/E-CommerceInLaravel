@@ -20,13 +20,23 @@ use App\Http\Controllers\Admin\Auth\RegistrationController as AdminRegistrationC
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Authentication routes
-Route::view('/login', 'auth.login_choice')->name('login');
-Route::view('/register', 'auth.registration_choice')->name('register');
-Route::get('/login/user', [App\Http\Controllers\auth\LoginController::class, 'showLoginForm'])->name('login.user');
+// --- Authentication Routes (YAHAN CHECK KAREIN) ---
+
+// Yeh pages ab login/choice aur register/choice par rahenge
+Route::view('/login/choice', 'auth.login_choice')->name('login.choice');
+Route::view('/register/choice', 'auth.registration_choice')->name('register.choice');
+
+// User login page ko hum 'login' naam de rahe hain
+Route::get('/login', [App\Http\Controllers\auth\LoginController::class, 'showLoginForm'])->name('login');
+// Login submit karne ke liye POST route
 Route::post('/login', [App\Http\Controllers\auth\LoginController::class, 'login']);
-Route::get('/register/user', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register.user');
+
+// User registration page ko hum 'register' naam de rahe hain
+Route::get('/register', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register');
+// Registration submit karne ke liye POST route
 Route::post('/register', [App\Http\Controllers\auth\RegistrationController::class, 'register']);
+
+// --- END CHECK ---
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -43,11 +53,7 @@ Route::get('/categories', function () {
 })->name('categories.index');
 
 
-// --- START FIX ---
-// These routes are now public.
-// The controllers will redirect to login if auth is required.
-
-// Cart routes
+// Cart and Wishlist routes (Public)
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
@@ -55,17 +61,14 @@ Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.rem
 Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
 Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
 
-// Wishlist routes
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
 
-// --- END FIX ---
 
-
-// Authenticated user routes (Profile and Orders still require login)
+// Authenticated user routes
 Route::middleware('auth')->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
