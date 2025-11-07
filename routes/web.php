@@ -21,10 +21,8 @@ use App\Http\Controllers\Admin\Auth\RegistrationController as AdminRegistrationC
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Authentication routes
-// Choice pages
 Route::view('/login', 'auth.login_choice')->name('login');
 Route::view('/register', 'auth.registration_choice')->name('register');
-// User forms
 Route::get('/login/user', [App\Http\Controllers\auth\LoginController::class, 'showLoginForm'])->name('login.user');
 Route::post('/login', [App\Http\Controllers\auth\LoginController::class, 'login']);
 Route::get('/register/user', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register.user');
@@ -40,31 +38,35 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/categories/{category}/products', [ProductController::class, 'byCategory'])->name('products.category');
 Route::get('/search', [ProductController::class, 'search'])->name('products.search');
-// Cart count (public; returns 0 for guests)
-Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
-// Wishlist count (public; returns 0 for guests)
-Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
-
-// Categories route (placeholder)
 Route::get('/categories', function () {
     return redirect()->route('products.index');
 })->name('categories.index');
 
-// Authenticated user routes
+
+// --- START FIX ---
+// These routes are now public.
+// The controllers will redirect to login if auth is required.
+
+// Cart routes
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
+Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
+
+// Wishlist routes
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
+
+// --- END FIX ---
+
+
+// Authenticated user routes (Profile and Orders still require login)
 Route::middleware('auth')->group(function () {
-    // Cart routes
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
-
-    // Wishlist routes
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/wishlist/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::delete('/wishlist/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-    Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
-
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -78,10 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 
-// Redirect bare /admin to admin dashboard to avoid 404
+// Admin routes (no changes)
 Route::redirect('/admin', '/admin/dashboard');
-
-// Admin authentication routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
@@ -89,11 +89,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/register', [AdminRegistrationController::class, 'showRegistrationForm'])->name('register');
         Route::post('/register', [AdminRegistrationController::class, 'register']);
     });
-
     Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 });
-
-// Admin routes protected by admin guard
 Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', AdminProductController::class);
@@ -103,4 +100,3 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
 });
-

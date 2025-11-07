@@ -1,79 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora | Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50 min-h-screen">
+@extends('layouts.app')
 
-    {{-- Navigation --}}
-    <nav class="bg-white shadow-sm border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-indigo-600" style="font-family: 'Crimson Text', serif;">
-                        Nexora
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <span class="text-gray-700" style="font-family: 'Inter', sans-serif;">
-                        Welcome, {{ Auth::user()->name }}!
-                    </span>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" 
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-                                style="font-family: 'Inter', sans-serif;">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
+@section('title', 'Nexora - Your E-commerce Destination')
 
-    {{-- Main Content --}}
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-            <div class="p-6 text-center">
-                <div class="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                    <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2" style="font-family: 'Crimson Text', serif;">
-                    Registration Successful!
-                </h2>
-                <p class="text-gray-600 mb-6" style="font-family: 'Inter', sans-serif;">
-                    Welcome to Nexora, {{ Auth::user()->name }}. Your account has been created successfully.
-                </p>
-                
-                {{-- User Information Card --}}
-                <div class="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4" style="font-family: 'Inter', sans-serif;">
-                        Your Account Details
-                    </h3>
-                    <div class="space-y-3 text-left">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600" style="font-family: 'Inter', sans-serif;">Name:</span>
-                            <span class="font-medium text-gray-900" style="font-family: 'Inter', sans-serif;">{{ Auth::user()->name }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600" style="font-family: 'Inter', sans-serif;">Email:</span>
-                            <span class="font-medium text-gray-900" style="font-family: 'Inter', sans-serif;">{{ Auth::user()->email }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600" style="font-family: 'Inter', sans-serif;">Joined:</span>
-                            <span class="font-medium text-gray-900" style="font-family: 'Inter', sans-serif;">{{ Auth::user()->created_at->format('M d, Y') }}</span>
-                        </div>
-                    </div>
-                </div>
+@section('content')
+
+{{-- New Hero Section --}}
+<div class="bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+        <div class="text-center">
+            <h1 class="text-5xl md:text-6xl font-bold font-serif text-gray-900 mb-6 leading-tight">
+                Welcome to Nexora
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Discover premium products, cutting-edge technology, and unbeatable deals. Your journey to excellence starts here.
+            </p>
+            <div class="flex gap-4 justify-center items-center">
+                <a href="{{ route('products.index') }}"
+                    class="bg-indigo-600 text-white px-8 py-3 rounded-md font-semibold text-base hover:bg-indigo-700 transition-all duration-300 shadow-sm">
+                    Shop Now
+                </a>
+                <a href="#featured"
+                    class="bg-white text-gray-900 border border-gray-300 px-8 py-3 rounded-md font-semibold text-base hover:bg-gray-50 transition-all duration-300">
+                    Explore Products
+                </a>
             </div>
         </div>
     </div>
+</div>
 
-</body>
-</html>
+{{-- Features Section --}}
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Fast Delivery</h3>
+                <p class="text-gray-600 text-sm">Free shipping on orders over $50. Get your products quickly.</p>
+            </div>
+
+            <div class="text-center p-6">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H4a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Secure Payment</h3>
+                <p class="text-gray-600 text-sm">Your payment information is protected with bank-level security.</p>
+            </div>
+
+            <div class="text-center p-6">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-5">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Premium Quality</h3>
+                <p class="text-gray-600 text-sm">All products are carefully selected to ensure the highest quality.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Featured Categories --}}
+@if($categories->count() > 0)
+<div class="bg-white py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold font-serif text-gray-900 text-center mb-12">
+            Shop by Category
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($categories as $category)
+            <div class="group relative bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="aspect-w-3 aspect-h-2">
+                    @if($category->image)
+                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="w-full h-full object-cover">
+                    @else
+                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500 font-medium">{{ $category->name }}</span>
+                    </div>
+                    @endif
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900">
+                        <a href="{{ route('products.category', $category) }}" class="hover:text-indigo-600">
+                            <span class="absolute inset-0"></span>
+                            {{ $category->name }}
+                        </a>
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1">{{ Str::limit($category->description, 50) }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- Featured Products --}}
+@if($featuredProducts->count() > 0)
+<div class="bg-gray-50 py-16 sm:py-24" id="featured">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold font-serif text-gray-900 text-center mb-12">
+            Featured Products
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {{-- --- FIX: REMOVED @foreach AND @break --- --}}
+            @include('customer.products.partials.products-grid', ['products' => $featuredProducts])
+            {{-- --- END FIX --- --}}
+        </div>
+        <div class="text-center mt-12">
+            <a href="{{ route('products.index') }}"
+                class="bg-indigo-600 text-white px-8 py-3 rounded-md font-semibold text-base hover:bg-indigo-700 transition-all duration-300 shadow-sm">
+                View All Products
+            </a>
+        </div>
+    </div>
+</div>
+@endif
+
+@endsection
