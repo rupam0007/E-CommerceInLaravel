@@ -20,37 +20,31 @@ use App\Http\Controllers\Admin\Auth\RegistrationController as AdminRegistrationC
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// --- Authentication Routes (YAHAN CHECK KAREIN) ---
-
-// Yeh pages ab login/choice aur register/choice par rahenge
+// --- Authentication Routes ---
 Route::view('/login/choice', 'auth.login_choice')->name('login.choice');
 Route::view('/register/choice', 'auth.registration_choice')->name('register.choice');
-
-// User login page ko hum 'login' naam de rahe hain
 Route::get('/login', [App\Http\Controllers\auth\LoginController::class, 'showLoginForm'])->name('login');
-// Login submit karne ke liye POST route
 Route::post('/login', [App\Http\Controllers\auth\LoginController::class, 'login']);
-
-// User registration page ko hum 'register' naam de rahe hain
 Route::get('/register', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register');
-// Registration submit karne ke liye POST route
 Route::post('/register', [App\Http\Controllers\auth\RegistrationController::class, 'register']);
-
-// --- END CHECK ---
-
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
 
-// Public product routes
+
+// --- Public product and category routes ---
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/categories/{category}/products', [ProductController::class, 'byCategory'])->name('products.category');
-Route::get('/search', [ProductController::class, 'search'])->name('products.search');
-Route::get('/categories', function () {
-    return redirect()->route('products.index');
-})->name('categories.index');
+
+// --- START: ROUTE FIX KIYA ---
+// /search route ab index function ko point karega (kyunki index() search handle karta hai)
+Route::get('/search', [ProductController::class, 'index'])->name('products.search');
+
+// Category page ka naya route
+Route::get('/categories', [ProductController::class, 'showAllCategories'])->name('categories.index');
+Route::get('/categories/{category}/products', [ProductController::class, 'showCategory'])->name('products.category');
+// --- END: ROUTE FIX ---
 
 
 // Cart and Wishlist routes (Public)
@@ -70,13 +64,10 @@ Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishl
 
 // Authenticated user routes
 Route::middleware('auth')->group(function () {
-    // Profile routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-
-    // Order routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');

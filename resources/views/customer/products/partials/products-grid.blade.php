@@ -1,10 +1,14 @@
 @if($products->count() > 0)
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     @foreach($products as $product)
-    {{-- --- FIX: "relative" IS ADDED TO THIS LINE --- --}}
     <div class="relative bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg group">
         <div class="relative">
-            <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden">
+
+            {{-- --- START FIX --- --}}
+            {{-- 'aspect-w-1 aspect-h-1' ko 'aspect-square' se replace kiya gaya hai --}}
+            <div class="aspect-square w-full overflow-hidden">
+                {{-- --- END FIX --- --}}
+
                 @if($product->image)
                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                     class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
@@ -17,7 +21,7 @@
                 @endif
             </div>
 
-            {{-- Wishlist Button --}}
+            {{-- Wishlist Button (Z-index 20) --}}
             @php
             $inWishlist = false;
             if(auth()->check()) {
@@ -26,7 +30,7 @@
             ->exists();
             }
             @endphp
-            <form method="POST" action="{{ route('wishlist.toggle', $product) }}" class="absolute top-3 right-3 z-20"> {{-- z-20 --}}
+            <form method="POST" action="{{ route('wishlist.toggle', $product) }}" class="absolute top-3 right-3 z-20">
                 @csrf
                 <button type="submit" aria-label="Toggle wishlist"
                     class="p-2 rounded-full shadow-sm
@@ -51,7 +55,7 @@
                     <p class="text-sm text-gray-500">{{ optional($product->category)->name }}</p>
                     <h3 class="text-base font-semibold text-gray-900 mt-1">
                         <a href="{{ route('products.show', $product) }}" class="hover:text-indigo-600">
-                            <span class="absolute inset-0 z-0"></span> {{-- This is the hidden link --}}
+                            <span class="absolute inset-0 z-0"></span>
                             {{ $product->name }}
                         </a>
                     </h3>
@@ -65,7 +69,7 @@
 
             <p class="text-2xl font-bold text-gray-900 mb-4 relative z-10">₹{{ number_format($product->price, 2) }}</p>
 
-            <div class="flex gap-2 relative z-10"> {{-- Buttons are z-10 --}}
+            <div class="flex gap-2 relative z-10">
                 <a href="{{ route('products.show', $product) }}"
                     class="flex-1 bg-white border border-gray-300 text-gray-900 px-4 py-2 rounded-md text-sm font-medium text-center hover:bg-gray-50 transition-colors">
                     View Details

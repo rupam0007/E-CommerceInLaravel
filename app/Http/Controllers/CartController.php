@@ -9,104 +9,131 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    /**
+     * --- START FIX ---
+     * Yeh function har function se pehle 'auth' middleware (login check) ko apply karega.
+     * Ab agar koi guest cart access karne ki koshish karega, toh woh seedha login page par redirect ho jayega.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    // --- END FIX ---
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $cartItems = Cart::with('product')
+        $cartItems = Cart::with('product.category') // Eager load product and category
             ->where('user_id', Auth::id())
             ->get();
 
-        $total = $cartItems->sum('total');
-        // echo ($cartItems->product->price);
+        $subtotal = $cartItems->sum('total');
+        $shipping = $subtotal > 100 ? 0 : 10;
+        $tax = $subtotal * 0.08;
+        $total = $subtotal + $shipping + $tax;
 
-        return view('customer.cart.index', compact('cartItems', 'total'));
+        return view('customer.cart.index', compact('cartItems', 'subtotal', 'shipping', 'tax', 'total'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function add(Request $request, Product $product)
     {
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $product->stock_quantity
+            'quantity' => 'required|integer|min:1|max:' . $product->stock_quantity,
         ]);
 
-        $quantity = $request->quantity;
-
-        // Check if product is already in cart
         $cartItem = Cart::where('user_id', Auth::id())
             ->where('product_id', $product->id)
             ->first();
 
+        $quantity = $request->input('quantity');
+
         if ($cartItem) {
-            // Update existing cart item
+            // Update quantity
             $newQuantity = $cartItem->quantity + $quantity;
             if ($newQuantity > $product->stock_quantity) {
-                return redirect()->back()->with('error', 'The requested quantity exceeds available stock.');
+                return back()->with('error', 'Cannot add more. Product stock limit reached.');
             }
-
             $cartItem->quantity = $newQuantity;
+            $cartItem->total = $cartItem->price * $newQuantity;
             $cartItem->save();
         } else {
             // Create new cart item
-            if ($quantity > $product->stock_quantity) {
-                return redirect()->back()->with('error', 'The requested quantity exceeds available stock.');
-            }
-
             Cart::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::id(), // Ab yeh 'null' nahi hoga, kyunki user login hoga
                 'product_id' => $product->id,
                 'quantity' => $quantity,
                 'price' => $product->price,
+                'total' => $product->price * $quantity,
             ]);
         }
 
-        if ($request->expectsJson() || $request->ajax()) {
-            $count = Cart::where('user_id', Auth::id())->sum('quantity');
-            return response()->json(['success' => true, 'message' => 'Product added to cart!', 'count' => $count]);
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Product added to cart successfully.']);
         }
 
-        return redirect()->back()->with('success', 'Product added to cart!');
+        return redirect()->route('cart.index')->with('success', 'Product added to cart successfully.');
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Cart $cart)
     {
-        // Check if cart belongs to current user
-        if ($cart->user_id !== Auth::id()) {
+        // Authorize
+        if ($cart->user_id != Auth::id()) {
             abort(403);
         }
 
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $cart->product->stock_quantity
+            'quantity' => 'required|integer|min:1|max:' . $cart->product->stock_quantity,
         ]);
 
-        $cart->update([
-            'quantity' => $request->quantity,
-        ]);
+        $quantity = $request->input('quantity');
+        $cart->quantity = $quantity;
+        $cart->total = $cart->price * $quantity;
+        $cart->save();
 
-        return redirect()->back()->with('success', 'Cart updated!');
+        return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function remove(Cart $cart)
     {
-        // Check if cart belongs to current user
-        if ($cart->user_id !== Auth::id()) {
+        // Authorize
+        if ($cart->user_id != Auth::id()) {
             abort(403);
         }
 
         $cart->delete();
 
-        return redirect()->back()->with('success', 'Item removed from cart!');
+        return redirect()->route('cart.index')->with('success', 'Product removed from cart.');
     }
 
+    /**
+     * Clear all items from the cart.
+     */
     public function clear()
     {
         Cart::where('user_id', Auth::id())->delete();
-
-        return redirect()->back()->with('success', 'Cart cleared!');
+        return redirect()->route('cart.index')->with('success', 'Cart cleared.');
     }
 
-    public function count(Request $request)
+    /**
+     * Get cart items count.
+     */
+    public function count()
     {
-        $userId = Auth::id();
-        $count = $userId ? Cart::where('user_id', $userId)->sum('quantity') : 0;
+        if (!Auth::check()) {
+            return response()->json(['count' => 0]);
+        }
+        $count = Cart::where('user_id', Auth::id())->sum('quantity');
         return response()->json(['count' => $count]);
     }
 }

@@ -3,52 +3,63 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Wishlist;
 use App\Models\Product;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    /**
+     * --- START FIX ---
+     * Yeh function har function se pehle 'auth' middleware (login check) ko apply karega.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    // --- END FIX ---
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $wishlistItems = Wishlist::with('product.category')
             ->where('user_id', Auth::id())
             ->get();
-
         return view('customer.wishlist.index', compact('wishlistItems'));
     }
 
-    public function add(Request $request, Product $product)
+    /**
+     * Add a product to the wishlist.
+     */
+    public function add(Product $product)
     {
-        $exists = Wishlist::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->exists();
+        Wishlist::firstOrCreate([
+            'user_id' => Auth::id(),
+            'product_id' => $product->id,
+        ]);
 
-        if (!$exists) {
-            Wishlist::create([
-                'user_id' => Auth::id(),
-                'product_id' => $product->id
-            ]);
-            if ($request->expectsJson() || $request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Product added to wishlist!'
-                ]);
-            }
-            return back()->with('success', 'Product added to wishlist!');
-        }
-
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product already in wishlist!'
-            ]);
-        }
-        return back()->with('error', 'Product already in wishlist!');
+        return back()->with('success', 'Product added to wishlist.');
     }
 
-    public function remove(Request $request, Product $product)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function remove(Product $product)
+    {
+        Wishlist::where('user_id', Auth::id())
+            ->where('product_id', $product->id)
+            ->delete();
+
+        return back()->with('success', 'Product removed from wishlist.');
+    }
+
+    /**
+     * Toggle a product in the wishlist.
+     */
+    public function toggle(Product $product)
     {
         $wishlistItem = Wishlist::where('user_id', Auth::id())
             ->where('product_id', $product->id)
@@ -56,61 +67,22 @@ class WishlistController extends Controller
 
         if ($wishlistItem) {
             $wishlistItem->delete();
-            if ($request->expectsJson() || $request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Product removed from wishlist!'
-                ]);
-            }
-            return back()->with('success', 'Product removed from wishlist!');
-        }
-
-        if ($request->expectsJson() || $request->ajax()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Product not found in wishlist!'
-            ]);
-        }
-        return back()->with('error', 'Product not found in wishlist!');
-    }
-
-    public function toggle(Request $request, Product $product)
-    {
-        $wishlistItem = Wishlist::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
-
-        if ($wishlistItem) {
-            $wishlistItem->delete();
-            if ($request->expectsJson() || $request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'action' => 'removed',
-                    'message' => 'Product removed from wishlist!'
-                ]);
-            }
-            return back()->with('success', 'Product removed from wishlist!');
+            return back()->with('success', 'Product removed from wishlist.');
         } else {
             Wishlist::create([
                 'user_id' => Auth::id(),
-                'product_id' => $product->id
+                'product_id' => $product->id,
             ]);
-            if ($request->expectsJson() || $request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'action' => 'added',
-                    'message' => 'Product added to wishlist!'
-                ]);
-            }
-            return back()->with('success', 'Product added to wishlist!');
+            return back()->with('success', 'Product added to wishlist.');
         }
     }
 
-    public function count(Request $request)
+    /**
+     * Get wishlist items count.
+     */
+    public function count()
     {
-        $userId = Auth::id();
-        $count = $userId ? Wishlist::where('user_id', $userId)->count() : 0;
+        $count = Wishlist::where('user_id', Auth::id())->count();
         return response()->json(['count' => $count]);
     }
 }
-
