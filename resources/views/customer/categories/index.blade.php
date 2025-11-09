@@ -6,7 +6,7 @@
 <div class="bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
-        {{-- Page Header --}}
+
         <div class="mb-10 text-center">
             <h1 class="text-4xl font-bold font-serif text-gray-900">
                 Shop by Category
@@ -14,7 +14,7 @@
             <p class="text-gray-600 mt-2 text-lg">Apni pasand ki category se products chunein.</p>
         </div>
 
-        {{-- Categories Grid --}}
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @forelse($categories as $category)
             <a href="{{ route('products.category', $category) }}" class="relative bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg group">

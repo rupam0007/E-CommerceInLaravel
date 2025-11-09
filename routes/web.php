@@ -17,14 +17,14 @@ use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegistrationController as AdminRegistrationController;
 
-// Home route
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// --- Authentication Routes ---
-Route::view('/login/choice', 'auth.login_choice')->name('login.choice');
-Route::view('/register/choice', 'auth.registration_choice')->name('register.choice');
-Route::get('/login', [App\Http\Controllers\auth\LoginController::class, 'showLoginForm'])->name('login');
+
+
+Route::view('/login', 'auth.login_choice')->name('login');
 Route::post('/login', [App\Http\Controllers\auth\LoginController::class, 'login']);
+
 Route::get('/register', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [App\Http\Controllers\auth\RegistrationController::class, 'register']);
 Route::post('/logout', function () {
@@ -33,21 +33,18 @@ Route::post('/logout', function () {
 })->name('logout');
 
 
-// --- Public product and category routes ---
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
-// --- START: ROUTE FIX KIYA ---
-// /search route ab index function ko point karega (kyunki index() search handle karta hai)
+
 Route::get('/search', [ProductController::class, 'index'])->name('products.search');
 
-// Category page ka naya route
+
 Route::get('/categories', [ProductController::class, 'showAllCategories'])->name('categories.index');
 Route::get('/categories/{category}/products', [ProductController::class, 'showCategory'])->name('products.category');
-// --- END: ROUTE FIX ---
 
 
-// Cart and Wishlist routes (Public)
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
@@ -62,7 +59,7 @@ Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])
 Route::get('/wishlist/count', [WishlistController::class, 'count'])->name('wishlist.count');
 
 
-// Authenticated user routes
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -74,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 
-// Admin routes (no changes)
+
 Route::redirect('/admin', '/admin/dashboard');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {

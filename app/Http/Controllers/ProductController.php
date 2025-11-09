@@ -8,20 +8,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $categories = Category::all();
 
-        // Base query
         $query = Product::query()->with('category');
 
-        // Apply filters
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+                ->orWhere('description', 'like', '%' . $request->search . '%');
         }
 
         if ($request->filled('category')) {
@@ -35,12 +30,11 @@ class ProductController extends Controller
         if ($request->filled('max_price')) {
             $query->where('price', '<=', $request->max_price);
         }
-        
+
         if ($request->has('in_stock')) {
             $query->where('stock_quantity', '>', 0);
         }
 
-        // Apply sorting
         $sort = $request->get('sort', 'name');
         switch ($sort) {
             case 'price_low':
@@ -58,10 +52,12 @@ class ProductController extends Controller
                 break;
         }
 
-        // Paginate
         $products = $query->paginate(9);
-        
-        // Handle AJAX requests
+
+        $pageTitle = "All Products";
+        $pageDescription = "Discover our amazing collection";
+        $currentCategory = null;
+
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -74,45 +70,44 @@ class ProductController extends Controller
                 ]
             ]);
         }
-        
-        // Return full page
-        return view('customer.products.index', compact('products', 'categories'));
+
+        return view('customer.products.index', compact(
+            'products',
+            'categories',
+            'pageTitle',
+            'pageDescription',
+            'currentCategory'
+        ));
     }
-    
-    // --- START: NAYA FUNCTION ADD KIYA ---
-    /**
-     * Display all categories.
-     */
+
     public function showAllCategories()
     {
         $categories = Category::all();
         return view('customer.categories.index', compact('categories'));
     }
-    // --- END: NAYA FUNCTION ---
 
-    /**
-     * Display products by category.
-     */
     public function showCategory(Category $category)
     {
-        // Category se related products fetch karein
         $products = $category->products()->with('category')->paginate(9);
-        // Doosri categories bhi fetch karein (filter sidebar ke liye)
         $categories = Category::all();
-        
-        // Product list wala view hi istemal karein
-        return view('customer.products.index', compact('products', 'categories'));
+
+        $pageTitle = $category->name;
+        $pageDescription = $category->description ?? "Products in the {$category->name} category";
+        $currentCategory = $category;
+
+        return view('customer.products.index', compact(
+            'products',
+            'categories',
+            'pageTitle',
+            'pageDescription',
+            'currentCategory'
+        ));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Product $product)
     {
-        // N+1 fix: Category ko pehle hi load kar lein
         $product->load('category');
 
-        // N+1 fix: Related products ke liye bhi category load karein
         $relatedProducts = Product::with('category')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)

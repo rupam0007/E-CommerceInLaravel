@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Products - Nexora')
+@section('title', $pageTitle . ' - Nexora')
 
 @section('content')
 <div class="bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
-        {{-- Page Header --}}
+
         <div class="mb-10 text-center">
             <h1 class="text-4xl font-bold font-serif text-gray-900">
-                All Products
+                {{ $pageTitle }}
             </h1>
-            <p class="text-gray-600 mt-2 text-lg">Discover our amazing collection</p>
+            <p class="text-gray-600 mt-2 text-lg">{{ $pageDescription }}</p>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8">
 
-            {{-- Filters Sidebar --}}
+
             <aside class="lg:w-1/4">
                 <div class="bg-white border border-gray-200 rounded-lg p-6 sticky top-24 shadow-sm">
                     <h3 class="text-xl font-semibold text-gray-900 mb-6">Filters</h3>
 
                     <form method="GET" action="{{ route('products.index') }}" id="filterForm">
-                        {{-- Search --}}
+
                         <div class="mb-5">
                             <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
                             <input type="text" id="search" name="search" value="{{ request('search') }}"
@@ -31,37 +31,38 @@
                                           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
 
-                        {{-- Category Filter --}}
+
                         <div class="mb-5">
                             <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <select id="category" name="category"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
                                            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">All Categories</option>
-                                @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}"
+                                    {{ (request()->query('category') == $cat->id) || ($currentCategory && $currentCategory->id == $cat->id) ? 'selected' : '' }}>
+                                    {{ $cat->name }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        {{-- Price Range --}}
+
                         <div class="mb-5">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
                             <div class="flex gap-2">
                                 <input type="number" name="min_price" value="{{ request('min_price') }}"
                                     placeholder="Min" step="0.01"
-                                    class="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
                                               focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <input type="number" name="max_price" value="{{ request('max_price') }}"
                                     placeholder="Max" step="0.01"
-                                    class="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
                                               focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
                         </div>
 
-                        {{-- Stock Filter --}}
+
                         <div class="mb-6">
                             <label class="flex items-center">
                                 <input type="checkbox" name="in_stock" value="1" {{ request('in_stock') ? 'checked' : '' }}
@@ -82,10 +83,10 @@
                 </div>
             </aside>
 
-            {{-- Products Grid --}}
+
             <div class="lg:w-3/4">
 
-                {{-- Sort Options --}}
+
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
                     <p class="text-gray-600 text-sm" id="products-count">
                         Showing {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} of {{ $products->total() }} products
@@ -104,12 +105,12 @@
                     </div>
                 </div>
 
-                {{-- Products Grid --}}
+
                 <div id="products-container" class="min-h-[400px]">
                     @include('customer.products.partials.products-grid', ['products' => $products])
                 </div>
 
-                {{-- Pagination --}}
+
                 <div class="mt-8" id="pagination-container">
                     @include('customer.products.partials.pagination', ['products' => $products])
                 </div>
@@ -120,23 +121,27 @@
 @endsection
 
 @push('scripts')
-{{-- This script remains identical to your original, it will work with the new styles --}}
+
 <script>
     $(document).ready(function() {
         let filterTimeout;
 
         function getCleanUrl(url) {
             let newUrl = new URL(url);
-            newUrl.searchParams.delete('_'); // Remove cache-busting param
+            newUrl.searchParams.delete('_');
             return newUrl.href;
         }
 
         function updatePage(data, url) {
             $('#products-container').html(data.html);
             $('#pagination-container').html(data.pagination);
-            $('#products-count').text(
-                `Showing ${data.count_info.first} - ${data.count_info.last} of ${data.count_info.total} products`
-            );
+
+            let countText = `Showing 0 - 0 of 0 products`;
+            if (data.count_info.total > 0) {
+                countText = `Showing ${data.count_info.first} - ${data.count_info.last} of ${data.count_info.total} products`;
+            }
+            $('#products-count').text(countText);
+
             window.history.pushState({
                 path: url
             }, '', url);
@@ -146,12 +151,21 @@
             let formData = $('#filterForm').serialize();
             let sortValue = $('#sortSelect').val();
             let data = formData + '&sort=' + sortValue;
-            let url = '{{ route("products.index") }}?' + data;
+
+            let baseUrl = '{{ route("products.index") }}';
+            let currentPath = window.location.pathname;
+
+
+            if (currentPath.includes('/categories/')) {
+                baseUrl = currentPath;
+            }
+
+            let url = baseUrl + '?' + data;
 
             showLoading();
 
             $.ajax({
-                url: '{{ route("products.index") }}',
+                url: baseUrl,
                 type: 'GET',
                 data: data,
                 headers: {
@@ -159,7 +173,21 @@
                 },
                 success: function(response) {
                     if (response.success) {
+
+
+                        if (!currentPath.includes('/categories/')) {
+                            let newUrl = '{{ route("products.index") }}?' + data;
+                            window.history.pushState({
+                                path: newUrl
+                            }, '', newUrl);
+                        } else {
+                            window.history.pushState({
+                                path: url
+                            }, '', url);
+                        }
+
                         updatePage(response, url);
+
                     }
                     hideLoading();
                 },
@@ -199,15 +227,22 @@
             e.preventDefault();
             applyFilters();
         });
-        $('#filterForm input, #filterForm select').on('input change', function() {
+
+
+        $('#filterForm input[type="text"], #filterForm input[type="number"], #filterForm input[type="checkbox"]').on('change', function() {
             clearTimeout(filterTimeout);
             filterTimeout = setTimeout(applyFilters, 500);
         });
+
+        $('#filterForm select').on('change', applyFilters);
+
         $('#sortSelect').on('change', applyFilters);
+
         $(document).on('click', '#pagination-container .pagination a', function(e) {
             e.preventDefault();
             loadPage($(this).attr('href'));
         });
+
         window.addEventListener('popstate', function() {
             location.reload();
         });
@@ -223,7 +258,7 @@
         function showErrorMessage(message) {
             $('.error-message').remove();
             $('#products-container').before(`
-            <div classclass="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div class="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
                 <span>${message}</span>
                 <button class="float-right" onclick="$(this).parent().remove()">×</button>
             </div>
