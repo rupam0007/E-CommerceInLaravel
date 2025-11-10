@@ -3,40 +3,40 @@
 @section('title', $pageTitle . ' - Nexora')
 
 @section('content')
-<div class="bg-gray-50">
+<div class="bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
 
         <div class="mb-10 text-center">
-            <h1 class="text-4xl font-bold font-serif text-gray-900">
+            <h1 class="text-4xl font-bold font-serif text-white">
                 {{ $pageTitle }}
             </h1>
-            <p class="text-gray-600 mt-2 text-lg">{{ $pageDescription }}</p>
+            <p class="text-gray-300 mt-2 text-lg">{{ $pageDescription }}</p>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8">
 
 
             <aside class="lg:w-1/4">
-                <div class="bg-white border border-gray-200 rounded-lg p-6 sticky top-24 shadow-sm">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Filters</h3>
+                <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 sticky top-24 shadow-sm">
+                    <h3 class="text-xl font-semibold text-white mb-6">Filters</h3>
 
                     <form method="GET" action="{{ route('products.index') }}" id="filterForm">
 
                         <div class="mb-5">
-                            <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                            <label for="search" class="block text-sm font-medium text-gray-300 mb-2">Search</label>
                             <input type="text" id="search" name="search" value="{{ request('search') }}"
                                 placeholder="Search products..."
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-                                          focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
+                                          focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
                         </div>
 
 
                         <div class="mb-5">
-                            <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <label for="category" class="block text-sm font-medium text-gray-300 mb-2">Category</label>
                             <select id="category" name="category"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-                                           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
+                                           focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
                                 <option value="">All Categories</option>
                                 @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}"
@@ -49,16 +49,16 @@
 
 
                         <div class="mb-5">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Price Range</label>
                             <div class="flex gap-2">
                                 <input type="number" name="min_price" value="{{ request('min_price') }}"
                                     placeholder="Min" step="0.01"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-                                              focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
+                                              focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
                                 <input type="number" name="max_price" value="{{ request('max_price') }}"
                                     placeholder="Max" step="0.01"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm
-                                              focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
+                                              focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
                             </div>
                         </div>
 
@@ -66,16 +66,16 @@
                         <div class="mb-6">
                             <label class="flex items-center">
                                 <input type="checkbox" name="in_stock" value="1" {{ request('in_stock') ? 'checked' : '' }}
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                <span class="ml-2 text-sm text-gray-700">In Stock Only</span>
+                                    class="rounded border-gray-600 bg-gray-700 text-indigo-500 shadow-sm focus:ring-indigo-400">
+                                <span class="ml-2 text-sm text-gray-300">In Stock Only</span>
                             </label>
                         </div>
 
                         <div class="flex flex-col gap-3">
-                            <button type="submit" class="w-full bg-indigo-600 text-white px-4 py-2.5 rounded-md hover:bg-indigo-700 transition-colors text-sm font-medium shadow-sm">
+                            <button type="submit" class="w-full bg-indigo-500 text-white px-4 py-2.5 rounded-md hover:bg-indigo-600 transition-colors text-sm font-medium shadow-sm">
                                 Apply Filters
                             </button>
-                            <a href="{{ route('products.index') }}" class="w-full bg-white text-gray-700 border border-gray-300 px-4 py-2.5 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium text-center">
+                            <a href="{{ route('products.index') }}" class="w-full bg-gray-700 text-white border border-gray-600 px-4 py-2.5 rounded-md hover:bg-gray-600 transition-colors text-sm font-medium text-center">
                                 Clear All
                             </a>
                         </div>
@@ -88,15 +88,15 @@
 
 
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <p class="text-gray-600 text-sm" id="products-count">
+                    <p class="text-gray-400 text-sm" id="products-count">
                         Showing {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} of {{ $products->total() }} products
                     </p>
 
                     <div class="flex items-center gap-2">
-                        <label class="text-sm text-gray-700">Sort by:</label>
+                        <label class="text-sm text-gray-300">Sort by:</label>
                         <select name="sort" id="sortSelect"
-                            class="px-3 py-2 border border-gray-300 rounded-md text-sm shadow-sm
-                                       focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            class="px-3 py-2 border border-gray-600 rounded-md text-sm shadow-sm bg-gray-700 text-white
+                                       focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
                             <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
                             <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
                             <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
@@ -258,7 +258,7 @@
         function showErrorMessage(message) {
             $('.error-message').remove();
             $('#products-container').before(`
-            <div class="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <div class="error-message bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded mb-4" role="alert">
                 <span>${message}</span>
                 <button class="float-right" onclick="$(this).parent().remove()">×</button>
             </div>
