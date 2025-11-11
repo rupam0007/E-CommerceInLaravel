@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,6 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        // Check if order belongs to current user
         if ($order->user_id !== Auth::id()) {
             abort(403);
         }
@@ -45,8 +45,8 @@ class OrderController extends Controller
         }
 
         $subtotal = $cartItems->sum('total');
-        $shipping = $subtotal > 100 ? 0 : 10; // Free shipping over $100
-        $tax = $subtotal * 0.08; // 8% tax
+        $shipping = $subtotal > 100 ? 0 : 10;
+        $tax = $subtotal * 0.08;
         $total = $subtotal + $shipping + $tax;
 
         return view('customer.checkout.index', compact('cartItems', 'subtotal', 'shipping', 'tax', 'total'));
@@ -72,13 +72,11 @@ class OrderController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        // Calculate totals
         $subtotal = $cartItems->sum('total');
         $shipping = $subtotal > 100 ? 0 : 10;
         $tax = $subtotal * 0.08;
         $total = $subtotal + $shipping + $tax;
 
-        // Create order
         $order = Order::create([
             'user_id' => Auth::id(),
             'order_number' => 'ORD-' . strtoupper(uniqid()),
@@ -117,7 +115,6 @@ class OrderController extends Controller
             'notes' => $request->notes,
         ]);
 
-        // Create order items
         foreach ($cartItems as $cartItem) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -128,20 +125,19 @@ class OrderController extends Controller
             ]);
         }
 
-        // Process payment if not COD
         if ($request->payment_method !== 'cod') {
             $paymentService = new \App\Services\PaymentService();
-            $paymentResult = $paymentService->processPayment($order, $request->payment_method);
             
-            if ($paymentResult['success']) {
+            $paymentResult = $paymentService->processPayment($order, ['method' => $request->payment_method]);
+            
+            if ($paymentResult->status === Payment::STATUS_COMPLETED) {
                 $order->update(['payment_status' => 'completed', 'status' => Order::STATUS_CONFIRMED]);
             } else {
                 $order->update(['payment_status' => 'failed']);
-                return redirect()->back()->with('error', 'Payment failed: ' . $paymentResult['message']);
+                return redirect()->back()->with('error', 'Payment failed. Please try again.');
             }
         }
 
-        // Clear cart
         Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully!');

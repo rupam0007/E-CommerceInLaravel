@@ -68,7 +68,6 @@
                         </div>
                     </div>
 
-                    {{-- Billing Information (No changes to logic) --}}
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-xl font-semibold text-gray-900">Billing Information</h2>
@@ -79,7 +78,6 @@
                         </div>
 
                         <div id="billing-fields" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
-                            {{-- Billing fields remain here, hidden by default --}}
                         </div>
                     </div>
 
@@ -133,7 +131,7 @@
                                     <p class="text-xs text-gray-600">Qty: {{ $item->quantity }}</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-medium text-gray-900">₹{{ number_format($item->total, 2) }}</span>
+                            <span class="text-sm font-medium text-gray-900">鈧箋{ number_format($item->total, 2) }}</span>
                         </div>
                         @endforeach
                     </div>
@@ -143,20 +141,20 @@
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal</span>
-                            <span class="font-medium text-gray-900">₹{{ number_format($subtotal, 2) }}</span>
+                            <span class="font-medium text-gray-900">鈧箋{ number_format($subtotal, 2) }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Shipping</span>
-                            <span class="font-medium text-gray-900">₹{{ number_format($shipping, 2) }}</span>
+                            <span class="font-medium text-gray-900">鈧箋{ number_format($shipping, 2) }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Tax</span>
-                            <span class="font-medium text-gray-900">₹{{ number_format($tax, 2) }}</span>
+                            <span class="font-medium text-gray-900">鈧箋{ number_format($tax, 2) }}</span>
                         </div>
                         <hr class="my-2">
                         <div class="flex justify-between text-base font-semibold">
                             <span>Total</span>
-                            <span>₹{{ number_format($total, 2) }}</span>
+                            <span>鈧箋{ number_format($total, 2) }}</span>
                         </div>
                     </div>
 
@@ -183,7 +181,6 @@
     </div>
 </div>
 
-{{-- This script remains identical to your original --}}
 <script>
     document.getElementById('same_as_shipping').addEventListener('change', function() {
         const billingFields = document.getElementById('billing-fields');
