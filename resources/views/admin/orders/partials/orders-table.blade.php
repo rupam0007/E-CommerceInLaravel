@@ -1,85 +1,60 @@
-<div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+@php
+    $statusColors = [
+        'pending' => 'bg-yellow-200 text-yellow-800 border-yellow-300',
+        'confirmed' => 'bg-blue-200 text-blue-800 border-blue-300',
+        'processing' => 'bg-indigo-200 text-indigo-800 border-indigo-300',
+        'shipped' => 'bg-purple-200 text-purple-800 border-purple-300',
+        'delivered' => 'bg-green-200 text-green-800 border-green-300',
+        'cancelled' => 'bg-red-200 text-red-800 border-red-300',
+    ];
+
+    $paymentStatusColors = [
+        'pending' => 'bg-yellow-200 text-yellow-800 border-yellow-300',
+        'completed' => 'bg-green-200 text-green-800 border-green-300',
+        'failed' => 'bg-red-200 text-red-800 border-red-300',
+        'refunded' => 'bg-gray-200 text-gray-800 border-gray-300',
+    ];
+@endphp
+
+<table class="w-full min-w-max">
+    <thead class="bg-gray-900">
+        <tr>
+            <th scope="col" class="text-left text-sm font-medium text-gray-400 px-6 py-3">Order</th>
+            <th scope="col" class="text-left text-sm font-medium text-gray-400 px-6 py-3">Customer</th>
+            <th scope="col" class="text-center text-sm font-medium text-gray-400 px-6 py-3">Status</th>
+            <th scope="col" class="text-center text-sm font-medium text-gray-400 px-6 py-3">Payment</th>
+            <th scope="col" class="text-right text-sm font-medium text-gray-400 px-6 py-3">Total</th>
+            <th scope="col" class="text-right text-sm font-medium text-gray-400 px-6 py-3">Date</th>
+            <th scope="col" class="text-right text-sm font-medium text-gray-400 px-6 py-3"></th>
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+        @forelse($orders as $order)
+            <tr class="text-white hover:bg-gray-700/50 transition-colors">
+                <td class="px-6 py-4 font-mono font-medium text-indigo-400">#{{ $order->order_number }}</td>
+                <td class="px-6 py-4">{{ $order->user->name }}</td>
+                <td class="px-6 py-4 text-center">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $statusColors[$order->status] ?? 'bg-gray-200 text-gray-800 border-gray-300' }}">
+                        {{ ucfirst($order->status) }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-center">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $paymentStatusColors[$order->payment_status] ?? 'bg-gray-200 text-gray-800 border-gray-300' }}">
+                        {{ ucfirst($order->payment_status) }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-right font-mono font-medium">₹{{ number_format($order->total_amount, 2) }}</td>
+                <td class="px-6 py-4 text-right text-gray-400 text-sm">{{ $order->created_at->format('M d, Y') }}</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="{{ route('admin.orders.show', $order) }}" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium">View</a>
+                </td>
             </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            @forelse($orders as $order)
-                <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div>
-                            <div class="text-sm font-medium text-gray-900">#{{ $order->order_number }}</div>
-                            <div class="text-sm text-gray-500">{{ $order->orderItems->count() }} items</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div>
-                            <div class="text-sm font-medium text-gray-900">{{ $order->user->name }}</div>
-                            <div class="text-sm text-gray-500">{{ $order->user->email }}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{ $order->created_at->format('M d, Y') }}
-                        <div class="text-xs text-gray-500">{{ $order->created_at->format('g:i A') }}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        ${{ number_format($order->total_amount, 2) }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            @if($order->status === 'pending') bg-yellow-100 text-yellow-800
-                            @elseif($order->status === 'confirmed') bg-blue-100 text-blue-800
-                            @elseif($order->status === 'processing') bg-purple-100 text-purple-800
-                            @elseif($order->status === 'shipped') bg-indigo-100 text-indigo-800
-                            @elseif($order->status === 'delivered') bg-green-100 text-green-800
-                            @else bg-red-100 text-red-800 @endif">
-                            {{ ucfirst($order->status) }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            @if($order->payment_status === 'completed') bg-green-100 text-green-800
-                            @elseif($order->payment_status === 'pending') bg-yellow-100 text-yellow-800
-                            @else bg-red-100 text-red-800 @endif">
-                            {{ ucfirst($order->payment_status) }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('admin.orders.show', $order) }}" 
-                               class="text-blue-600 hover:text-blue-900">View</a>
-                            
-                            <form action="{{ route('admin.orders.update-status', $order) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <select name="status" onchange="this.form.submit()" 
-                                        class="text-xs border-gray-300 rounded">
-                                    <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="confirmed" {{ $order->status === 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                                    <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Processing</option>
-                                    <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                    <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                </select>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="px-6 py-12 text-center text-gray-500">
-                        No orders found
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+        @empty
+            <tr>
+                <td colspan="7" class="p-6 text-center text-gray-400">
+                    No orders found.
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>

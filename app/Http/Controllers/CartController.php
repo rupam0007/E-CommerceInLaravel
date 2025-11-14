@@ -10,130 +10,138 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
     /**
-     * --- START FIX ---
-     * Yeh function har function se pehle 'auth' middleware (login check) ko apply karega.
-     * Ab agar koi guest cart access karne ki koshish karega, toh woh seedha login page par redirect ho jayega.
+     * A private helper method to get all cart data.
      */
-    public function __construct()
+    private function getCartData($userId)
     {
-        $this->middleware('auth');
-    }
-    // --- END FIX ---
+        $cartItems = Cart::with('product')
+            ->where('user_id', $userId)
+            ->get();
+            
+        $subtotal = $cartItems->sum(fn($item) => $item->price * $item->quantity);
+        $count = $cartItems->sum('quantity');
 
-    /**
-     * Display a listing of the resource.
-     */
+        return compact('cartItems', 'subtotal', 'count');
+    }
+
     public function index()
     {
-        $cartItems = Cart::with('product.category') // Eager load product and category
-            ->where('user_id', Auth::id())
-            ->get();
+        $data = $this->getCartData(Auth::id());
 
-        $subtotal = $cartItems->sum('total');
-        $shipping = $subtotal > 100 ? 0 : 10;
-        $tax = $subtotal * 0.08;
-        $total = $subtotal + $shipping + $tax;
-
-        return view('customer.cart.index', compact('cartItems', 'subtotal', 'shipping', 'tax', 'total'));
+        return view('customer.cart.index', [
+            'cartItems' => $data['cartItems'],
+            'subtotal' => $data['subtotal']
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function add(Request $request, Product $product)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $product->stock_quantity,
-        ]);
+        $request->validate(['quantity' => 'required|integer|min:1']);
+        $userId = Auth::id();
 
-        $cartItem = Cart::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
+        if ($product->stock_quantity < $request->quantity) {
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Not enough stock available.'], 422);
+            }
+            return redirect()->back()->with('error', 'Not enough stock available.');
+        }
 
-        $quantity = $request->input('quantity');
+        $cartItem = Cart::where('user_id', $userId)
+                        ->where('product_id', $product->id)
+                        ->first();
 
         if ($cartItem) {
-            // Update quantity
-            $newQuantity = $cartItem->quantity + $quantity;
-            if ($newQuantity > $product->stock_quantity) {
-                return back()->with('error', 'Cannot add more. Product stock limit reached.');
+            $newQuantity = $cartItem->quantity + $request->quantity;
+            if ($product->stock_quantity < $newQuantity) {
+                 if ($request->ajax()) {
+                    return response()->json(['message' => 'Not enough stock available for this quantity.'], 422);
+                 }
+                return redirect()->back()->with('error', 'Not enough stock available for this quantity.');
             }
-            $cartItem->quantity = $newQuantity;
-            $cartItem->total = $cartItem->price * $newQuantity;
-            $cartItem->save();
+            $cartItem->update(['quantity' => $newQuantity]);
         } else {
-            // Create new cart item
             Cart::create([
-                'user_id' => Auth::id(), // Ab yeh 'null' nahi hoga, kyunki user login hoga
+                'user_id' => $userId,
                 'product_id' => $product->id,
-                'quantity' => $quantity,
-                'price' => $product->price,
-                'total' => $product->price * $quantity,
+                'quantity' => $request->quantity,
+                'price' => $product->price 
             ]);
         }
 
         if ($request->ajax()) {
-            return response()->json(['message' => 'Product added to cart successfully.']);
+            $data = $this->getCartData($userId);
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to cart successfully!',
+                'subtotal' => $data['subtotal'],
+                'cartCount' => $data['count']
+            ]);
         }
 
-        return redirect()->route('cart.index')->with('success', 'Product added to cart successfully.');
+        return redirect()->route('cart.index')->with('success', 'Product added to cart!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Cart $cart)
     {
-        // Authorize
-        if ($cart->user_id != Auth::id()) {
-            abort(403);
+        $request->validate(['quantity' => 'required|integer|min:1']);
+
+        if ($cart->product->stock_quantity < $request->quantity) {
+             if ($request->ajax()) {
+                return response()->json(['message' => 'Not enough stock available.'], 422);
+            }
+            return redirect()->back()->with('error', 'Not enough stock available.');
         }
 
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $cart->product->stock_quantity,
-        ]);
+        $cart->update(['quantity' => $request->quantity]);
+        
+        if ($request->ajax()) {
+            $data = $this->getCartData(Auth::id());
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart updated successfully!',
+                'subtotal' => $data['subtotal'],
+                'cartCount' => $data['count']
+            ]);
+        }
 
-        $quantity = $request->input('quantity');
-        $cart->quantity = $quantity;
-        $cart->total = $cart->price * $quantity;
-        $cart->save();
-
-        return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
+        return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function remove(Cart $cart)
+    public function remove(Request $request, Cart $cart)
     {
-        // Authorize
-        if ($cart->user_id != Auth::id()) {
-            abort(403);
-        }
-
         $cart->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Product removed from cart.');
-    }
-
-    /**
-     * Clear all items from the cart.
-     */
-    public function clear()
-    {
-        Cart::where('user_id', Auth::id())->delete();
-        return redirect()->route('cart.index')->with('success', 'Cart cleared.');
-    }
-
-    /**
-     * Get cart items count.
-     */
-    public function count()
-    {
-        if (!Auth::check()) {
-            return response()->json(['count' => 0]);
+        
+        if ($request->ajax()) {
+            $data = $this->getCartData(Auth::id());
+            return response()->json([
+                'success' => true,
+                'message' => 'Product removed from cart!',
+                'subtotal' => $data['subtotal'],
+                'cartCount' => $data['count']
+            ]);
         }
-        $count = Cart::where('user_id', Auth::id())->sum('quantity');
-        return response()->json(['count' => $count]);
+
+        return redirect()->route('cart.index')->with('success', 'Product removed from cart!');
+    }
+
+    /**
+     * Clear all items from the user's cart.
+     */
+    public function clear(Request $request)
+    {
+        $userId = Auth::id();
+        Cart::where('user_id', $userId)->delete();
+
+        if ($request->ajax()) {
+            $data = $this->getCartData($userId); // This will return 0s
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart cleared successfully!',
+                'subtotal' => $data['subtotal'],
+                'cartCount' => $data['count']
+            ]);
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Cart cleared successfully!');
     }
 }

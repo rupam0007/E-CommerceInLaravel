@@ -12,17 +12,17 @@ class OrderController extends Controller
     {
         $query = Order::with(['user', 'orderItems.product']);
 
-        // Filter by status
+        
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Filter by payment status
+        
         if ($request->filled('payment_status')) {
             $query->where('payment_status', $request->payment_status);
         }
 
-        // Search by order number or customer name
+        
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -36,7 +36,7 @@ class OrderController extends Controller
 
         $orders = $query->orderBy('created_at', 'desc')->paginate(20);
 
-        // Return JSON response for AJAX requests
+        
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -61,7 +61,8 @@ class OrderController extends Controller
             'status' => 'required|in:pending,confirmed,processing,shipped,delivered,cancelled'
         ]);
 
-        $order->update(['status' => $request->status]);
+        $order->status = $request->status;
+        $order->save();
 
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }

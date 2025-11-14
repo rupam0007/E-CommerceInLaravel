@@ -243,6 +243,56 @@
             loadPage($(this).attr('href'));
         });
 
+        
+        $(document).on('submit', '.add-to-cart-form', function(e) {
+            e.preventDefault(); 
+
+            let form = $(this);
+            let url = form.attr('action');
+            let data = form.serialize();
+            let button = form.find('button[type="submit"]');
+            let originalButtonText = button.html();
+            
+            button.html('Adding...').prop('disabled', true);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                success: function(response) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message || 'Product added to cart!',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        background: '#1f2937', 
+                        color: '#f9fafb' 
+                    });
+                    button.html(originalButtonText).prop('disabled', false);
+                    
+                },
+                error: function(xhr) {
+                    let errorMessage = 'An error occurred. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Error!',
+                        text: errorMessage,
+                        icon: 'error',
+                        background: '#1f2937',
+                        color: '#f9fafb'
+                    });
+                    button.html(originalButtonText).prop('disabled', false);
+                }
+            });
+        });
+        
+
         window.addEventListener('popstate', function() {
             location.reload();
         });

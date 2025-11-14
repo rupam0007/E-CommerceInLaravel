@@ -13,8 +13,9 @@ class Cart extends Model
         'user_id',
         'product_id',
         'quantity',
-        'price'
+        'price', // <-- This is required
     ];
+
 
     protected $casts = [
         'price' => 'decimal:2'
