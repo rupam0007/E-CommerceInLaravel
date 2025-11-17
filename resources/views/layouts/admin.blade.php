@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Dashboard')</title>
 
-    <!-- Bootstrap & Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -118,11 +117,56 @@
             transform: translateY(-5px);
             box-shadow: 0 0 15px rgba(233, 69, 96, 0.3);
         }
+
+        /* Bootstrap overrides for dark mode */
+        .table-dark {
+            --bs-table-bg: var(--dark-card);
+            --bs-table-border-color: var(--border-color);
+            --bs-table-color: var(--dark-text);
+        }
+
+        .table-hover>tbody>tr:hover {
+            --bs-table-hover-bg: var(--hover-bg);
+            color: var(--dark-text);
+        }
+        
+        .list-group-item {
+             background-color: var(--dark-card);
+             border-color: var(--border-color);
+             color: var(--dark-text);
+        }
+
+        .list-group-item-action:hover {
+            background-color: var(--hover-bg);
+            color: var(--dark-text);
+        }
+
+        .form-control, .form-select {
+            background-color: var(--dark-bg);
+            border-color: var(--border-color);
+            color: var(--dark-text);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: var(--dark-bg);
+            border-color: var(--accent-color);
+            color: var(--dark-text);
+            box-shadow: 0 0 0 0.25rem rgba(233, 69, 96, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--dark-secondary-text);
+        }
+
+        .card-header, .card-footer {
+            background-color: var(--hover-bg);
+            border-color: var(--border-color);
+        }
+
     </style>
 </head>
 
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <h3>Nexora Admin</h3>
@@ -161,10 +205,10 @@
         </ul>
     </div>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-admin">
         <div class="container-fluid">
-            <span class="navbar-brand">Admin Dashboard</span>
+            <span class="navbar-brand">@yield('title', 'Admin Dashboard')</span>
+            
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.logout') }}"
@@ -177,5 +221,13 @@
         </div>
     </nav>
 
-    <!-- Main -->
     <main class="main-content">
+        
+        @yield('content')
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,48 +1,56 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Admin • Orders')
+@section('title', 'Manage Orders')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-        <h1 class="text-2xl font-semibold text-white">Orders (<span id="order-count">{{ $orders->total() }}</span>)</h1>
-        <a href="{{ route('admin.dashboard') }}" class="w-full md:w-auto text-center px-5 py-2.5 rounded-md border border-gray-700 text-gray-300 hover:bg-gray-800 transition-colors">Back to Dashboard</a>
+<div class="container-fluid">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-3 mb-md-0">Orders (<span id="order-count">{{ $orders->total() }}</span>)</h1>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">Back to Dashboard</a>
     </div>
 
-    
-    <div class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 p-4 mb-6">
-        <form id="filter-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <input type="text" name="search" placeholder="Search by Order # or Customer..." class="border border-gray-700 bg-gray-900 text-white rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            
-            <select name="status" class="border border-gray-700 bg-gray-900 text-white rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                <option value="">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="processing">Processing</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
-            </select>
-            
-            <select name="payment_status" class="border border-gray-700 bg-gray-900 text-white rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                <option value="">All Payment Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
-                <option value="failed">Failed</option>
-                <option value="refunded">Refunded</option>
-            </select>
-            
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-md text-sm font-medium transition-colors">Filter</button>
-        </form>
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="filter-form">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" name="search" class="form-control" placeholder="Search by Order # or Customer..." value="{{ request('search') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="status" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="pending" @selected(request('status') == 'pending')>Pending</option>
+                            <option value="confirmed" @selected(request('status') == 'confirmed')>Confirmed</option>
+                            <option value="processing" @selected(request('status') == 'processing')>Processing</option>
+                            <option value="shipped" @selected(request('status') == 'shipped')>Shipped</option>
+                            <option value="delivered" @selected(request('status') == 'delivered')>Delivered</option>
+                            <option value="cancelled" @selected(request('status') == 'cancelled')>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="payment_status" class="form-select">
+                            <option value="">All Payment Statuses</option>
+                            <option value="pending" @selected(request('payment_status') == 'pending')>Pending</option>
+                            <option value="completed" @selected(request('payment_status') == 'completed')>Completed</option>
+                            <option value="failed" @selected(request('payment_status') == 'failed')>Failed</option>
+                            <option value="refunded" @selected(request('payment_status') == 'refunded')>Refunded</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100" style="background-color: var(--accent-color); border-color: var(--accent-color);">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-    
-    <div id="orders-container" class="bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-x-auto">
-        @include('admin.orders.partials.orders-table', ['orders' => $orders])
+    <div id="orders-container" class="card">
+        <div class="card-body p-0">
+            @include('admin.orders.partials.orders-table', ['orders' => $orders])
+        </div>
     </div>
 
-    
-    <div id="pagination-container" class="mt-6">
+    <div id="pagination-container" class="mt-4">
         @include('admin.orders.partials.pagination', ['paginator' => $orders])
     </div>
 </div>

@@ -1,196 +1,135 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="container mx-auto">
-    <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold text-white mb-8">Admin Dashboard</h1>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Admin Dashboard</h1>
 
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-gray-800 rounded-lg shadow-md p-6 border border-gray-700">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-indigo-900 text-indigo-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-400">Total Orders</p>
-                        <p class="text-2xl font-bold text-white">{{ $stats['total_orders'] }}</p>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-500 dark:bg-opacity-30 text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
                 </div>
-            </div>
-
-            <div class="bg-gray-800 rounded-lg shadow-md p-6 border border-gray-700">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-green-900 text-green-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-400">Total Revenue</p>
-                        <p class="text-2xl font-bold text-white">₹{{ number_format($stats['total_revenue'], 2) }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gray-800 rounded-lg shadow-md p-6 border border-gray-700">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-purple-900 text-purple-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-400">Total Products</p>
-                        <p class="text-2xl font-bold text-white">{{ $stats['total_products'] }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gray-800 rounded-lg shadow-md p-6 border border-gray-700">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-yellow-900 text-yellow-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-400">Total Customers</p>
-                        <p class="text-2xl font-bold text-white">{{ $stats['total_customers'] }}</p>
-                    </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Orders</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_orders'] }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
-                <div class="px-6 py-4 border-b border-gray-700">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-white">Recent Orders</h2>
-                        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
-                            View All
-                        </a>
-                    </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-100 dark:bg-green-500 dark:bg-opacity-30 text-green-600 dark:text-green-400">
+                    <i class="fas fa-dollar-sign fa-lg"></i>
                 </div>
-                <div class="divide-y divide-gray-700">
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">₹{{ number_format($stats['total_revenue'], 2) }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-500 dark:bg-opacity-30 text-blue-600 dark:text-blue-400">
+                    <i class="fas fa-boxes fa-lg"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Products</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_products'] }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500 dark:bg-opacity-30 text-yellow-600 dark:text-yellow-400">
+                    <i class="fas fa-users fa-lg"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Customers</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_customers'] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <div class="lg:col-span-7">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent dark:border-gray-700 overflow-hidden">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-0">Recent Orders</h5>
+                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+                        View All
+                    </a>
+                </div>
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($recent_orders as $order)
-                    <div class="p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-white">#{{ $order->id }}</p>
-                                <p class="text-sm text-gray-400">{{ $order->user->name }}</p>
-                                <p class="text-xs text-gray-500">{{ $order->created_at->diffForHumans() }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm font-bold text-white">₹{{ number_format($order->total_amount, 2) }}</p>
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                        @if($order->status === 'pending') bg-yellow-900 text-yellow-300
-                                        @elseif($order->status === 'confirmed') bg-blue-900 text-blue-300
-                                        @elseif($order->status === 'processing') bg-purple-900 text-purple-300
-                                        @elseif($order->status === 'shipped') bg-indigo-900 text-indigo-300
-                                        @elseif($order->status === 'delivered') bg-green-900 text-green-300
-                                        @else bg-red-900 text-red-300 @endif">
-                                    {{ ucfirst($order->status) }}
-                                </span>
-                            </div>
+                    <div class="p-4 flex justify-between items-start hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <div>
+                            <h6 class="font-medium text-gray-900 dark:text-white">Order #{{ $order->id }}</h6>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $order->user->name }}</p>
+                            <small class="text-xs text-gray-400 dark:text-gray-500">{{ $order->created_at->diffForHumans() }}</small>
+                        </div>
+                        <div class="text-right">
+                            <h6 class="font-semibold text-gray-900 dark:text-white mb-1">₹{{ number_format($order->total_amount, 2) }}</h6>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                @if($order->status === 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-500 dark:bg-opacity-20 dark:text-yellow-300
+                                @elseif($order->status === 'delivered') bg-green-100 text-green-800 dark:bg-green-500 dark:bg-opacity-20 dark:text-green-300
+                                @elseif($order->status === 'cancelled') bg-red-100 text-red-800 dark:bg-red-500 dark:bg-opacity-20 dark:text-red-300
+                                @else bg-blue-100 text-blue-800 dark:bg-blue-500 dark:bg-opacity-20 dark:text-blue-300 @endif">
+                                {{ ucfirst($order->status) }}
+                            </span>
                         </div>
                     </div>
                     @empty
-                    <div class="p-6 text-center text-gray-500">
+                    <div class="p-4 text-center text-gray-500 dark:text-gray-400">
                         No recent orders
                     </div>
                     @endforelse
                 </div>
             </div>
+        </div>
 
-
-            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
-                <div class="px-6 py-4 border-b border-gray-700">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-white">Low Stock Alert</h2>
-                        <a href="#" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
-                            Manage Inventory
-                        </a>
-                    </div>
+        <div class="lg:col-span-5">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent dark:border-gray-700 overflow-hidden">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-0">Low Stock Alert</h5>
+                    <a href="{{ route('admin.products.index') }}" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+                        Manage Inventory
+                    </a>
                 </div>
-                <div class="divide-y divide-gray-700">
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     @forelse($low_stock_products as $product)
-                    <div class="p-6">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                @if($product->image)
-                                <img src="{{ asset('storage/' . $product->image) }}"
-                                    alt="{{ $product->name }}"
-                                    class="w-10 h-10 object-cover rounded">
-                                @else
-                                <div class="w-10 h-10 bg-gray-700 rounded flex items-center justify-center">
-                                    <span class="text-gray-500 text-xs">No Image</span>
-                                </div>
-                                @endif
-                                <div>
-                                    <p class="text-sm font-medium text-white">{{ $product->name }}</p>
-                                    <p class="text-xs text-gray-400">{{ $product->category->name }}</p>
-                                </div>
+                    <div class="p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <div class="flex items-center">
+                            @if($product->image)
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-md object-cover me-3">
+                            @else
+                            <div class="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-700 d-flex items-center justify-center me-3">
+                                <i class="fas fa-image text-gray-400 dark:text-gray-500"></i>
                             </div>
-                            <div class="text-right">
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                        @if($product->stock_quantity == 0) bg-red-900 text-red-300
-                                        @elseif($product->stock_quantity <= 5) bg-yellow-900 text-yellow-300
-                                        @else bg-orange-900 text-orange-300 @endif">
-                                    {{ $product->stock_query }} left
-                                </span>
+                            @endif
+                            <div>
+                                <h6 class="font-medium text-gray-900 dark:text-white truncate" style="max-width: 150px;">{{ $product->name }}</h6>
+                                <small class="text-sm text-gray-500 dark:text-gray-400">{{ $product->category->name }}</small>
                             </div>
                         </div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            @if($product->stock_quantity == 0) bg-red-100 text-red-800 dark:bg-red-500 dark:bg-opacity-20 dark:text-red-300
+                            @else bg-yellow-100 text-yellow-800 dark:bg-yellow-500 dark:bg-opacity-20 dark:text-yellow-300 @endif">
+                            {{ $product->stock_quantity }} left
+                        </span>
                     </div>
                     @empty
-                    <div class="p-6 text-center text-gray-500">
+                    <div class_models="p-4 text-center text-gray-500 dark:text-gray-400">
                         All products are well stocked
                     </div>
                     @endforelse
                 </div>
-            </div>
-        </div>
-
-
-        <div class="mt-8">
-            <h2 class="text-lg font-semibold text-white mb-4">Quick Actions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="#"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg text-center transition-colors duration-200">
-                    <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <p class="font-medium">Add Product</p>
-                </a>
-
-                <a href="#"
-                    class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg text-center transition-colors duration-200">
-                    <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                    </svg>
-                    <p class="font-medium">Manage Orders</p>
-                </a>
-
-                <a href="#"
-                    class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg text-center transition-colors duration-200">
-                    <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                    </svg>
-                    <p class="font-medium">View Customers</p>
-                </a>
-
-                <a href="#"
-                    class="bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg text-center transition-colors duration-200">
-                    <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                    <p class="font-medium">View Reports</p>
-                </a>
             </div>
         </div>
     </div>

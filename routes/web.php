@@ -16,17 +16,18 @@ use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\Auth\RegistrationController as AdminRegistrationController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegistrationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 
 Route::view('/login', 'auth.login_choice')->name('login');
-Route::post('/login', [App\Http\Controllers\auth\LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/register', [App\Http\Controllers\auth\RegistrationController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [App\Http\Controllers\auth\RegistrationController::class, 'register']);
+Route::get('/register', [RegistrationController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegistrationController::class, 'register']);
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
