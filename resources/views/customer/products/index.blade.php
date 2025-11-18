@@ -3,317 +3,82 @@
 @section('title', $pageTitle . ' - Nexora')
 
 @section('content')
-<div class="bg-gray-900">
+<div class="bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-
-
+        
+        {{-- Header Section --}}
         <div class="mb-10 text-center">
             <h1 class="text-4xl font-bold font-serif text-white">
                 {{ $pageTitle }}
             </h1>
-            <p class="text-gray-300 mt-2 text-lg">{{ $pageDescription }}</p>
+            <p class="text-gray-400 mt-2 text-lg">{{ $pageDescription }}</p>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8">
+            
+            {{-- Sidebar Filters --}}
+            <div class="lg:w-1/4 space-y-8">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-sm">
+                    <h3 class="text-lg font-semibold text-white mb-4">Filters</h3>
+                    
+                    <form action="{{ route('products.index') }}" method="GET">
+                        @if(request('search'))
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                        @endif
 
-
-            <aside class="lg:w-1/4">
-                <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 sticky top-24 shadow-sm">
-                    <h3 class="text-xl font-semibold text-white mb-6">Filters</h3>
-
-                    <form method="GET" action="{{ route('products.index') }}" id="filterForm">
-
-                        <div class="mb-5">
-                            <label for="search" class="block text-sm font-medium text-gray-300 mb-2">Search</label>
-                            <input type="text" id="search" name="search" value="{{ request('search') }}"
-                                placeholder="Search products..."
-                                class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
-                                          focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
-                        </div>
-
-
-                        <div class="mb-5">
-                            <label for="category" class="block text-sm font-medium text-gray-300 mb-2">Category</label>
-                            <select id="category" name="category"
-                                class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
-                                           focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
+                        {{-- Category Filter --}}
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                            <select name="category" onchange="this.form.submit()" 
+                                class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">All Categories</option>
                                 @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}"
-                                    {{ (request()->query('category') == $cat->id) || ($currentCategory && $currentCategory->id == $cat->id) ? 'selected' : '' }}>
-                                    {{ $cat->name }}
-                                </option>
+                                    <option value="{{ $cat->id }}" {{ (request('category') == $cat->id || (isset($currentCategory) && $currentCategory && $currentCategory->id == $cat->id)) ? 'selected' : '' }}>
+                                        {{ $cat->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
-
-                        <div class="mb-5">
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Price Range</label>
-                            <div class="flex gap-2">
-                                <input type="number" name="min_price" value="{{ request('min_price') }}"
-                                    placeholder="Min" step="0.01"
-                                    class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
-                                              focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
-                                <input type="number" name="max_price" value="{{ request('max_price') }}"
-                                    placeholder="Max" step="0.01"
-                                    class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm text-sm bg-gray-700 text-white
-                                              focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
-                            </div>
-                        </div>
-
-
+                        {{-- Sort Filter --}}
                         <div class="mb-6">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="in_stock" value="1" {{ request('in_stock') ? 'checked' : '' }}
-                                    class="rounded border-gray-600 bg-gray-700 text-indigo-500 shadow-sm focus:ring-indigo-400">
-                                <span class="ml-2 text-sm text-gray-300">In Stock Only</span>
-                            </label>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Sort By</label>
+                            <select name="sort" onchange="this.form.submit()" 
+                                class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Arrivals</option>
+                                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                            </select>
                         </div>
 
-                        <div class="flex flex-col gap-3">
-                            <button type="submit" class="w-full bg-indigo-500 text-white px-4 py-2.5 rounded-md hover:bg-indigo-600 transition-colors text-sm font-medium shadow-sm">
-                                Apply Filters
-                            </button>
-                            <a href="{{ route('products.index') }}" class="w-full bg-gray-700 text-white border border-gray-600 px-4 py-2.5 rounded-md hover:bg-gray-600 transition-colors text-sm font-medium text-center">
-                                Clear All
-                            </a>
-                        </div>
+                        {{-- Reset Button --}}
+                        <a href="{{ route('products.index') }}" class="block w-full text-center bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md text-sm transition-colors border border-gray-600">
+                            Clear Filters
+                        </a>
                     </form>
                 </div>
-            </aside>
+            </div>
 
-
+            {{-- Main Product Grid --}}
             <div class="lg:w-3/4">
-
-
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <p class="text-gray-400 text-sm" id="products-count">
-                        Showing {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} of {{ $products->total() }} products
+                {{-- Result Count --}}
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-gray-400 text-sm">
+                        Showing <span class="font-medium text-white">{{ $products->firstItem() ?? 0 }}</span> to <span class="font-medium text-white">{{ $products->lastItem() ?? 0 }}</span> of <span class="font-medium text-white">{{ $products->total() }}</span> results
                     </p>
-
-                    <div class="flex items-center gap-2">
-                        <label class="text-sm text-gray-300">Sort by:</label>
-                        <select name="sort" id="sortSelect"
-                            class="px-3 py-2 border border-gray-600 rounded-md text-sm shadow-sm bg-gray-700 text-white
-                                       focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
-                            <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
-                            <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                            <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
-                            <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
-                        </select>
-                    </div>
                 </div>
 
-
-                <div id="products-container" class="min-h-[400px]">
+                {{-- GRID FIX: Wrapper added here --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @include('customer.products.partials.products-grid', ['products' => $products])
                 </div>
 
-
-                <div class="mt-8" id="pagination-container">
-                    @include('customer.products.partials.pagination', ['products' => $products])
+                {{-- Pagination --}}
+                <div class="mt-10">
+                    {{ $products->withQueryString()->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
-@push('scripts')
-
-<script>
-    $(document).ready(function() {
-        let filterTimeout;
-
-        function getCleanUrl(url) {
-            let newUrl = new URL(url);
-            newUrl.searchParams.delete('_');
-            return newUrl.href;
-        }
-
-        function updatePage(data, url) {
-            $('#products-container').html(data.html);
-            $('#pagination-container').html(data.pagination);
-
-            let countText = `Showing 0 - 0 of 0 products`;
-            if (data.count_info.total > 0) {
-                countText = `Showing ${data.count_info.first} - ${data.count_info.last} of ${data.count_info.total} products`;
-            }
-            $('#products-count').text(countText);
-
-            window.history.pushState({
-                path: url
-            }, '', url);
-        }
-
-        function applyFilters() {
-            let formData = $('#filterForm').serialize();
-            let sortValue = $('#sortSelect').val();
-            let data = formData + '&sort=' + sortValue;
-
-            let baseUrl = '{{ route("products.index") }}';
-            let currentPath = window.location.pathname;
-
-
-            if (currentPath.includes('/categories/')) {
-                baseUrl = currentPath;
-            }
-
-            let url = baseUrl + '?' + data;
-
-            showLoading();
-
-            $.ajax({
-                url: baseUrl,
-                type: 'GET',
-                data: data,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                success: function(response) {
-                    if (response.success) {
-
-
-                        if (!currentPath.includes('/categories/')) {
-                            let newUrl = '{{ route("products.index") }}?' + data;
-                            window.history.pushState({
-                                path: newUrl
-                            }, '', newUrl);
-                        } else {
-                            window.history.pushState({
-                                path: url
-                            }, '', url);
-                        }
-
-                        updatePage(response, url);
-
-                    }
-                    hideLoading();
-                },
-                error: function() {
-                    hideLoading();
-                    showErrorMessage('An error occurred while filtering products.');
-                }
-            });
-        }
-
-        function loadPage(url) {
-            showLoading();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        updatePage(response, getCleanUrl(url));
-                        $('html, body').animate({
-                            scrollTop: $('#products-container').offset().top - 100
-                        }, 300);
-                    }
-                    hideLoading();
-                },
-                error: function() {
-                    hideLoading();
-                    showErrorMessage('An error occurred while loading the page.');
-                }
-            });
-        }
-
-        $('#filterForm').on('submit', function(e) {
-            e.preventDefault();
-            applyFilters();
-        });
-
-
-        $('#filterForm input[type="text"], #filterForm input[type="number"], #filterForm input[type="checkbox"]').on('change', function() {
-            clearTimeout(filterTimeout);
-            filterTimeout = setTimeout(applyFilters, 500);
-        });
-
-        $('#filterForm select').on('change', applyFilters);
-
-        $('#sortSelect').on('change', applyFilters);
-
-        $(document).on('click', '#pagination-container .pagination a', function(e) {
-            e.preventDefault();
-            loadPage($(this).attr('href'));
-        });
-
-        
-        $(document).on('submit', '.add-to-cart-form', function(e) {
-            e.preventDefault(); 
-
-            let form = $(this);
-            let url = form.attr('action');
-            let data = form.serialize();
-            let button = form.find('button[type="submit"]');
-            let originalButtonText = button.html();
-            
-            button.html('Adding...').prop('disabled', true);
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: data,
-                success: function(response) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: response.message || 'Product added to cart!',
-                        icon: 'success',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        background: '#1f2937', 
-                        color: '#f9fafb' 
-                    });
-                    button.html(originalButtonText).prop('disabled', false);
-                    
-                },
-                error: function(xhr) {
-                    let errorMessage = 'An error occurred. Please try again.';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMessage = xhr.responseJSON.message;
-                    }
-                    Swal.fire({
-                        title: 'Error!',
-                        text: errorMessage,
-                        icon: 'error',
-                        background: '#1f2937',
-                        color: '#f9fafb'
-                    });
-                    button.html(originalButtonText).prop('disabled', false);
-                }
-            });
-        });
-        
-
-        window.addEventListener('popstate', function() {
-            location.reload();
-        });
-
-        function showLoading() {
-            $('#products-container').addClass('opacity-50 pointer-events-none');
-        }
-
-        function hideLoading() {
-            $('#products-container').removeClass('opacity-50 pointer-events-none');
-        }
-
-        function showErrorMessage(message) {
-            $('.error-message').remove();
-            $('#products-container').before(`
-            <div class="error-message bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded mb-4" role="alert">
-                <span>${message}</span>
-                <button class="float-right" onclick="$(this).parent().remove()">×</button>
-            </div>
-        `);
-        }
-    });
-</script>
-@endpush

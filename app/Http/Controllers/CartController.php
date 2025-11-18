@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * A private helper method to get all cart data.
-     */
     private function getCartData($userId)
     {
         $cartItems = Cart::with('product')
@@ -124,16 +121,13 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Product removed from cart!');
     }
 
-    /**
-     * Clear all items from the user's cart.
-     */
     public function clear(Request $request)
     {
         $userId = Auth::id();
         Cart::where('user_id', $userId)->delete();
 
         if ($request->ajax()) {
-            $data = $this->getCartData($userId); // This will return 0s
+            $data = $this->getCartData($userId);
             return response()->json([
                 'success' => true,
                 'message' => 'Cart cleared successfully!',
@@ -143,5 +137,14 @@ class CartController extends Controller
         }
 
         return redirect()->route('cart.index')->with('success', 'Cart cleared successfully!');
+    }
+
+    public function count()
+    {
+        $count = 0;
+        if (Auth::check()) {
+            $count = Cart::where('user_id', Auth::id())->sum('quantity');
+        }
+        return response()->json(['count' => $count]);
     }
 }

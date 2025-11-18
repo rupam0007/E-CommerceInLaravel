@@ -10,19 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-    /**
-     * --- START FIX ---
-     * Yeh function har function se pehle 'auth' middleware (login check) ko apply karega.
-     */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('count');
     }
-    // --- END FIX ---
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $wishlistItems = Wishlist::with('product.category')
@@ -31,9 +23,6 @@ class WishlistController extends Controller
         return view('customer.wishlist.index', compact('wishlistItems'));
     }
 
-    /**
-     * Add a product to the wishlist.
-     */
     public function add(Product $product)
     {
         Wishlist::firstOrCreate([
@@ -44,9 +33,6 @@ class WishlistController extends Controller
         return back()->with('success', 'Product added to wishlist.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function remove(Product $product)
     {
         Wishlist::where('user_id', Auth::id())
@@ -56,9 +42,6 @@ class WishlistController extends Controller
         return back()->with('success', 'Product removed from wishlist.');
     }
 
-    /**
-     * Toggle a product in the wishlist.
-     */
     public function toggle(Product $product)
     {
         $wishlistItem = Wishlist::where('user_id', Auth::id())
@@ -77,12 +60,12 @@ class WishlistController extends Controller
         }
     }
 
-    /**
-     * Get wishlist items count.
-     */
     public function count()
     {
-        $count = Wishlist::where('user_id', Auth::id())->count();
+        $count = 0;
+        if (Auth::check()) {
+            $count = Wishlist::where('user_id', Auth::id())->count();
+        }
         return response()->json(['count' => $count]);
     }
 }

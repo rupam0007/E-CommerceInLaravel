@@ -8,17 +8,13 @@
 
     <title>@yield('title', 'Nexora - Your E-Commerce Destination')</title>
 
-
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 
     <script>
         $(document).ready(function() {
@@ -28,6 +24,9 @@
                     type: 'GET',
                     success: function(response) {
                         $('#cart-count').text(response.count);
+                    },
+                    error: function() {
+                        $('#cart-count').text('0');
                     }
                 });
             }
@@ -38,14 +37,15 @@
                     type: 'GET',
                     success: function(response) {
                         $('#wishlist-count').text(response.count);
+                    },
+                    error: function() {
+                        $('#wishlist-count').text('0');
                     }
                 });
             }
 
-
             updateCartCount();
             updateWishlistCount();
-
 
             $(document).on('cart-updated', updateCartCount);
             $(document).on('wishlist-updated', updateWishlistCount);
@@ -66,7 +66,6 @@
                         </a>
                     </div>
 
-
                     <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-8">
                         <a href="{{ route('home') }}" class="text-sm font-medium text-gray-300 hover:text-indigo-400 transition-colors {{ request()->routeIs('home') ? 'text-indigo-400' : '' }}">
                             Home
@@ -77,12 +76,9 @@
                         <a href="{{ route('categories.index') }}" class="text-sm font-medium text-gray-300 hover:text-indigo-400 transition-colors {{ request()->routeIs('categories.index') ? 'text-indigo-400' : '' }}">
                             Categories
                         </a>
-
                     </div>
 
-
                     <div class="flex items-center space-x-4">
-
                         <a href="{{ route('wishlist.index') }}" class="relative text-gray-400 hover:text-indigo-400 transition-colors">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path>
@@ -90,14 +86,12 @@
                             <span id="wishlist-count" class="absolute -top-2 -right-2 bg-indigo-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
                         </a>
 
-
                         <a href="{{ route('cart.index') }}" class="relative text-gray-400 hover:text-indigo-400 transition-colors">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                             <span id="cart-count" class="absolute -top-2 -right-2 bg-indigo-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
                         </a>
-
 
                         @guest
                         @if (Route::has('login'))
@@ -114,11 +108,9 @@
                         </a>
                         @endif
                         @else
-
                         <div class="relative ml-3">
                             <button type="button" class="flex text-sm rounded-full focus:outline-none" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="sr-only">Open user menu</span>
-
                                 <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-500">
                                     <span class="text-sm font-medium leading-none text-white">{{ Auth::user()->name[0] }}</span>
                                 </span>
@@ -147,16 +139,13 @@
             </nav>
         </header>
 
-
         <main>
             @yield('content')
         </main>
 
-
         <footer class="bg-gray-800 text-white mt-16 border-t border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-
                     <div>
                         <h3 class="font-serif text-2xl font-bold text-white mb-4">Nexora</h3>
                         <p class="text-gray-400 text-sm">
@@ -177,7 +166,6 @@
                     <div>
                         <h4 class="text-lg font-semibold text-gray-200 mb-4">Categories</h4>
                         <ul class="space-y-2 text-sm">
-
                             @php
                             $footerCategories = \App\Models\Category::take(4)->get();
                             @endphp
@@ -205,7 +193,6 @@
         </footer>
     </div>
 
-
     <script>
         $(document).ready(function() {
             const $userMenuButton = $('#user-menu-button');
@@ -217,7 +204,6 @@
                 $userMenu.attr('aria-expanded', !isExpanded);
             });
 
-
             $(document).on('click', function(event) {
                 if (!$userMenuButton.is(event.target) && $userMenuButton.has(event.target).length === 0 &&
                     !$userMenu.is(event.target) && $userMenu.has(event.target).length === 0) {
@@ -228,9 +214,27 @@
         });
     </script>
 
-    @stack('scripts')
-    @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
 
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error') }}",
+            });
+        @endif
+    </script>
+    
+    @stack('scripts')
+</body>
 </html>

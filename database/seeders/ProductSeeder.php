@@ -7,16 +7,42 @@ use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $products = [
-            // Electronics
+            [
+                'name' => 'Mobile',
+                'description' => 'Latest mobile with advanced features and long battery life.',
+                'price' => 599.99,
+                'stock_quantity' => 30,
+                'category_id' => 1,
+                'is_active' => true,
+                'sku' => 'MOB-001',
+                'weight' => 0.2
+            ],
+            [
+                'name' => 'Laptop',
+                'description' => 'High-performance laptop for work and gaming.',
+                'price' => 999.99,
+                'stock_quantity' => 20,
+                'category_id' => 1,
+                'is_active' => true,
+                'sku' => 'LAP-001',
+                'weight' => 1.5
+            ],
+            [
+                'name' => 'Watch',
+                'description' => 'Stylish smart watch with health tracking features.',
+                'price' => 149.99,
+                'stock_quantity' => 50,
+                'category_id' => 1,
+                'is_active' => true,
+                'sku' => 'WAT-001',
+                'weight' => 0.1
+            ],
             [
                 'name' => 'Wireless Bluetooth Headphones',
-                'description' => 'High-quality wireless headphones with noise cancellation and 30-hour battery life.',
+                'description' => 'High-quality wireless headphones with noise cancellation.',
                 'price' => 99.99,
                 'stock_quantity' => 50,
                 'category_id' => 1,
@@ -24,17 +50,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'WBH-001',
                 'weight' => 0.3
             ],
-            [
-                'name' => 'Smartphone 128GB',
-                'description' => 'Latest smartphone with advanced camera system and fast processor.',
-                'price' => 699.99,
-                'stock_quantity' => 25,
-                'category_id' => 1,
-                'is_active' => true,
-                'sku' => 'SP-128-001',
-                'weight' => 0.2
-            ],
-            // Clothing
             [
                 'name' => 'Cotton T-Shirt',
                 'description' => 'Comfortable 100% cotton t-shirt available in multiple colors.',
@@ -55,7 +70,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'DJ-001',
                 'weight' => 0.6
             ],
-            // Home & Garden
             [
                 'name' => 'Coffee Maker',
                 'description' => 'Programmable coffee maker with 12-cup capacity and auto-shutoff.',
@@ -76,7 +90,6 @@ class ProductSeeder extends Seeder
                 'sku' => 'GTS-001',
                 'weight' => 3.0
             ],
-            // Sports & Outdoors
             [
                 'name' => 'Yoga Mat',
                 'description' => 'Non-slip yoga mat with extra cushioning for comfort.',
