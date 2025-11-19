@@ -18,13 +18,23 @@ class Order extends Model
         'billing_address',
         'payment_method',
         'payment_status',
-        'notes'
+        'notes',
+        'confirmed_at',
+        'processing_at',
+        'shipped_at',
+        'delivered_at',
+        'cancelled_at'
     ];
 
     protected $casts = [
         'total_amount' => 'decimal:2',
         'shipping_address' => 'array',
-        'billing_address' => 'array'
+        'billing_address' => 'array',
+        'confirmed_at' => 'datetime',
+        'processing_at' => 'datetime',
+        'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
+        'cancelled_at' => 'datetime'
     ];
 
     const STATUS_PENDING = 'pending';

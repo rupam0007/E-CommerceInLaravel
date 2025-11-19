@@ -122,7 +122,7 @@
                         <div class="flex items-start justify-between pt-4 first:pt-0">
                             <div class="flex">
                                 @if($item->product->image)
-                                <img src="{{ asset('storage/' . $item->product->image) }}"
+                                <img src="{{ $item->product->image_url }}"
                                     alt="{{ $item->product->name }}"
                                     class="w-16 h-16 object-cover rounded mr-3 border border-gray-700">
                                 @endif

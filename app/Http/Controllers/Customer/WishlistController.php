@@ -50,14 +50,29 @@ class WishlistController extends Controller
 
         if ($wishlistItem) {
             $wishlistItem->delete();
-            return back()->with('success', 'Product removed from wishlist.');
+            $message = 'Product removed from wishlist.';
+            $inWishlist = false;
         } else {
             Wishlist::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
             ]);
-            return back()->with('success', 'Product added to wishlist.');
+            $message = 'Product added to wishlist.';
+            $inWishlist = true;
         }
+
+        // Return JSON for AJAX requests
+        if (request()->wantsJson() || request()->ajax()) {
+            $count = Wishlist::where('user_id', Auth::id())->count();
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'inWishlist' => $inWishlist,
+                'count' => $count
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 
     public function count()

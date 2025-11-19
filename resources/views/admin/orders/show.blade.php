@@ -106,7 +106,7 @@
                                 <td class="px-8 py-4">
                                     <div class="flex items-center gap-4">
                                         @if($item->product->image)
-                                            <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="w-14 h-14 object-cover rounded-md border border-gray-700">
+                                            <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" class="w-14 h-14 object-cover rounded-md border border-gray-700">
                                         @else
                                             <div class="w-14 h-14 bg-gray-700 rounded-md flex items-center justify-center">
                                                 <svg class="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 010-2.828L16 8M9 16h10M15 16v-4m-6 4v-2.293a2 2 0 01.586-1.414l2.828-2.828A2 2 0 0113.707 5H10.293a2 2 0 00-1.414.586L6 8.586a2 2 0 00-.586 1.414V16z"></path></svg>

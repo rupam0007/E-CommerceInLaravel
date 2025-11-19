@@ -17,6 +17,7 @@ class User extends Authenticatable
         'password',
         'profile_image',
         'profile_video',
+        'bio',
         'phone',
         'address',
         'city',
@@ -44,6 +45,16 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+    
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+    
+    public function isInWishlist($productId)
+    {
+        return $this->wishlists()->where('product_id', $productId)->exists();
     }
     
     public function getProfileMediaAttribute()

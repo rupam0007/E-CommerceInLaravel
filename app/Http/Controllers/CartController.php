@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     private function getCartData($userId)
     {
         $cartItems = Cart::with('product')

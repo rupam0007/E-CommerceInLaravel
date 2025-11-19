@@ -107,7 +107,7 @@
                     <div class="p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         <div class="flex items-center">
                             @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-md object-cover me-3">
+                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-md object-cover me-3">
                             @else
                             <div class="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-700 d-flex items-center justify-center me-3">
                                 <i class="fas fa-image text-gray-400 dark:text-gray-500"></i>

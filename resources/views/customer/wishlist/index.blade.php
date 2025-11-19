@@ -13,7 +13,7 @@
                     <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                         <div class="relative">
                             @if($item->product->image)
-                                <img src="{{ asset('uploads/' . $item->product->image) }}" 
+                                <img src="{{ $item->product->image_url }}" 
                                      alt="{{ $item->product->name }}" 
                                      class="w-full h-48 object-cover">
                             @else

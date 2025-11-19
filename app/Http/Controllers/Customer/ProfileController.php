@@ -32,12 +32,13 @@ class ProfileController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'phone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:500'],
             'avatar' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,mp4,webm', 'max:10240'], // 10MB Max
         ]);
 
         // Get only valid fields
         $data = $request->only([
-            'name', 'email', 'phone', 'address', 'city', 'state', 'postal_code', 'country', 'date_of_birth', 'gender'
+            'name', 'email', 'phone', 'bio', 'address', 'city', 'state', 'postal_code', 'country', 'date_of_birth', 'gender'
         ]);
 
         // Handle File Upload

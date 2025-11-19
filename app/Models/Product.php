@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -56,5 +57,24 @@ class Product extends Model
     public function scopeInStock($query)
     {
         return $query->where('stock_quantity', '>', 0);
+    }
+
+    public function getImageUrlAttribute(): string
+    {
+        $image = $this->image;
+
+        if (!$image) {
+            return 'https://via.placeholder.com/800x800.png?text=Product';
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, ['storage/', 'uploads/'])) {
+            return asset($image);
+        }
+
+        return asset('uploads/' . ltrim($image, '/'));
     }
 }

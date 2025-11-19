@@ -3,20 +3,20 @@
 @section('title', 'Shopping Cart')
 
 @section('content')
-<div class="bg-gray-50">
+<div style="background-color: rgb(var(--color-bg));">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <h1 class="text-4xl font-bold font-serif text-gray-900 mb-10">Shopping Cart</h1>
+        <h1 class="text-4xl font-bold font-serif mb-10" style="color: rgb(var(--color-text));">Shopping Cart</h1>
 
         @if($cartItems->count() > 0)
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                    <ul role="list" class="divide-y divide-gray-200">
+                <div class="rounded-lg shadow-sm" style="background-color: rgb(var(--color-surface)); border: 1px solid rgb(var(--color-border));">
+                    <ul role="list" style="border-color: rgb(var(--color-border));" class="divide-y">
                         @foreach($cartItems as $item)
                         <li class="flex p-6">
                             <div class="flex-shrink-0">
                                 @if($item->product->image)
-                                <img src="{{ asset('storage/' . $item->product->image) }}"
+                                <img src="{{ $item->product->image_url }}"
                                     alt="{{ $item->product->name }}"
                                     class="w-24 h-24 rounded-md object-cover">
                                 @else
@@ -28,13 +28,13 @@
 
                             <div class="ml-4 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-base font-medium text-gray-900">
-                                        <a href="{{ route('products.show', $item->product) }}" class="hover:text-indigo-600">
+                                    <h3 class="text-base font-medium" style="color: rgb(var(--color-text));">
+                                        <a href="{{ route('products.show', $item->product) }}" class="transition-colors" style="color: rgb(var(--color-text));">
                                             {{ $item->product->name }}
                                         </a>
                                     </h3>
-                                    <p class="text-sm text-gray-500">{{ $item->product->category->name }}</p>
-                                    <p class="text-base font-semibold text-gray-900 mt-1">₹{{ number_format($item->price, 2) }}</p>
+                                    <p class="text-sm" style="color: rgb(var(--color-muted));">{{ $item->product->category->name }}</p>
+                                    <p class="text-base font-semibold mt-1" style="color: rgb(var(--color-text));">₹{{ number_format($item->price, 2) }}</p>
                                 </div>
                                 <p class="text-base font-semibold text-gray-900 lg:hidden">
                                     ₹{{ number_format($item->total, 2) }}
@@ -93,8 +93,8 @@
             </div>
 
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-24">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
+                <div class="rounded-lg shadow-sm p-6 sticky top-24" style="background-color: rgb(var(--color-surface)); border: 1px solid rgb(var(--color-border));">
+                    <h2 class="text-lg font-semibold mb-4" style="color: rgb(var(--color-text));">Order Summary</h2>
 
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between text-sm">

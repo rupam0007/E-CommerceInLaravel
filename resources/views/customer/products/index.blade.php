@@ -33,7 +33,15 @@
                                 class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">All Categories</option>
                                 @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ (request('category') == $cat->id || (isset($currentCategory) && $currentCategory && $currentCategory->id == $cat->id)) ? 'selected' : '' }}>
+                                    @php
+                                        $isSelected = false;
+                                        if (isset($currentCategory) && $currentCategory) {
+                                            $isSelected = $currentCategory->id == $cat->id;
+                                        } elseif (request('category')) {
+                                            $isSelected = request('category') == $cat->id;
+                                        }
+                                    @endphp
+                                    <option value="{{ $cat->id }}" {{ $isSelected ? 'selected' : '' }}>
                                         {{ $cat->name }}
                                     </option>
                                 @endforeach

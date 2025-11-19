@@ -48,7 +48,7 @@
                 {{-- Main Image --}}
                 <div id="zoom-container" class="aspect-w-1 aspect-h-1 w-full rounded-lg border border-gray-700 bg-gray-800 overflow-hidden shadow-lg relative z-10">
                     @if($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" 
+                        <img src="{{ $product->image_url }}" 
                              alt="{{ $product->name }}"
                              id="main-product-image"
                              class="w-full h-full object-center object-cover transition-transform duration-200 ease-out cursor-crosshair">
@@ -301,7 +301,7 @@
     
     <div class="relative w-full h-full flex items-center justify-center">
         @if($product->image)
-            <img src="{{ asset('storage/' . $product->image) }}" 
+            <img src="{{ $product->image_url }}" 
                  alt="{{ $product->name }}" 
                  class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300"
                  id="lightbox-image">
