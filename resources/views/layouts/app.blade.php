@@ -191,28 +191,28 @@
                                 </button>
 
                                 {{-- Dropdown Menu --}}
-                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden" role="menu">
+                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden z-[9999]" role="menu">
                                     <div class="px-4 py-3 bg-[#CBDCEB] dark:bg-[#456882] border-b border-[#E8DFCA] dark:border-[#456882]">
-                                        <p class="text-sm font-semibold text-[#6D94C5] dark:text-[#D2C1B6] truncate">{{ $user->name }}</p>
-                                        <p class="text-xs text-[#6D94C5] dark:text-[#D2C1B6] opacity-70 truncate mt-0.5">{{ $user->email }}</p>
+                                        <p class="text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] truncate">{{ $user->name }}</p>
+                                        <p class="text-xs font-semibold text-[#6D94C5] dark:text-[#D2C1B6] opacity-70 truncate mt-0.5">{{ $user->email }}</p>
                                     </div>
                                     <div class="py-2">
-                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
+                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
                                             <span class="material-icons opacity-60 text-xl">account_circle</span>
                                             My Profile
                                         </a>
-                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
+                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
                                             <span class="material-icons opacity-60 text-xl">shopping_bag</span>
                                             My Orders
                                         </a>
-                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
+                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
                                             <span class="material-icons opacity-60 text-xl">favorite_border</span>
                                             My Wishlist
                                         </a>
                                         <hr class="my-2 border-[#E8DFCA] dark:border-[#456882]">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" role="menuitem">
+                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" role="menuitem">
                                                 <span class="material-icons text-xl">logout</span>
                                                 Logout
                                             </button>
