@@ -24,6 +24,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -72,120 +75,116 @@
 <body class="font-sans antialiased theme-bg transition-colors duration-300">
     <div class="min-h-screen theme-bg transition-colors duration-300">
 
-        {{-- Professional Header --}}
-        <header class="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800">
-            {{-- Top Bar --}}
-            <div class="bg-gray-900 dark:bg-gray-950 border-b border-gray-800">
+        {{-- Modern Clean Header for Nexora Electronics --}}
+        <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-md border-b border-gray-100 dark:border-gray-800 transition-all duration-300">
+            {{-- Sleek Top Bar --}}
+            <div class="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 dark:from-gray-950 dark:via-gray-950 dark:to-gray-950">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-9">
-                        <div class="flex items-center gap-6 text-xs text-gray-300">
-                            <span class="hidden md:inline-flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-                                </svg>
+                    <div class="flex items-center justify-between h-10">
+                        <div class="flex items-center gap-6 text-xs text-white dark:text-gray-300">
+                            <span class="hidden md:inline-flex items-center gap-2 font-bold">
+                                <span class="material-icons text-sm">local_shipping</span>
                                 <span>Free shipping on orders over $50</span>
                             </span>
                         </div>
-                        <div class="flex items-center gap-5 text-xs">
-                            <a href="{{ route('orders.index') }}" class="text-gray-300 hover:text-white transition-colors hidden sm:block">Track Order</a>
-                            <span class="hidden sm:block text-gray-700">|</span>
-                            <a href="#" class="text-gray-300 hover:text-white transition-colors">Help & Support</a>
+                        <div class="flex items-center gap-5 text-xs text-white dark:text-gray-300">
+                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:text-blue-100 dark:hover:text-white hover:scale-105 transition-all duration-200 font-bold">
+                                <span class="material-icons text-sm">location_on</span>
+                                Track Order
+                            </a>
+                            <span class="hidden sm:block text-blue-400 dark:text-gray-700">|</span>
+                            <a href="#" class="flex items-center gap-1 hover:text-blue-100 dark:hover:text-white hover:scale-105 transition-all duration-200 font-bold">
+                                <span class="material-icons text-sm">support_agent</span>
+                                Support
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Main Navigation --}}
-            <nav class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+            {{-- Main Navigation with Enhanced Clarity --}}
+            <nav class="bg-white dark:bg-gray-900">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center justify-between h-20">
 
-                        {{-- Logo --}}
+                        {{-- Premium Logo --}}
                         <div class="flex-shrink-0">
-                            <a href="{{ route('home') }}" class="flex items-center group">
-                                <div class="w-10 h-10 bg-gradient-to-br from-gray-900 to-gray-700 dark:from-cyan-600 dark:to-teal-600 rounded-lg flex items-center justify-center group-hover:shadow-lg transition-all">
-                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
+                            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+                                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-cyan-500 dark:to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+                                    <span class="material-icons text-white text-3xl">electric_bolt</span>
                                 </div>
-                                <div class="ml-3">
-                                    <span class="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Nexora</span>
-                                    <span class="hidden lg:block text-xs text-gray-500 dark:text-gray-400 font-medium">Premium Shopping</span>
+                                <div>
+                                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">Nexora</span>
+                                    <span class="hidden lg:block text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide">Electronics Store</span>
                                 </div>
                             </a>
                         </div>
 
-                        {{-- Search Bar (Desktop) --}}
-                        <div class="hidden md:flex flex-1 max-w-xl mx-8">
-                            <div class="relative w-full">
-                                <input type="text" placeholder="Search products, brands..." 
-                                    class="w-full h-10 pl-11 pr-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-cyan-500 focus:border-transparent text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 transition-all">
-                                <svg class="absolute left-3.5 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
+                        {{-- Enhanced Search Bar --}}
+                        <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+                            <div class="relative w-full group">
+                                <span class="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-cyan-400 transition-colors z-10">search</span>
+                                <input type="text" placeholder="Search for products, brands and more..." 
+                                    class="w-full h-12 pl-12 pr-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-0 focus:border-blue-500 dark:focus:border-cyan-500 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all">
                             </div>
                         </div>
 
-                        {{-- Right Side Actions --}}
-                        <div class="flex items-center gap-2 sm:gap-4">
+                        {{-- Action Icons --}}
+                        <div class="flex items-center gap-3 sm:gap-5">
                             
                             @guest
                             {{-- Login Button --}}
-                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 h-9 px-5 text-sm font-semibold text-white bg-gray-900 dark:bg-cyan-600 hover:bg-gray-800 dark:hover:bg-cyan-700 rounded-lg transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
+                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 h-11 px-6 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-cyan-600 dark:to-blue-600 dark:hover:from-cyan-700 dark:hover:to-blue-700 rounded-xl transition-all shadow-md hover:shadow-lg">
+                                <span class="material-icons text-lg">person</span>
                                 Sign In
                             </a>
                             @else
                             {{-- User Profile --}}
                             <div class="relative">
-                                <button type="button" class="flex items-center gap-2 h-9 px-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors" id="profile-button">
+                                <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors" id="profile-button">
                                     @php 
                                         $user = Auth::user();
                                         $media = $user->profile_media;
                                     @endphp
-                                    <div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700">
+                                    <div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-gray-200 dark:ring-gray-700 shadow-sm flex-shrink-0">
                                         @if($media['type'] == 'video')
                                             <video src="{{ $media['url'] }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                                         @elseif($media['type'] == 'image')
                                             <img src="{{ $media['url'] }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
+                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600">
                                                 <span class="text-xs font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                             </div>
                                         @endif
                                     </div>
-                                    <span class="hidden sm:inline text-sm font-medium text-gray-700 dark:text-gray-300">{{ Str::limit($user->name, 15) }}</span>
-                                    <svg class="hidden sm:block w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
+                                    <span class="hidden sm:inline text-sm font-semibold text-gray-700 dark:text-gray-300">{{ Str::limit($user->name, 12) }}</span>
+                                    <span class="material-icons hidden sm:block text-gray-500 text-lg">expand_more</span>
                                 </button>
 
                                 {{-- Dropdown Menu --}}
-                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden" role="menu">
-                                    <div class="px-4 py-3 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
+                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden" role="menu">
+                                    <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900/50 dark:to-gray-900/50 border-b border-gray-200 dark:border-gray-700">
                                         <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ $user->name }}</p>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{{ $user->email }}</p>
                                     </div>
-                                    <div class="py-1">
-                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-cyan-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
-                                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                    <div class="py-2">
+                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                            <span class="material-icons text-gray-500 text-xl">account_circle</span>
                                             My Profile
                                         </a>
-                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-cyan-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
-                                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                            <span class="material-icons text-gray-500 text-xl">shopping_bag</span>
                                             My Orders
                                         </a>
-                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-cyan-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
-                                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg>
+                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors" role="menuitem">
+                                            <span class="material-icons text-gray-500 text-xl">favorite_border</span>
                                             My Wishlist
                                         </a>
                                         <hr class="my-2 border-gray-200 dark:border-gray-700">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" role="menuitem">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                                <span class="material-icons text-xl">logout</span>
                                                 Logout
                                             </button>
                                         </form>
@@ -194,54 +193,65 @@
                             </div>
                             @endguest
 
-                            {{-- Wishlist --}}
-                            <a href="{{ route('wishlist.index') }}" class="relative p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group">
-                                <svg class="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-pink-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path>
-                                </svg>
-                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                            {{-- Wishlist with Material Icon --}}
+                            <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors group">
+                                <span class="material-icons text-gray-700 dark:text-gray-300 group-hover:text-pink-500 transition-colors text-2xl">favorite_border</span>
+                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
 
-                            {{-- Cart --}}
-                            <a href="{{ route('cart.index') }}" class="relative p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors group">
-                                <svg class="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-cyan-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                                <span id="cart-count" class="absolute -top-1 -right-1 bg-gray-900 dark:bg-cyan-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                            {{-- Cart with Material Icon --}}
+                            <a href="{{ route('cart.index') }}" class="relative p-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors group">
+                                <span class="material-icons text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors text-2xl">shopping_cart</span>
+                                <span id="cart-count" class="absolute -top-1 -right-1 bg-blue-600 dark:bg-cyan-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
 
-                            {{-- Theme Toggle --}}
-                            <button type="button" class="p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors" data-theme-toggle title="Toggle theme">
-                                <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                                </svg>
+                            {{-- Theme Toggle with Material Icon --}}
+                            <button type="button" class="p-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-colors" data-theme-toggle title="Toggle theme">
+                                <span class="material-icons text-gray-700 dark:text-gray-300 text-2xl">dark_mode</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </nav>
 
-            {{-- Category Navigation --}}
-            <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+            {{-- Clean Category Navigation --}}
+            <div class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center gap-6 h-11 overflow-x-auto scrollbar-hide">
-                        <a href="{{ route('home') }}" class="flex-shrink-0 text-sm font-semibold {{ request()->routeIs('home') ? 'text-gray-900 dark:text-white border-b-2 border-gray-900 dark:border-cyan-500' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }} transition-colors pb-3">
+                    <div class="flex items-center gap-8 h-12">
+                        <a href="{{ route('home') }}" class="flex-shrink-0 text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 dark:text-cyan-400 border-b-2 border-blue-600 dark:border-cyan-400' : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:scale-105' }} transition-all duration-200 pb-3">
                             Home
                         </a>
-                        <a href="{{ route('products.index') }}" class="flex-shrink-0 text-sm font-semibold {{ request()->routeIs('products.index') ? 'text-gray-900 dark:text-white border-b-2 border-gray-900 dark:border-cyan-500' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }} transition-colors pb-3">
+                        <a href="{{ route('products.index') }}" class="flex-shrink-0 text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 dark:text-cyan-400 border-b-2 border-blue-600 dark:border-cyan-400' : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:scale-105' }} transition-all duration-200 pb-3">
                             All Products
                         </a>
-                        <a href="{{ route('categories.index') }}" class="flex-shrink-0 text-sm font-semibold {{ request()->routeIs('categories.index') ? 'text-gray-900 dark:text-white border-b-2 border-gray-900 dark:border-cyan-500' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white' }} transition-colors pb-3">
-                            Categories
-                        </a>
-                        @php
-                            $headerCategories = \App\Models\Category::take(6)->get();
-                        @endphp
-                        @foreach($headerCategories as $category)
-                        <a href="{{ route('products.category', $category) }}" class="flex-shrink-0 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors pb-3">
-                            {{ $category->name }}
-                        </a>
-                        @endforeach
+                        
+                        {{-- Categories Dropdown --}}
+                        <div class="relative" id="categories-dropdown">
+                            <button type="button" class="flex items-center gap-1 text-sm font-bold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-blue-600 dark:text-cyan-400 border-b-2 border-blue-600 dark:border-cyan-400' : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:scale-105' }} transition-all duration-200 pb-3" id="categories-button">
+                                Categories
+                                <span class="material-icons text-lg">expand_more</span>
+                            </button>
+                            
+                            {{-- Dropdown Menu --}}
+                            <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
+                                <div class="py-2 max-h-96 overflow-y-auto">
+                                    <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+                                        <span class="material-icons text-xl">apps</span>
+                                        All Categories
+                                    </a>
+                                    <hr class="my-2 border-gray-200 dark:border-gray-700">
+                                    @php
+                                        $allCategories = \App\Models\Category::all();
+                                    @endphp
+                                    @foreach($allCategories as $category)
+                                    <a href="{{ route('products.category', $category) }}" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+                                        <span class="material-icons text-xl text-gray-400">category</span>
+                                        {{ $category->name }}
+                                    </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -414,17 +424,31 @@
         #profile-menu:not(.hidden) {
             animation: slideDown 0.2s ease-out;
         }
+        
+        #categories-menu:not(.hidden) {
+            animation: slideDown 0.2s ease-out;
+        }
     </style>
 
     <script>
         $(document).ready(function() {
             const $profileButton = $('#profile-button');
             const $profileMenu = $('#profile-menu');
+            const $categoriesButton = $('#categories-button');
+            const $categoriesMenu = $('#categories-menu');
 
             // Profile dropdown toggle
             $profileButton.on('click', function(e) {
                 e.stopPropagation();
                 $profileMenu.toggleClass('hidden');
+                $categoriesMenu.addClass('hidden');
+            });
+
+            // Categories dropdown toggle
+            $categoriesButton.on('click', function(e) {
+                e.stopPropagation();
+                $categoriesMenu.toggleClass('hidden');
+                $profileMenu.addClass('hidden');
             });
 
             // Close dropdown when clicking outside
@@ -433,12 +457,18 @@
                     !$profileMenu.is(event.target) && $profileMenu.has(event.target).length === 0) {
                     $profileMenu.addClass('hidden');
                 }
+                
+                if (!$categoriesButton.is(event.target) && $categoriesButton.has(event.target).length === 0 &&
+                    !$categoriesMenu.is(event.target) && $categoriesMenu.has(event.target).length === 0) {
+                    $categoriesMenu.addClass('hidden');
+                }
             });
 
             // Close dropdown on ESC key
             $(document).on('keydown', function(e) {
                 if (e.key === 'Escape') {
                     $profileMenu.addClass('hidden');
+                    $categoriesMenu.addClass('hidden');
                 }
             });
         });
