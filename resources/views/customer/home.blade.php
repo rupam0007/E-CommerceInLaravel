@@ -5,11 +5,11 @@
 @section('content')
 
 <!-- Modern Hero Section for Electronics Store -->
-<div class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+<div class="relative overflow-hidden bg-gradient-to-br from-[#CBDCEB] via-[#F5EFE6] to-[#E8DFCA] dark:from-[#1B3C53] dark:via-[#234C6A] dark:to-[#1B3C53]">
     <!-- Decorative Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-200 dark:bg-blue-900/20 rounded-full blur-3xl opacity-20"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-indigo-200 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[#6D94C5] dark:bg-[#456882] rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#456882] dark:bg-[#6D94C5] rounded-full blur-3xl opacity-20"></div>
     </div>
 
     <!-- Hero Content -->
@@ -18,15 +18,15 @@
             <!-- Left Content -->
             <div class="text-left">
                 <!-- New Badge -->
-                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 mb-6">
-                    <span class="material-icons text-blue-600 dark:text-blue-400 text-sm mr-2">new_releases</span>
-                    <span class="text-sm font-semibold text-blue-600 dark:text-blue-400">Latest Collection 2025</span>
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-[#CBDCEB] dark:bg-[#456882] border border-[#6D94C5] dark:border-[#D2C1B6] mb-6">
+                    <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-sm mr-2">new_releases</span>
+                    <span class="text-sm font-semibold text-[#6D94C5] dark:text-[#D2C1B6]">Latest Collection 2025</span>
                 </div>
 
                 <!-- Main Heading -->
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                     Experience the
-                    <span class="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-cyan-400 dark:via-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                    <span class="block bg-gradient-to-r from-[#6D94C5] via-[#456882] to-[#6D94C5] dark:from-[#D2C1B6] dark:via-[#E8DFCA] dark:to-[#D2C1B6] bg-clip-text text-transparent">
                         Future of Electronics
                     </span>
                 </h1>
@@ -39,36 +39,36 @@
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="{{ route('products.index') }}"
-                        class="group inline-flex items-center justify-center px-8 py-4 font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-cyan-500 dark:to-blue-500 dark:hover:from-cyan-600 dark:hover:to-blue-600 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                        class="group inline-flex items-center justify-center px-8 py-4 font-semibold text-white bg-gradient-to-r from-[#6D94C5] to-[#456882] hover:opacity-90 dark:from-[#456882] dark:to-[#6D94C5] rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
                         <span class="material-icons mr-2 group-hover:scale-110 transition-transform">shopping_bag</span>
                         Shop Now
                     </a>
                     <a href="#featured"
-                        class="group inline-flex items-center justify-center px-8 py-4 font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-2 border-gray-200 dark:border-gray-700 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                        class="group inline-flex items-center justify-center px-8 py-4 font-semibold text-[#6D94C5] dark:text-[#D2C1B6] bg-white dark:bg-[#234C6A] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] border-2 border-[#E8DFCA] dark:border-[#456882] rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
                         Explore Products
                         <span class="material-icons ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </a>
                 </div>
 
                 <!-- Trust Indicators -->
-                <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-[#E8DFCA] dark:border-[#456882]">
                     <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="material-icons text-blue-600 dark:text-cyan-400 text-xl">inventory_2</span>
+                            <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-xl">inventory_2</span>
                             <div class="text-2xl font-bold text-gray-900 dark:text-white">5K+</div>
                         </div>
                         <div class="text-sm text-gray-600 dark:text-gray-400">Products</div>
                     </div>
                     <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="material-icons text-blue-600 dark:text-cyan-400 text-xl">people</span>
+                            <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-xl">people</span>
                             <div class="text-2xl font-bold text-gray-900 dark:text-white">50K+</div>
                         </div>
                         <div class="text-sm text-gray-600 dark:text-gray-400">Customers</div>
                     </div>
                     <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="material-icons text-blue-600 dark:text-cyan-400 text-xl">verified</span>
+                            <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-xl">verified</span>
                             <div class="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
                         </div>
                         <div class="text-sm text-gray-600 dark:text-gray-400">Authentic</div>
@@ -80,13 +80,13 @@
             <div class="hidden lg:block relative">
                 <div class="relative">
                     <!-- Decorative Card 1 -->
-                    <div class="absolute top-0 right-0 w-64 h-80 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-cyan-500 dark:to-blue-600 rounded-2xl shadow-2xl transform rotate-6 opacity-20"></div>
+                    <div class="absolute top-0 right-0 w-64 h-80 bg-gradient-to-br from-[#6D94C5] to-[#456882] dark:from-[#D2C1B6] dark:to-[#E8DFCA] rounded-2xl shadow-2xl transform rotate-6 opacity-20"></div>
                     <!-- Decorative Card 2 -->
-                    <div class="absolute top-8 right-8 w-64 h-80 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-blue-500 dark:to-indigo-600 rounded-2xl shadow-2xl transform rotate-3 opacity-40"></div>
+                    <div class="absolute top-8 right-8 w-64 h-80 bg-gradient-to-br from-[#456882] to-[#6D94C5] dark:from-[#E8DFCA] dark:to-[#D2C1B6] rounded-2xl shadow-2xl transform rotate-3 opacity-40"></div>
                     <!-- Main Visual Card -->
-                    <div class="relative w-64 h-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 mx-auto transform hover:scale-105 transition-transform duration-300">
+                    <div class="relative w-64 h-80 bg-white dark:bg-[#234C6A] rounded-2xl shadow-2xl p-6 mx-auto transform hover:scale-105 transition-transform duration-300">
                         <div class="flex flex-col items-center justify-center h-full">
-                            <span class="material-icons text-blue-600 dark:text-cyan-400 mb-4" style="font-size: 120px;">devices</span>
+                            <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] mb-4" style="font-size: 120px;">devices</span>
                             <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">Premium Electronics</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 text-center">Top brands, best prices</p>
                         </div>
@@ -99,27 +99,27 @@
     <!-- Wave Divider -->
     <div class="absolute bottom-0 left-0 w-full">
         <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" class="fill-white dark:fill-gray-800"/>
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" class="fill-white dark:fill-[#234C6A]"/>
         </svg>
     </div>
 </div>
 
 <!-- Features Section -->
-<div class="bg-white dark:bg-gray-800 py-16">
+<div class="bg-white dark:bg-[#234C6A] py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Feature 1 -->
-            <div class="text-center p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <span class="material-icons text-blue-600 dark:text-cyan-400 text-4xl">local_shipping</span>
+            <div class="text-center p-6 rounded-2xl hover:bg-[#F5EFE6] dark:hover:bg-[#1B3C53] transition-colors">
+                <div class="w-16 h-16 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-4xl">local_shipping</span>
                 </div>
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Fast Delivery</h3>
                 <p class="text-gray-600 dark:text-gray-400 text-sm">Free shipping on orders over $50. Quick & reliable.</p>
             </div>
 
             <!-- Feature 2 -->
-            <div class="text-center p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div class="text-center p-6 rounded-2xl hover:bg-[#F5EFE6] dark:hover:bg-[#1B3C53] transition-colors">
+                <div class="w-16 h-16 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <span class="material-icons text-green-600 dark:text-emerald-400 text-4xl">verified_user</span>
                 </div>
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Secure Payment</h3>
@@ -127,9 +127,9 @@
             </div>
 
             <!-- Feature 3 -->
-            <div class="text-center p-6 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <span class="material-icons text-purple-600 dark:text-purple-400 text-4xl">workspace_premium</span>
+            <div class="text-center p-6 rounded-2xl hover:bg-[#F5EFE6] dark:hover:bg-[#1B3C53] transition-colors">
+                <div class="w-16 h-16 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-4xl">workspace_premium</span>
                 </div>
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Premium Quality</h3>
                 <p class="text-gray-600 dark:text-gray-400 text-sm">Authentic products from trusted brands worldwide.</p>
@@ -169,7 +169,7 @@
 </div>
 
 <!-- Categories Section -->
-<div class="bg-gray-50 dark:bg-gray-900 py-16 sm:py-24">
+<div class="bg-[#F5EFE6] dark:bg-[#1B3C53] py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -196,9 +196,9 @@
 
             @foreach ($brands as $brand)
             <a href="{{ route('products.index') }}" class="flex-shrink-0 w-40">
-                <div class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-cyan-500 hover:shadow-lg transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                        <span class="material-icons text-blue-600 dark:text-cyan-400 text-3xl">{{ $brand['icon'] }}</span>
+                <div class="flex flex-col items-center justify-center p-6 bg-white dark:bg-[#234C6A] rounded-2xl border border-[#E8DFCA] dark:border-[#456882] hover:border-[#6D94C5] dark:hover:border-[#D2C1B6] hover:shadow-lg transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-3xl">{{ $brand['icon'] }}</span>
                     </div>
                     <span class="text-sm font-semibold text-gray-900 dark:text-white text-center">{{ $brand['name'] }}</span>
                 </div>
@@ -209,7 +209,7 @@
 </div>
 
 @if($categories->count() > 0)
-<div class="bg-white dark:bg-gray-800 py-16 sm:py-24">
+<div class="bg-white dark:bg-[#234C6A] py-16 sm:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -221,18 +221,18 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($categories as $category)
-            <a href="{{ route('products.category', $category) }}" class="group relative bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-cyan-500 hover:shadow-xl transition-all duration-300">
+            <a href="{{ route('products.category', $category) }}" class="group relative bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-2xl overflow-hidden border border-[#E8DFCA] dark:border-[#456882] hover:border-[#6D94C5] dark:hover:border-[#D2C1B6] hover:shadow-xl transition-all duration-300">
                 <div class="aspect-w-3 aspect-h-2">
                     @if($category->image)
                     <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
                     @else
-                    <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-                        <span class="material-icons text-blue-600 dark:text-cyan-400 text-6xl">category</span>
+                    <div class="w-full h-48 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] flex items-center justify-center">
+                        <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-6xl">category</span>
                     </div>
                     @endif
                 </div>
                 <div class="p-5">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#6D94C5] dark:group-hover:text-[#D2C1B6] transition-colors">
                         {{ $category->name }}
                     </h3>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ Str::limit($category->description, 60) }}</p>
@@ -245,7 +245,7 @@
 @endif
 
 @if($featuredProducts->count() > 0)
-<div class="bg-gray-50 dark:bg-gray-900 py-16 sm:py-24" id="featured">
+<div class="bg-[#F5EFE6] dark:bg-[#1B3C53] py-16 sm:py-24" id="featured">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">

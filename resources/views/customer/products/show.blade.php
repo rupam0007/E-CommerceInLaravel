@@ -3,39 +3,39 @@
 @section('title', $product->name . ' - Nexora')
 
 @section('content')
-<div class="bg-gray-900 min-h-screen">
+<div class="bg-gradient-to-br from-[#F5EFE6] via-white to-[#CBDCEB] dark:from-[#1B3C53] dark:via-[#234C6A] dark:to-[#1B3C53] min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
         {{-- Breadcrumb --}}
         <nav class="flex mb-8" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-2">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 bg-white/60 dark:bg-[#234C6A]/60 backdrop-blur-md px-4 py-2 rounded-full shadow-lg">
                 <li class="inline-flex items-center">
-                    <a href="{{ route('home') }}" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Home</a>
+                    <a href="{{ route('home') }}" class="text-sm font-medium text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70 transition-colors">Home</a>
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-5 h-5 text-[#456882] dark:text-[#E8DFCA]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                         </svg>
-                        <a href="{{ route('products.index') }}" class="ml-1 text-sm font-medium text-gray-400 hover:text-white transition-colors md:ml-2">Products</a>
+                        <a href="{{ route('products.index') }}" class="ml-1 text-sm font-medium text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70 transition-colors md:ml-2">Products</a>
                     </div>
                 </li>
                 @if($product->category)
                 <li>
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-5 h-5 text-[#456882] dark:text-[#E8DFCA]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                         </svg>
-                        <a href="{{ route('products.category', $product->category) }}" class="ml-1 text-sm font-medium text-gray-400 hover:text-white transition-colors md:ml-2">{{ $product->category->name }}</a>
+                        <a href="{{ route('products.category', $product->category) }}" class="ml-1 text-sm font-medium text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70 transition-colors md:ml-2">{{ $product->category->name }}</a>
                     </div>
                 </li>
                 @endif
                 <li aria-current="page">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-5 h-5 text-[#456882] dark:text-[#E8DFCA]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2">{{ Str::limit($product->name, 30) }}</span>
+                        <span class="ml-1 text-sm font-medium text-gray-600 dark:text-gray-400 md:ml-2">{{ Str::limit($product->name, 30) }}</span>
                     </div>
                 </li>
             </ol>
@@ -46,16 +46,16 @@
             {{-- Product Image Section --}}
             <div class="relative group">
                 {{-- Main Image --}}
-                <div id="zoom-container" class="aspect-w-1 aspect-h-1 w-full rounded-lg border border-gray-700 bg-gray-800 overflow-hidden shadow-lg relative z-10">
+                <div id="zoom-container" class="aspect-w-1 aspect-h-1 w-full rounded-2xl border-2 border-[#E8DFCA] dark:border-[#456882] bg-white dark:bg-[#234C6A] overflow-hidden shadow-2xl relative z-10 backdrop-blur-sm">
                     @if($product->image)
                         <img src="{{ $product->image_url }}" 
                              alt="{{ $product->name }}"
                              id="main-product-image"
                              class="w-full h-full object-center object-cover transition-transform duration-200 ease-out cursor-crosshair">
                     @else
-                        <div class="w-full h-full bg-gray-800 flex items-center justify-center">
-                            <svg class="h-24 w-24 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        <div class="w-full h-full bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] flex items-center justify-center">
+                            <svg class="h-32 w-32 text-[#6D94C5] dark:text-[#D2C1B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
                         </div>
                     @endif
@@ -64,7 +64,7 @@
                 {{-- Zoom Icon Button (FIXED: Always visible, high z-index) --}}
                 @if($product->image)
                 <button type="button" id="trigger-lightbox" 
-                        class="absolute top-4 right-4 z-50 p-3 bg-black/70 hover:bg-indigo-600 text-white rounded-full transition-all duration-300 focus:outline-none shadow-xl border border-gray-600/50 backdrop-blur-sm transform hover:scale-110"
+                        class="absolute top-4 right-4 z-50 p-3 bg-gradient-to-r from-[#6D94C5] to-[#456882] hover:from-[#456882] hover:to-[#6D94C5] text-white rounded-full transition-all duration-300 focus:outline-none shadow-xl backdrop-blur-sm transform hover:scale-110"
                         title="Expand Image">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
@@ -75,7 +75,7 @@
 
             {{-- Product Info --}}
             <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-                <h1 class="text-4xl font-bold font-serif tracking-tight text-white">
+                <h1 class="text-4xl font-bold font-serif tracking-tight text-gray-900 dark:text-white">
                     {{ $product->name }}
                 </h1>
 

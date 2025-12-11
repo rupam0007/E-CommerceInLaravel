@@ -3,9 +3,9 @@
 @section('title', 'Checkout')
 
 @section('content')
-<div class="bg-gray-900 text-white">
+<div class="bg-gradient-to-br from-[#F5EFE6] via-white to-[#CBDCEB] dark:from-[#1B3C53] dark:via-[#234C6A] dark:to-[#1B3C53] min-h-screen">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <h1 class="text-4xl font-bold font-serif text-white mb-10">Checkout</h1>
+        <h1 class="text-4xl font-bold font-serif text-gray-900 dark:text-white mb-10">Checkout</h1>
 
         @if($cartItems->count() > 0)
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
@@ -13,22 +13,25 @@
                 <form action="{{ route('orders.store') }}" method="POST" id="checkout-form">
                     @csrf
 
-                    <div class="bg-gray-800 rounded-lg shadow-md border border-gray-700 p-6 mb-6">
-                        <h2 class="text-xl font-semibold text-white mb-5">Shipping Information</h2>
+                    <div class="bg-white dark:bg-[#234C6A] rounded-2xl shadow-2xl border-2 border-[#E8DFCA] dark:border-[#456882] p-6 mb-6 backdrop-blur-sm">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-[#6D94C5] dark:text-[#D2C1B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Shipping Information
+                        </h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="shipping_first_name" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+                                <label for="shipping_first_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">First Name</label>
                                 <input type="text" id="shipping_first_name" name="shipping_first_name"
                                     value="{{ old('shipping_first_name', explode(' ', auth()->user()->name)[0] ?? '') }}"
-                                    class="w-full px-3 py-2.5 border border-gray-700 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm text-sm" required>
+                                    class="w-full px-4 py-3 border-2 border-[#E8DFCA] dark:border-[#456882] bg-[#F5EFE6] dark:bg-[#1B3C53] text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D94C5] shadow-sm text-sm font-medium" required>
                             </div>
 
                             <div>
-                                <label for="shipping_last_name" class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+                                <label for="shipping_last_name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
                                 <input type="text" id="shipping_last_name" name="shipping_last_name"
                                     value="{{ old('shipping_last_name', explode(' ', auth()->user()->name)[1] ?? '') }}"
-                                    class="w-full px-3 py-2.5 border border-gray-700 bg-gray-900 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm text-sm" required>
+                                    class="w-full px-4 py-3 border-2 border-[#E8DFCA] dark:border-[#456882] bg-[#F5EFE6] dark:bg-[#1B3C53] text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6D94C5] shadow-sm text-sm font-medium" required>
                             </div>
 
                             <div class="md:col-span-2">

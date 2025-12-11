@@ -3,40 +3,40 @@
 @section('title', 'Shopping Cart')
 
 @section('content')
-<div style="background-color: rgb(var(--color-bg));">
+<div class="bg-gradient-to-br from-[#F5EFE6] via-white to-[#CBDCEB] dark:from-[#1B3C53] dark:via-[#234C6A] dark:to-[#1B3C53] min-h-screen">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <h1 class="text-4xl font-bold font-serif mb-10" style="color: rgb(var(--color-text));">Shopping Cart</h1>
+        <h1 class="text-4xl font-bold font-serif mb-10 text-gray-900 dark:text-white">Shopping Cart</h1>
 
         @if($cartItems->count() > 0)
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             <div class="lg:col-span-2">
-                <div class="rounded-lg shadow-sm" style="background-color: rgb(var(--color-surface)); border: 1px solid rgb(var(--color-border));">
-                    <ul role="list" style="border-color: rgb(var(--color-border));" class="divide-y">
+                <div class="rounded-2xl shadow-2xl bg-white dark:bg-[#234C6A] border-2 border-[#E8DFCA] dark:border-[#456882] backdrop-blur-sm">
+                    <ul role="list" class="divide-y divide-[#E8DFCA] dark:divide-[#456882]">
                         @foreach($cartItems as $item)
-                        <li class="flex p-6">
+                        <li class="flex p-6 hover:bg-[#F5EFE6]/50 dark:hover:bg-[#1B3C53]/50 transition-colors">
                             <div class="flex-shrink-0">
                                 @if($item->product->image)
                                 <img src="{{ $item->product->image_url }}"
                                     alt="{{ $item->product->name }}"
-                                    class="w-24 h-24 rounded-md object-cover">
+                                    class="w-24 h-24 rounded-xl object-cover shadow-lg border-2 border-[#E8DFCA] dark:border-[#456882]">
                                 @else
-                                <div class="w-24 h-24 bg-gray-100 rounded-md flex items-center justify-center">
-                                    <span class="text-gray-400 text-xs">No Image</span>
+                                <div class="w-24 h-24 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] rounded-xl flex items-center justify-center">
+                                    <span class="text-[#6D94C5] dark:text-[#D2C1B6] text-xs font-semibold">No Image</span>
                                 </div>
                                 @endif
                             </div>
 
                             <div class="ml-4 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <h3 class="text-base font-medium" style="color: rgb(var(--color-text));">
-                                        <a href="{{ route('products.show', $item->product) }}" class="transition-colors" style="color: rgb(var(--color-text));">
+                                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                                        <a href="{{ route('products.show', $item->product) }}" class="hover:text-[#6D94C5] dark:hover:text-[#D2C1B6] transition-colors">
                                             {{ $item->product->name }}
                                         </a>
                                     </h3>
-                                    <p class="text-sm" style="color: rgb(var(--color-muted));">{{ $item->product->category->name }}</p>
-                                    <p class="text-base font-semibold mt-1" style="color: rgb(var(--color-text));">₹{{ number_format($item->price, 2) }}</p>
+                                    <p class="text-sm font-medium text-[#6D94C5] dark:text-[#D2C1B6]">{{ $item->product->category->name }}</p>
+                                    <p class="text-base font-bold mt-1 text-gray-900 dark:text-white">₹{{ number_format($item->price, 2) }}</p>
                                 </div>
-                                <p class="text-base font-semibold text-gray-900 lg:hidden">
+                                <p class="text-base font-bold text-gray-900 dark:text-white lg:hidden">
                                     ₹{{ number_format($item->total, 2) }}
                                 </p>
                             </div>
