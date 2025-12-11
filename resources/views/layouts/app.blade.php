@@ -169,7 +169,7 @@
                             </a>
                             @else
                             {{-- User Profile --}}
-                            <div class="relative">
+                            <div class="relative z-[9999]">
                                 <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-[#CBDCEB] dark:hover:bg-[#456882] rounded-xl transition-colors" id="profile-button">
                                     @php 
                                         $user = Auth::user();
@@ -191,7 +191,7 @@
                                 </button>
 
                                 {{-- Dropdown Menu --}}
-                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden z-[9999]" role="menu">
+                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden" role="menu">
                                     <div class="px-4 py-3 bg-[#CBDCEB] dark:bg-[#456882] border-b border-[#E8DFCA] dark:border-[#456882]">
                                         <p class="text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] truncate">{{ $user->name }}</p>
                                         <p class="text-xs font-semibold text-[#6D94C5] dark:text-[#D2C1B6] opacity-70 truncate mt-0.5">{{ $user->email }}</p>
@@ -212,7 +212,7 @@
                                         <hr class="my-2 border-[#E8DFCA] dark:border-[#456882]">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" role="menuitem">
+                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-left" role="menuitem">
                                                 <span class="material-icons text-xl">logout</span>
                                                 Logout
                                             </button>
