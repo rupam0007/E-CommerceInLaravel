@@ -72,79 +72,88 @@
     </script>
 </head>
 
-<body class="font-sans antialiased bg-[#F5EFE6] transition-colors duration-300">
-    <div class="min-h-screen bg-[#F5EFE6] transition-colors duration-300">
+<body class="font-sans antialiased theme-bg transition-colors duration-300">
+    <div class="min-h-screen theme-bg transition-colors duration-300">
 
-        {{-- Vibrant Flipkart-Style Header --}}
-        <header class="sticky top-0 z-[9998] bg-white shadow-md">
-            {{-- Colorful Top Bar --}}
-            <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+        {{-- Flipkart-Inspired Colorful Header --}}
+        <header class="sticky top-0 z-[9998] shadow-xl">
+            {{-- Vibrant Top Bar with Gradient --}}
+            <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-9">
-                        <div class="flex items-center gap-6 text-xs text-white font-semibold">
-                            <span class="hidden md:inline-flex items-center gap-2">
+                    <div class="flex items-center justify-between h-10">
+                        <div class="flex items-center gap-6 text-xs text-white">
+                            <span class="hidden md:inline-flex items-center gap-2 font-semibold">
                                 <span class="material-icons text-sm">local_shipping</span>
-                                <span>FREE Delivery on orders above ₹500</span>
+                                <span>FREE Delivery on orders above ₹499</span>
                             </span>
                         </div>
-                        <div class="flex items-center gap-5 text-xs text-white font-semibold">
-                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                <span class="material-icons text-sm">track_changes</span>
+                        <div class="flex items-center gap-5 text-xs text-white">
+                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
+                                <span class="material-icons text-sm">local_shipping</span>
                                 Track Order
                             </a>
-                            <span class="hidden sm:block opacity-70">•</span>
-                            <a href="#" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
-                                <span class="material-icons text-sm">help_outline</span>
-                                Help
+                            <span class="hidden sm:block opacity-50">|</span>
+                            <a href="#" class="flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
+                                <span class="material-icons text-sm">support_agent</span>
+                                24x7 Support
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Main Navigation Bar --}}
-            <nav class="bg-white border-b border-gray-200">
+            {{-- Main Navigation with Colorful Design --}}
+            <nav class="bg-[#F5EFE6] border-b-2 border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center justify-between h-20">
 
-                        {{-- Colorful Logo --}}
+                        {{-- Colorful Flipkart-Style Logo --}}
                         <div class="flex-shrink-0">
-                            <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                                <div class="w-11 h-11 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                                    <span class="material-icons text-white text-2xl">shopping_bag</span>
+                            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                                    <span class="material-icons text-white text-3xl">shopping_bag</span>
                                 </div>
                                 <div>
-                                    <span class="text-2xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Nexora</span>
-                                    <span class="hidden lg:block text-xs text-gray-600 font-semibold italic">Smart Shopping</span>
+                                    <span class="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Nexora</span>
+                                    <span class="hidden lg:block text-xs text-gray-600 font-semibold tracking-wide">Explore <span class="text-yellow-500 italic">Plus</span></span>
                                 </div>
                             </a>
                         </div>
 
-                        {{-- Colorful Navigation Links --}}
-                        <div class="hidden md:flex items-center justify-center space-x-2 flex-1 px-8">
-                            <a href="{{ route('home') }}" class="px-5 py-2 text-sm font-bold {{ request()->routeIs('home') ? 'text-white bg-gradient-to-r from-blue-500 to-blue-600 shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-full transition-all">
+                        {{-- Navigation Links with Colors --}}
+                        <div class="hidden md:flex items-center gap-8 flex-1 justify-center">
+                            <a href="{{ route('home') }}" class="text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
                                 Home
                             </a>
-                            <a href="{{ route('products.index') }}" class="px-5 py-2 text-sm font-bold {{ request()->routeIs('products.*') && !request()->routeIs('products.category') ? 'text-white bg-gradient-to-r from-purple-500 to-purple-600 shadow-md' : 'text-gray-700 hover:bg-purple-50' }} rounded-full transition-all">
+                            <a href="{{ route('products.index') }}" class="text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
                                 Products
                             </a>
                             
                             {{-- Categories Dropdown --}}
                             <div class="relative" id="categories-dropdown">
-                                <button type="button" class="flex items-center gap-1 px-5 py-2 text-sm font-bold text-gray-700 hover:bg-pink-50 rounded-full transition-all" id="categories-button">
+                                <button type="button" class="flex items-center gap-1 text-sm font-bold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200" id="categories-button">
                                     Categories
                                     <span class="material-icons text-lg">expand_more</span>
                                 </button>
                                 
-                                {{-- Dropdown Menu --}}
-                                <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50">
+                                {{-- Colorful Dropdown Menu --}}
+                                <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-72 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50">
                                     <div class="py-2 max-h-96 overflow-y-auto">
+                                        <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 transition-colors">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">apps</span>
+                                            </div>
+                                            All Categories
+                                        </a>
+                                        <hr class="my-2 border-gray-200">
                                         @php
                                             $allCategories = \App\Models\Category::all();
                                         @endphp
                                         @foreach($allCategories as $category)
-                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all group">
-                                            <span class="material-icons text-xl text-blue-500 group-hover:scale-110 transition-transform">category</span>
+                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-3 px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">category</span>
+                                            </div>
                                             {{ $category->name }}
                                         </a>
                                         @endforeach
@@ -154,61 +163,69 @@
                         </div>
 
                         {{-- Colorful Action Icons --}}
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-3 sm:gap-4">
                             
                             @guest
-                            {{-- Login Button --}}
-                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 rounded-full transition-all shadow-lg hover:shadow-xl">
-                                <span class="material-icons text-lg">login</span>
+                            {{-- Login Button with Gradient --}}
+                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 h-11 px-6 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                                <span class="material-icons text-lg">person</span>
                                 Login
                             </a>
                             @else
-                            {{-- User Profile --}}
+                            {{-- User Profile with Color --}}
                             <div class="relative z-[9999]">
-                                <button type="button" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 rounded-full transition-colors" id="profile-button">
+                                <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-blue-50 rounded-lg transition-colors" id="profile-button">
                                     @php 
                                         $user = Auth::user();
                                         $media = $user->profile_media;
                                     @endphp
-                                    <div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-blue-500 shadow-sm flex-shrink-0">
+                                    <div class="h-9 w-9 rounded-full overflow-hidden ring-2 ring-blue-500 shadow-md flex-shrink-0">
                                         @if($media['type'] == 'video')
                                             <video src="{{ $media['url'] }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                                         @elseif($media['type'] == 'image')
                                             <img src="{{ $media['url'] }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-500">
+                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500">
                                                 <span class="text-xs font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                             </div>
                                         @endif
                                     </div>
-                                    <span class="hidden sm:inline text-sm font-bold text-gray-700">{{ Str::limit($user->name, 12) }}</span>
-                                    <span class="material-icons hidden sm:block text-gray-700 text-lg">expand_more</span>
+                                    <span class="hidden sm:inline text-sm font-bold text-gray-800">{{ Str::limit($user->name, 12) }}</span>
+                                    <span class="material-icons hidden sm:block text-gray-600 text-lg">expand_more</span>
                                 </button>
 
-                                {{-- Dropdown Menu --}}
-                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden" role="menu">
-                                    <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border-b-2 border-gray-100">
-                                        <p class="text-sm font-bold text-gray-800 truncate">{{ $user->name }}</p>
-                                        <p class="text-xs font-semibold text-gray-600 truncate mt-0.5">{{ $user->email }}</p>
+                                {{-- Colorful Dropdown Menu --}}
+                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden" role="menu">
+                                    <div class="px-5 py-4 bg-gradient-to-r from-blue-500 to-indigo-600">
+                                        <p class="text-sm font-bold text-white truncate">{{ $user->name }}</p>
+                                        <p class="text-xs text-blue-100 truncate mt-0.5">{{ $user->email }}</p>
                                     </div>
                                     <div class="py-2">
-                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-blue-50 transition-colors group" role="menuitem">
-                                            <span class="material-icons text-blue-500 group-hover:scale-110 transition-transform text-xl">account_circle</span>
+                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">account_circle</span>
+                                            </div>
                                             My Profile
                                         </a>
-                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-purple-50 transition-colors group" role="menuitem">
-                                            <span class="material-icons text-purple-500 group-hover:scale-110 transition-transform text-xl">shopping_bag</span>
+                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">shopping_bag</span>
+                                            </div>
                                             My Orders
                                         </a>
-                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-pink-50 transition-colors group" role="menuitem">
-                                            <span class="material-icons text-pink-500 group-hover:scale-110 transition-transform text-xl">favorite</span>
+                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-rose-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">favorite</span>
+                                            </div>
                                             My Wishlist
                                         </a>
                                         <hr class="my-2 border-gray-200">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left group" role="menuitem">
-                                                <span class="material-icons text-xl group-hover:scale-110 transition-transform">logout</span>
+                                            <button type="submit" class="flex items-center gap-3 w-full px-5 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left" role="menuitem">
+                                                <div class="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-lg flex items-center justify-center">
+                                                    <span class="material-icons text-white text-sm">logout</span>
+                                                </div>
                                                 Logout
                                             </button>
                                         </form>
@@ -217,16 +234,16 @@
                             </div>
                             @endguest
 
-                            {{-- Wishlist Icon --}}
-                            <a href="{{ route('wishlist.index') }}" class="relative p-2 hover:bg-pink-50 rounded-full transition-colors group">
-                                <span class="material-icons text-pink-500 group-hover:scale-110 transition-transform text-2xl">favorite</span>
-                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">0</span>
+                            {{-- Wishlist with Colorful Badge --}}
+                            <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-pink-50 rounded-lg transition-colors group">
+                                <span class="material-icons text-pink-500 group-hover:text-pink-600 transition-colors text-2xl">favorite</span>
+                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
 
-                            {{-- Cart Icon --}}
-                            <a href="{{ route('cart.index') }}" class="relative p-2 hover:bg-blue-50 rounded-full transition-colors group">
-                                <span class="material-icons text-blue-600 group-hover:scale-110 transition-transform text-2xl">shopping_cart</span>
-                                <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">0</span>
+                            {{-- Cart with Colorful Badge --}}
+                            <a href="{{ route('cart.index') }}" class="relative p-2.5 hover:bg-orange-50 rounded-lg transition-colors group">
+                                <span class="material-icons text-orange-500 group-hover:text-orange-600 transition-colors text-2xl">shopping_cart</span>
+                                <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
                         </div>
                     </div>
@@ -241,12 +258,12 @@
         </main>
 
         {{-- Scroll to Top Button --}}
-        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-center; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4); z-index: 99999; transition: all 0.3s;">
-            <span class="material-icons" style="font-size: 28px;">arrow_upward</span>
+        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: linear-gradient(to right, #6D94C5, #456882); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); z-index: 99999; transition: all 0.3s;">
+            <span class="material-icons" style="font-size: 32px;">arrow_upward</span>
         </div>
 
-        {{-- Vibrant Footer --}}
-        <footer class="mt-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+        {{-- Modern Flipkart-Style Footer --}}
+        <footer class="mt-auto bg-[#234C6A] dark:bg-[#1B3C53] text-[#E8DFCA]">
             {{-- Main Footer Content --}}
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -254,16 +271,18 @@
                     {{-- About Section --}}
                     <div>
                         <div class="flex items-center gap-2 mb-4">
-                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg">
-                                <span class="material-icons text-white text-2xl">shopping_bag</span>
+                            <div class="w-10 h-10 bg-gradient-to-br from-[#6D94C5] to-[#456882] rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-black bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Nexora</h3>
+                            <h3 class="text-xl font-bold text-[#D2C1B6]">Nexora</h3>
                         </div>
-                        <p class="text-sm text-gray-300 mb-4">
-                            Your ultimate destination for electronics and gadgets. Quality products, unbeatable prices!
+                        <p class="text-sm text-[#E8DFCA] opacity-80 mb-4">
+                            Your trusted online marketplace for quality products at the best prices. Shop with confidence!
                         </p>
                         <div class="flex gap-3">
-                            <a href="#" class="w-9 h-9 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all shadow-lg hover:scale-110">
+                            <a href="#" class="w-9 h-9 bg-[#1B3C53] hover:bg-[#6D94C5] rounded-full flex items-center justify-center transition-all">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             </a>
                             <a href="#" class="w-9 h-9 bg-[#1B3C53] hover:bg-[#6D94C5] rounded-full flex items-center justify-center transition-all">

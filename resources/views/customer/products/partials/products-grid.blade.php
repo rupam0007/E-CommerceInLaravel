@@ -1,12 +1,12 @@
 @forelse ($products as $product)
-<div class="relative bg-white rounded-2xl shadow-md overflow-hidden flex flex-col h-full border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 ease-in-out group">
+<div class="relative bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border border-gray-200 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group">
     
     {{-- Wishlist Button --}}
     @php
         $inWishlist = Auth::check() && Auth::user()->isInWishlist($product->id);
     @endphp
     <button type="button" 
-            class="wishlist-btn absolute top-3 right-3 z-20 p-2.5 rounded-full shadow-lg backdrop-blur-md transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-red-500 to-pink-600 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-red-500' }}"
+            class="wishlist-btn absolute top-3 right-3 z-20 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
             data-product-id="{{ $product->id }}"
             data-in-wishlist="{{ $inWishlist ? 'true' : 'false' }}">
         <svg class="w-5 h-5 heart-icon-filled {{ $inWishlist ? '' : 'hidden' }}" fill="currentColor" viewBox="0 0 20 20">
@@ -18,88 +18,159 @@
     </button>
 
     {{-- Product Image --}}
-    <a href="{{ route('products.show', $product) }}" class="flex-shrink-0 relative block overflow-hidden bg-[#F5EFE6]">
+    <a href="{{ route('products.show', $product) }}" class="flex-shrink-0 relative block overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50">
         @if($product->image)
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-56 object-cover object-center transform group-hover:scale-110 transition-all duration-500">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-60 object-cover object-center transform group-hover:scale-110 transition-all duration-500 ease-in-out">
         @else
-            <div class="w-full h-56 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center text-gray-400">
-                <svg class="h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-full h-60 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center text-blue-600">
+                <svg class="h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
             </div>
         @endif
         
-        {{-- Stock Badge --}}
+        {{-- Colorful Stock Badges --}}
         @if($product->stock_quantity <= 5 && $product->stock_quantity > 0)
-            <span class="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Only {{ $product->stock_quantity }} Left</span>
+            <span class="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Only {{ $product->stock_quantity }} Left!</span>
         @elseif($product->stock_quantity == 0)
-            <span class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Out of Stock</span>
+            <span class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Out of Stock</span>
+        @else
+            <span class="absolute top-3 left-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">In Stock</span>
         @endif
     </a>
 
     {{-- Product Details --}}
-    <div class="flex-grow p-5 flex flex-col">
+    <div class="flex-grow p-5 flex flex-col bg-white">
         <div class="mb-3">
-            <p class="text-xs font-semibold text-blue-600 mb-2 uppercase tracking-wider">{{ optional($product->category)->name }}</p>
-            <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2">
-                <a href="{{ route('products.show', $product) }}" class="hover:text-blue-600 transition-colors line-clamp-2">
+            <p class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider bg-gray-100 inline-block px-3 py-1 rounded-full">{{ optional($product->category)->name }}</p>
+            <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2 line-clamp-2">
+                <a href="{{ route('products.show', $product) }}" class="hover:text-blue-600 transition-colors">
                     {{ $product->name }}
                 </a>
             </h3>
             
-            {{-- Star Rating --}}
+            {{-- Colorful Star Rating --}}
             <div class="flex items-center mt-2">
                 @php $rating = $product->reviews_avg_rating ?? 0; @endphp
-                @for($i = 1; $i <= 5; $i++)
-                    <svg class="w-4 h-4 {{ $i <= round($rating) ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                    </svg>
-                @endfor
-                <span class="text-xs font-medium text-gray-600 ml-2">({{ number_format($rating, 1) }})</span>
+                <div class="flex items-center bg-gradient-to-r from-green-500 to-green-600 px-2 py-1 rounded-md">
+                    <span class="text-white font-bold text-xs mr-1">{{ number_format($rating, 1) }}</span>
+                    <span class="material-icons text-white text-xs">star</span>
+                </div>
+                <span class="text-xs font-semibold text-gray-500 ml-2">({{ $product->reviews_count ?? 0 }} reviews)</span>
             </div>
         </div>
 
-        <div class="mt-auto pt-4 border-t border-gray-100">
+        <div class="mt-auto pt-4 border-t-2 border-gray-100">
             <div class="flex items-baseline mb-4">
-                <span class="text-2xl font-black text-gray-900">₹{{ number_format($product->price, 0) }}</span>
+                <span class="text-3xl font-extrabold text-gray-900">₹{{ number_format($product->price, 0) }}</span>
+                <span class="text-sm font-semibold text-green-600 ml-2">Free Delivery</span>
             </div>
 
             <div class="flex space-x-2">
-                <a href="{{ route('products.show', $product) }}" class="flex-1 bg-gray-100 text-gray-900 py-2.5 px-3 rounded-lg text-sm font-bold text-center hover:bg-gray-200 transition-all">
-                    View Details
-                </a>
-
                 @if($product->stock_quantity > 0)
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="flex-1">
-                    @csrf
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2.5 px-3 rounded-lg text-sm font-bold hover:from-orange-600 hover:to-pink-600 transition-all flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        Add to Cart
-                    </button>
-                </form>
+                <button class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg text-sm font-bold text-center hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 add-to-cart-btn" data-product-id="{{ $product->id }}">
+                    <span class="material-icons text-lg">shopping_cart</span>
+                    Add to Cart
+                </button>
                 @else
-                <button disabled class="flex-1 bg-gray-200 text-gray-500 py-2.5 px-3 rounded-lg text-sm font-bold cursor-not-allowed">
+                <button disabled class="flex-1 bg-gray-200 text-gray-500 py-3 px-4 rounded-lg text-sm font-bold cursor-not-allowed">
                     Sold Out
                 </button>
                 @endif
+
+                <a href="{{ route('products.show', $product) }}" class="flex items-center justify-center bg-white border-2 border-blue-600 text-blue-600 py-3 px-4 rounded-lg text-sm font-bold hover:bg-blue-50 transform hover:scale-105 transition-all duration-200">
+                    <span class="material-icons text-lg">visibility</span>
+                </a>
             </div>
         </div>
     </div>
 </div>
 @empty
-<div class="col-span-full text-center py-12">
-    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-    </svg>
-    <h3 class="mt-2 text-lg font-medium text-gray-900">No products found</h3>
-    <p class="mt-1 text-sm text-gray-500">Try adjusting your search or filter to find what you're looking for.</p>
+<div class="col-span-full text-center py-16">
+    <div class="bg-white rounded-xl shadow-lg p-12 max-w-md mx-auto">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="material-icons text-blue-600 text-5xl">inventory_2</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">No Products Found</h3>
+        <p class="text-gray-600 mb-6">Try adjusting your search or filter to find what you're looking for.</p>
+        <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:shadow-xl transform hover:scale-105 transition-all">
+            <span class="material-icons">refresh</span>
+            Browse All Products
+        </a>
+    </div>
 </div>
 @endforelse
 
 @push('scripts')
 <script>
 $(document).ready(function() {
+    // Add to Cart AJAX functionality
+    $(document).on('click', '.add-to-cart-btn', function(e) {
+        e.preventDefault();
+        
+        const $btn = $(this);
+        const productId = $btn.data('product-id');
+        const originalHtml = $btn.html();
+        
+        // Disable button and show loading state
+        $btn.prop('disabled', true).html('<span class="material-icons animate-spin">refresh</span> Adding...');
+        
+        $.ajax({
+            url: `/cart/add/${productId}`,
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': 'application/json'
+            },
+            data: {
+                quantity: 1
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Update cart count
+                    $('#cart-count').text(response.count);
+                    
+                    // Show success state
+                    $btn.html('<span class="material-icons">check_circle</span> Added!').removeClass('from-orange-500 to-orange-600').addClass('from-green-500 to-green-600');
+                    
+                    // Show toast notification
+                    if (typeof Toastify !== 'undefined') {
+                        Toastify({
+                            text: "Product added to cart successfully!",
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            style: {
+                                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                            }
+                        }).showToast();
+                    }
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(function() {
+                        $btn.html(originalHtml).removeClass('from-green-500 to-green-600').addClass('from-orange-500 to-orange-600').prop('disabled', false);
+                    }, 2000);
+                }
+            },
+            error: function(xhr) {
+                console.error('Error adding to cart:', xhr);
+                $btn.html(originalHtml).prop('disabled', false);
+                
+                if (typeof Toastify !== 'undefined') {
+                    Toastify({
+                        text: xhr.responseJSON?.message || "Error adding to cart. Please try again.",
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        style: {
+                            background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                        }
+                    }).showToast();
+                }
+            }
+        });
+    });
+
     // Wishlist AJAX functionality
     $(document).on('click', '.wishlist-btn', function(e) {
         e.preventDefault();
@@ -131,15 +202,15 @@ $(document).ready(function() {
                     $btn.data('in-wishlist', newState);
                     
                     if (newState) {
-                        // Added to wishlist - show red filled heart
-                        $btn.removeClass('bg-gray-800 text-gray-400')
-                            .addClass('bg-red-600 text-white wishlist-active');
+                        // Added to wishlist
+                        $btn.removeClass('bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50')
+                            .addClass('bg-gradient-to-r from-pink-500 to-rose-500 text-white wishlist-active');
                         $btn.find('.heart-icon-outline').addClass('hidden');
                         $btn.find('.heart-icon-filled').removeClass('hidden');
                     } else {
-                        // Removed from wishlist - show gray outline heart
-                        $btn.removeClass('bg-red-600 text-white wishlist-active')
-                            .addClass('bg-gray-800 text-gray-400');
+                        // Removed from wishlist
+                        $btn.removeClass('bg-gradient-to-r from-pink-500 to-rose-500 text-white wishlist-active')
+                            .addClass('bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50');
                         $btn.find('.heart-icon-filled').addClass('hidden');
                         $btn.find('.heart-icon-outline').removeClass('hidden');
                     }
@@ -155,7 +226,7 @@ $(document).ready(function() {
                             gravity: "top",
                             position: "right",
                             style: {
-                                background: newState ? "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)" : "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                                background: newState ? "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)" : "linear-gradient(135deg, #10b981 0%, #059669 100%)",
                             }
                         }).showToast();
                     }
