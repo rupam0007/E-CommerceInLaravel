@@ -166,10 +166,10 @@
                         <div class="flex items-center gap-3 sm:gap-4">
                             
                             @guest
-                            {{-- Login Button with Gradient --}}
-                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 h-11 px-6 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                            {{-- Login Button with Gradient - Visible on all screens --}}
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 h-11 px-6 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-105">
                                 <span class="material-icons text-lg">person</span>
-                                Login
+                                <span class="hidden sm:inline">Login</span>
                             </a>
                             @else
                             {{-- User Profile with Color --}}
