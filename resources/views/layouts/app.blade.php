@@ -76,8 +76,8 @@
     <div class="min-h-screen theme-bg transition-colors duration-300">
 
         {{-- Modern Clean Header for Nexora Electronics --}}
-        <header class="bg-[#F5EFE6] dark:bg-[#234C6A] shadow-sm border-b border-[#E8DFCA] dark:border-[#456882]">
-            {{-- Sleek Top Bar --}>
+        <header class="sticky top-0 z-[9998] bg-[#F5EFE6]/95 dark:bg-[#234C6A]/95 shadow-lg border-b border-[#E8DFCA] dark:border-[#456882] backdrop-blur-md">
+            {{-- Sleek Top Bar --}}
             <div class="bg-[#6D94C5] dark:bg-[#1B3C53]">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-10">
