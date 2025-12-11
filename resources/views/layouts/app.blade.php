@@ -177,16 +177,16 @@
                                 <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-blue-50 rounded-lg transition-colors" id="profile-button">
                                     @php 
                                         $user = Auth::user();
-                                        $media = $user->profile_media;
+                                        $media = $user->profile_media ?? ['type' => 'text', 'url' => ''];
                                     @endphp
                                     <div class="h-9 w-9 rounded-full overflow-hidden ring-2 ring-blue-500 shadow-md flex-shrink-0">
-                                        @if($media['type'] == 'video')
+                                        @if(isset($media['type']) && $media['type'] == 'video' && !empty($media['url']))
                                             <video src="{{ $media['url'] }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
-                                        @elseif($media['type'] == 'image')
+                                        @elseif(isset($media['type']) && $media['type'] == 'image' && !empty($media['url']))
                                             <img src="{{ $media['url'] }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500">
-                                                <span class="text-xs font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                                                <span class="text-sm font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                             </div>
                                         @endif
                                     </div>
