@@ -72,84 +72,79 @@
     </script>
 </head>
 
-<body class="font-sans antialiased theme-bg transition-colors duration-300">
-    <div class="min-h-screen theme-bg transition-colors duration-300">
+<body class="font-sans antialiased bg-[#F5EFE6] transition-colors duration-300">
+    <div class="min-h-screen bg-[#F5EFE6] transition-colors duration-300">
 
-        {{-- Modern Clean Header for Nexora Electronics --}}
-        <header class="sticky top-0 z-[9998] bg-[#F5EFE6]/95 dark:bg-[#234C6A]/95 shadow-lg border-b border-[#E8DFCA] dark:border-[#456882] backdrop-blur-md">
-            {{-- Sleek Top Bar --}}
-            <div class="bg-[#6D94C5] dark:bg-[#1B3C53]">
+        {{-- Vibrant Flipkart-Style Header --}}
+        <header class="sticky top-0 z-[9998] bg-white shadow-md">
+            {{-- Colorful Top Bar --}}
+            <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-10">
-                        <div class="flex items-center gap-6 text-xs text-white dark:text-[#D2C1B6]">
-                            <span class="hidden md:inline-flex items-center gap-2 font-medium">
+                    <div class="flex items-center justify-between h-9">
+                        <div class="flex items-center gap-6 text-xs text-white font-semibold">
+                            <span class="hidden md:inline-flex items-center gap-2">
                                 <span class="material-icons text-sm">local_shipping</span>
-                                <span>Free shipping on orders over $50</span>
+                                <span>FREE Delivery on orders above ₹500</span>
                             </span>
                         </div>
-                        <div class="flex items-center gap-5 text-xs text-white dark:text-[#D2C1B6]">
-                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:opacity-80 hover:scale-105 transition-all duration-200 font-medium">
-                                <span class="material-icons text-sm">location_on</span>
+                        <div class="flex items-center gap-5 text-xs text-white font-semibold">
+                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:opacity-80 transition-opacity">
+                                <span class="material-icons text-sm">track_changes</span>
                                 Track Order
                             </a>
-                            <span class="hidden sm:block opacity-50">|</span>
-                            <a href="#" class="flex items-center gap-1 hover:opacity-80 hover:scale-105 transition-all duration-200 font-medium">
-                                <span class="material-icons text-sm">support_agent</span>
-                                Support
+                            <span class="hidden sm:block opacity-70">•</span>
+                            <a href="#" class="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                                <span class="material-icons text-sm">help_outline</span>
+                                Help
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Main Navigation with Enhanced Clarity --}}
-            <nav class="bg-white dark:bg-gray-900">
+            {{-- Main Navigation Bar --}}
+            <nav class="bg-white border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-20">
+                    <div class="flex items-center justify-between h-16">
 
-                        {{-- Premium Logo --}}
+                        {{-- Colorful Logo --}}
                         <div class="flex-shrink-0">
-                            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                                <div class="w-12 h-12 bg-gradient-to-br from-[#6D94C5] to-[#456882] dark:from-[#456882] dark:to-[#6D94C5] rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
-                                    <span class="material-icons text-white text-3xl">electric_bolt</span>
+                            <a href="{{ route('home') }}" class="flex items-center gap-2 group">
+                                <div class="w-11 h-11 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                                    <span class="material-icons text-white text-2xl">shopping_bag</span>
                                 </div>
                                 <div>
-                                    <span class="text-2xl font-bold text-[#6D94C5] dark:text-[#D2C1B6]">Nexora</span>
-                                    <span class="hidden lg:block text-xs text-[#6D94C5] dark:text-[#D2C1B6] font-medium tracking-wide opacity-75">Electronics Store</span>
+                                    <span class="text-2xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Nexora</span>
+                                    <span class="hidden lg:block text-xs text-gray-600 font-semibold italic">Smart Shopping</span>
                                 </div>
                             </a>
                         </div>
 
-                        {{-- Navigation Links --}}
-                        <div class="hidden md:flex items-center gap-8 flex-1 justify-center">
-                            <a href="{{ route('home') }}" class="text-sm font-semibold {{ request()->routeIs('home') ? 'text-[#6D94C5] dark:text-[#D2C1B6]' : 'text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70' }} hover:scale-105 transition-all duration-200">
+                        {{-- Colorful Navigation Links --}}
+                        <div class="hidden md:flex items-center justify-center space-x-2 flex-1 px-8">
+                            <a href="{{ route('home') }}" class="px-5 py-2 text-sm font-bold {{ request()->routeIs('home') ? 'text-white bg-gradient-to-r from-blue-500 to-blue-600 shadow-md' : 'text-gray-700 hover:bg-blue-50' }} rounded-full transition-all">
                                 Home
                             </a>
-                            <a href="{{ route('products.index') }}" class="text-sm font-semibold {{ request()->routeIs('products.index') ? 'text-[#6D94C5] dark:text-[#D2C1B6]' : 'text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70' }} hover:scale-105 transition-all duration-200">
-                                All Products
+                            <a href="{{ route('products.index') }}" class="px-5 py-2 text-sm font-bold {{ request()->routeIs('products.*') && !request()->routeIs('products.category') ? 'text-white bg-gradient-to-r from-purple-500 to-purple-600 shadow-md' : 'text-gray-700 hover:bg-purple-50' }} rounded-full transition-all">
+                                Products
                             </a>
                             
                             {{-- Categories Dropdown --}}
                             <div class="relative" id="categories-dropdown">
-                                <button type="button" class="flex items-center gap-1 text-sm font-semibold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-[#6D94C5] dark:text-[#D2C1B6]' : 'text-[#6D94C5] dark:text-[#D2C1B6] hover:opacity-70' }} hover:scale-105 transition-all duration-200" id="categories-button">
+                                <button type="button" class="flex items-center gap-1 px-5 py-2 text-sm font-bold text-gray-700 hover:bg-pink-50 rounded-full transition-all" id="categories-button">
                                     Categories
                                     <span class="material-icons text-lg">expand_more</span>
                                 </button>
                                 
                                 {{-- Dropdown Menu --}}
-                                <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden z-50">
+                                <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50">
                                     <div class="py-2 max-h-96 overflow-y-auto">
-                                        <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors">
-                                            <span class="material-icons text-xl">apps</span>
-                                            All Categories
-                                        </a>
-                                        <hr class="my-2 border-[#E8DFCA] dark:border-[#456882]">
                                         @php
                                             $allCategories = \App\Models\Category::all();
                                         @endphp
                                         @foreach($allCategories as $category)
-                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-3 px-4 py-3 text-sm text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors">
-                                            <span class="material-icons text-xl opacity-60">category</span>
+                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all group">
+                                            <span class="material-icons text-xl text-blue-500 group-hover:scale-110 transition-transform">category</span>
                                             {{ $category->name }}
                                         </a>
                                         @endforeach
@@ -158,62 +153,62 @@
                             </div>
                         </div>
 
-                        {{-- Action Icons --}}
-                        <div class="flex items-center gap-3 sm:gap-5">
+                        {{-- Colorful Action Icons --}}
+                        <div class="flex items-center gap-2">
                             
                             @guest
                             {{-- Login Button --}}
-                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 h-11 px-6 text-sm font-semibold text-white bg-gradient-to-r from-[#6D94C5] to-[#456882] dark:from-[#456882] dark:to-[#6D94C5] hover:opacity-90 rounded-xl transition-all shadow-md hover:shadow-lg">
-                                <span class="material-icons text-lg">person</span>
-                                Sign In
+                            <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 rounded-full transition-all shadow-lg hover:shadow-xl">
+                                <span class="material-icons text-lg">login</span>
+                                Login
                             </a>
                             @else
                             {{-- User Profile --}}
                             <div class="relative z-[9999]">
-                                <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-[#CBDCEB] dark:hover:bg-[#456882] rounded-xl transition-colors" id="profile-button">
+                                <button type="button" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 rounded-full transition-colors" id="profile-button">
                                     @php 
                                         $user = Auth::user();
                                         $media = $user->profile_media;
                                     @endphp
-                                    <div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-[#E8DFCA] dark:ring-[#456882] shadow-sm flex-shrink-0">
+                                    <div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-blue-500 shadow-sm flex-shrink-0">
                                         @if($media['type'] == 'video')
                                             <video src="{{ $media['url'] }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                                         @elseif($media['type'] == 'image')
                                             <img src="{{ $media['url'] }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#6D94C5] to-[#456882]">
+                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-500">
                                                 <span class="text-xs font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                             </div>
                                         @endif
                                     </div>
-                                    <span class="hidden sm:inline text-sm font-semibold text-[#6D94C5] dark:text-[#D2C1B6]">{{ Str::limit($user->name, 12) }}</span>
-                                    <span class="material-icons hidden sm:block text-[#6D94C5] dark:text-[#D2C1B6] text-lg">expand_more</span>
+                                    <span class="hidden sm:inline text-sm font-bold text-gray-700">{{ Str::limit($user->name, 12) }}</span>
+                                    <span class="material-icons hidden sm:block text-gray-700 text-lg">expand_more</span>
                                 </button>
 
                                 {{-- Dropdown Menu --}}
-                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-xl shadow-2xl border border-[#E8DFCA] dark:border-[#456882] overflow-hidden" role="menu">
-                                    <div class="px-4 py-3 bg-[#CBDCEB] dark:bg-[#456882] border-b border-[#E8DFCA] dark:border-[#456882]">
-                                        <p class="text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] truncate">{{ $user->name }}</p>
-                                        <p class="text-xs font-semibold text-[#6D94C5] dark:text-[#D2C1B6] opacity-70 truncate mt-0.5">{{ $user->email }}</p>
+                                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border-2 border-gray-100 overflow-hidden" role="menu">
+                                    <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border-b-2 border-gray-100">
+                                        <p class="text-sm font-bold text-gray-800 truncate">{{ $user->name }}</p>
+                                        <p class="text-xs font-semibold text-gray-600 truncate mt-0.5">{{ $user->email }}</p>
                                     </div>
                                     <div class="py-2">
-                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
-                                            <span class="material-icons opacity-60 text-xl">account_circle</span>
+                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-blue-50 transition-colors group" role="menuitem">
+                                            <span class="material-icons text-blue-500 group-hover:scale-110 transition-transform text-xl">account_circle</span>
                                             My Profile
                                         </a>
-                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
-                                            <span class="material-icons opacity-60 text-xl">shopping_bag</span>
+                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-purple-50 transition-colors group" role="menuitem">
+                                            <span class="material-icons text-purple-500 group-hover:scale-110 transition-transform text-xl">shopping_bag</span>
                                             My Orders
                                         </a>
-                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-[#6D94C5] dark:text-[#D2C1B6] hover:bg-[#CBDCEB] dark:hover:bg-[#456882] transition-colors" role="menuitem">
-                                            <span class="material-icons opacity-60 text-xl">favorite_border</span>
+                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 hover:bg-pink-50 transition-colors group" role="menuitem">
+                                            <span class="material-icons text-pink-500 group-hover:scale-110 transition-transform text-xl">favorite</span>
                                             My Wishlist
                                         </a>
-                                        <hr class="my-2 border-[#E8DFCA] dark:border-[#456882]">
+                                        <hr class="my-2 border-gray-200">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-left" role="menuitem">
-                                                <span class="material-icons text-xl">logout</span>
+                                            <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left group" role="menuitem">
+                                                <span class="material-icons text-xl group-hover:scale-110 transition-transform">logout</span>
                                                 Logout
                                             </button>
                                         </form>
@@ -222,22 +217,17 @@
                             </div>
                             @endguest
 
-                            {{-- Wishlist with Material Icon --}}
-                            <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-[#CBDCEB] dark:hover:bg-[#456882] rounded-xl transition-colors group">
-                                <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] group-hover:opacity-70 transition-colors text-2xl">favorite_border</span>
-                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-[#6D94C5] dark:bg-[#456882] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
+                            {{-- Wishlist Icon --}}
+                            <a href="{{ route('wishlist.index') }}" class="relative p-2 hover:bg-pink-50 rounded-full transition-colors group">
+                                <span class="material-icons text-pink-500 group-hover:scale-110 transition-transform text-2xl">favorite</span>
+                                <span id="wishlist-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">0</span>
                             </a>
 
-                            {{-- Cart with Material Icon --}}
-                            <a href="{{ route('cart.index') }}" class="relative p-2.5 hover:bg-[#CBDCEB] dark:hover:bg-[#456882] rounded-xl transition-colors group">
-                                <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] group-hover:opacity-70 transition-colors text-2xl">shopping_cart</span>
-                                <span id="cart-count" class="absolute -top-1 -right-1 bg-[#6D94C5] dark:bg-[#456882] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
+                            {{-- Cart Icon --}}
+                            <a href="{{ route('cart.index') }}" class="relative p-2 hover:bg-blue-50 rounded-full transition-colors group">
+                                <span class="material-icons text-blue-600 group-hover:scale-110 transition-transform text-2xl">shopping_cart</span>
+                                <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">0</span>
                             </a>
-
-                            {{-- Theme Toggle with Material Icon --}}
-                            <button type="button" class="p-2.5 hover:bg-[#CBDCEB] dark:hover:bg-[#456882] rounded-xl transition-colors" data-theme-toggle title="Toggle theme">
-                                <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-2xl">dark_mode</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -251,12 +241,12 @@
         </main>
 
         {{-- Scroll to Top Button --}}
-        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: linear-gradient(to right, #6D94C5, #456882); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); z-index: 99999; transition: all 0.3s;">
-            <span class="material-icons" style="font-size: 32px;">arrow_upward</span>
+        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-center; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4); z-index: 99999; transition: all 0.3s;">
+            <span class="material-icons" style="font-size: 28px;">arrow_upward</span>
         </div>
 
-        {{-- Modern Flipkart-Style Footer --}}
-        <footer class="mt-auto bg-[#234C6A] dark:bg-[#1B3C53] text-[#E8DFCA]">
+        {{-- Vibrant Footer --}}
+        <footer class="mt-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
             {{-- Main Footer Content --}}
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -264,18 +254,16 @@
                     {{-- About Section --}}
                     <div>
                         <div class="flex items-center gap-2 mb-4">
-                            <div class="w-10 h-10 bg-gradient-to-br from-[#6D94C5] to-[#456882] rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                                </svg>
+                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-lg flex items-center justify-center shadow-lg">
+                                <span class="material-icons text-white text-2xl">shopping_bag</span>
                             </div>
-                            <h3 class="text-xl font-bold text-[#D2C1B6]">Nexora</h3>
+                            <h3 class="text-xl font-black bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Nexora</h3>
                         </div>
-                        <p class="text-sm text-[#E8DFCA] opacity-80 mb-4">
-                            Your trusted online marketplace for quality products at the best prices. Shop with confidence!
+                        <p class="text-sm text-gray-300 mb-4">
+                            Your ultimate destination for electronics and gadgets. Quality products, unbeatable prices!
                         </p>
                         <div class="flex gap-3">
-                            <a href="#" class="w-9 h-9 bg-[#1B3C53] hover:bg-[#6D94C5] rounded-full flex items-center justify-center transition-all">
+                            <a href="#" class="w-9 h-9 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all shadow-lg hover:scale-110">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             </a>
                             <a href="#" class="w-9 h-9 bg-[#1B3C53] hover:bg-[#6D94C5] rounded-full flex items-center justify-center transition-all">

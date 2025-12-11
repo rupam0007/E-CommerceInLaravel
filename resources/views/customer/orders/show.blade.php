@@ -3,10 +3,10 @@
 @section('title', 'Order Details')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 pt-4 pb-4">
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Order #{{ $order->order_number }}</h1>
                 <p class="text-gray-600">Placed on {{ $order->created_at->format('M d, Y \a\t g:i A') }}</p>
@@ -23,8 +23,8 @@
         </div>
 
         <!-- Order Tracking Timeline -->
-        <div class="theme-card p-8 mb-8">
-            <h2 class="text-xl font-semibold mb-8">Order Tracking</h2>
+        <div class="theme-card p-4 mb-4">
+            <h2 class="text-xl font-semibold mb-4">Order Tracking</h2>
             
             <div class="relative">
                 @php
@@ -124,17 +124,17 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Order Items -->
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-4">
                 <!-- Items List -->
                 <div class="theme-card overflow-hidden">
-                    <div class="px-6 py-4 border-b theme-border">
+                    <div class="px-6 py-3 border-b theme-border">
                         <h2 class="text-lg font-semibold">Order Items</h2>
                     </div>
                     <div class="divide-y theme-border">
                         @foreach($order->orderItems as $item)
-                            <div class="p-6">
+                            <div class="p-4">
                                 <div class="flex items-center space-x-4">
                                     @if($item->product->image)
                                         <img src="{{ $item->product->image_url }}" 
@@ -166,8 +166,8 @@
                 </div>
 
                 <!-- Shipping Address -->
-                <div class="theme-card p-6">
-                    <h2 class="text-lg font-semibold mb-4">Shipping Address</h2>
+                <div class="theme-card p-4">
+                    <h2 class="text-lg font-semibold mb-3">Shipping Address</h2>
                     @php $shipping = json_decode($order->shipping_address, true); @endphp
                     <div class="theme-text-muted">
                         <p class="font-medium">{{ $shipping['first_name'] }} {{ $shipping['last_name'] }}</p>
@@ -179,8 +179,8 @@
 
                 <!-- Order Notes -->
                 @if($order->notes)
-                    <div class="theme-card p-6">
-                        <h2 class="text-lg font-semibold mb-4">Order Notes</h2>
+                    <div class="theme-card p-4">
+                        <h2 class="text-lg font-semibold mb-3">Order Notes</h2>
                         <p class="theme-text-muted">{{ $order->notes }}</p>
                     </div>
                 @endif
@@ -188,10 +188,10 @@
 
             <!-- Order Summary Sidebar -->
             <div class="lg:col-span-1">
-                <div class="theme-card p-6 sticky top-4">
-                    <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
+                <div class="theme-card p-5 sticky top-4">
+                    <h2 class="text-lg font-semibold mb-3">Order Summary</h2>
                     
-                    <div class="space-y-3 mb-4">
+                    <div class="space-y-2 mb-3">
                         <div class="flex justify-between">
                             <span class="theme-text-muted">Subtotal:</span>
                             <span class="font-medium">₹{{ number_format($order->orderItems->sum('total'), 2) }}</span>
@@ -222,9 +222,9 @@
                     </div>
 
                     <!-- Payment Information -->
-                    <div class="border-t theme-border pt-4">
+                    <div class="border-t theme-border pt-3">
                         <h3 class="font-semibold mb-2">Payment Information</h3>
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <div class="flex justify-between">
                                 <span class="theme-text-muted">Method:</span>
                                 <span class="font-medium">{{ ucfirst($order->payment_method) }}</span>
@@ -242,15 +242,15 @@
                     </div>
 
                     <!-- Order Actions -->
-                    <div class="border-t theme-border pt-4 mt-4">
+                    <div class="border-t theme-border pt-3 mt-3">
                         @if($order->status === 'pending' && $order->payment_status !== 'completed')
-                            <button class="w-full mb-3 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
+                            <button class="w-full mb-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
                                 Cancel Order
                             </button>
                         @endif
                         
                         @if($order->status === 'delivered')
-                            <button class="w-full mb-3 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
+                            <button class="w-full mb-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
                                 Write Review
                             </button>
                         @endif
