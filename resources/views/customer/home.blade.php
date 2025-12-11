@@ -142,36 +142,6 @@
     animation: float 3s ease-in-out infinite;
 }
 </style>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Fast Delivery</h3>
-                <p class="text-gray-300 text-sm">Free shipping on orders over $50. Get your products quickly.</p>
-            </div>
-
-            <div class="text-center p-6">
-                <div class="w-12 h-12 bg-indigo-900 text-indigo-400 rounded-lg flex items-center justify-center mx-auto mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H4a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Secure Payment</h3>
-                <p class="text-gray-300 text-sm">Your payment information is protected with bank-level security.</p>
-            </div>
-
-            <div class="text-center p-6">
-                <div class="w-12 h-12 bg-indigo-900 text-indigo-400 rounded-lg flex items-center justify-center mx-auto mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Premium Quality</h3>
-                <p class="text-gray-300 text-sm">All products are carefully selected to ensure the highest quality.</p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Categories Section -->
 <div class="bg-white py-16">
