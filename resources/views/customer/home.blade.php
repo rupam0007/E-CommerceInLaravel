@@ -212,15 +212,6 @@
         </div>
     </div>
 </div>
-                        <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-3xl">{{ $brand['icon'] }}</span>
-                    </div>
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white text-center">{{ $brand['name'] }}</span>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-</div>
 
 @if($categories->count() > 0)
 <div class="bg-white dark:bg-[#234C6A] py-16 sm:py-24">
