@@ -187,7 +187,7 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
             @php
-            $categories = [
+            $categoryTiles = [
                 ['name' => 'Smartphones', 'icon' => 'smartphone', 'color' => 'from-blue-500 to-cyan-500'],
                 ['name' => 'Laptops', 'icon' => 'laptop_mac', 'color' => 'from-purple-500 to-pink-500'],
                 ['name' => 'Tablets', 'icon' => 'tablet_mac', 'color' => 'from-green-500 to-emerald-500'],
@@ -199,55 +199,19 @@
             ];
             @endphp
 
-            @foreach ($categories as $category)
+            @foreach ($categoryTiles as $tile)
             <a href="{{ route('products.index') }}" class="group">
-                <div class="flex flex-col items-center justify-center p-6 bg-gradient-to-br {{ $category['color'] }} rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110">
+                <div class="flex flex-col items-center justify-center p-6 bg-gradient-to-br {{ $tile['color'] }} rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110">
                     <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-3 group-hover:rotate-12 transition-transform">
-                        <span class="material-icons text-white text-4xl">{{ $category['icon'] }}</span>
+                        <span class="material-icons text-white text-4xl">{{ $tile['icon'] }}</span>
                     </div>
-                    <span class="text-sm font-bold text-white text-center">{{ $category['name'] }}</span>
+                    <span class="text-sm font-bold text-white text-center">{{ $tile['name'] }}</span>
                 </div>
             </a>
             @endforeach
         </div>
     </div>
 </div>
-
-@if($categories->count() > 0)
-<div class="bg-white dark:bg-[#234C6A] py-16 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Shop by Category
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400">
-                Find exactly what you're looking for
-            </p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach($categories as $category)
-            <a href="{{ route('products.category', $category) }}" class="group relative bg-[#F5EFE6] dark:bg-[#1B3C53] rounded-2xl overflow-hidden border border-[#E8DFCA] dark:border-[#456882] hover:border-[#6D94C5] dark:hover:border-[#D2C1B6] hover:shadow-xl transition-all duration-300">
-                <div class="aspect-w-3 aspect-h-2">
-                    @if($category->image)
-                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300">
-                    @else
-                    <div class="w-full h-48 bg-gradient-to-br from-[#CBDCEB] to-[#E8DFCA] dark:from-[#456882] dark:to-[#6D94C5] flex items-center justify-center">
-                        <span class="material-icons text-[#6D94C5] dark:text-[#D2C1B6] text-6xl">category</span>
-                    </div>
-                    @endif
-                </div>
-                <div class="p-5">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#6D94C5] dark:group-hover:text-[#D2C1B6] transition-colors">
-                        {{ $category->name }}
-                    </h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ Str::limit($category->description, 60) }}</p>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-</div>
-@endif
 
 @if($featuredProducts->count() > 0)
 <div class="bg-[#F5EFE6] py-16" id="deals">
