@@ -75,10 +75,10 @@
 <body class="font-sans antialiased theme-bg transition-colors duration-300">
     <div class="min-h-screen theme-bg transition-colors duration-300">
 
-        {{-- Flipkart-Inspired Colorful Header --}}
-        <header class="sticky top-0 z-[9998] shadow-xl">
-            {{-- Vibrant Top Bar with Gradient --}}
-            <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600">
+        {{-- Flipkart-Inspired Colorful Header with Glass Effect --}}
+        <header class="sticky top-0 z-[9998] backdrop-blur-xl bg-white/80 shadow-xl border-b border-gray-200/50">
+            {{-- Vibrant Top Bar with Gradient and Transparency --}}
+            <div class="bg-gradient-to-r from-blue-600/95 via-blue-500/95 to-indigo-600/95 backdrop-blur-sm">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-10">
                         <div class="flex items-center gap-6 text-xs text-white">
@@ -116,8 +116,8 @@
                 </div>
             </div>
 
-            {{-- Main Navigation with Colorful Design --}}
-            <nav class="bg-[#F5EFE6] border-b-2 border-gray-200">
+            {{-- Main Navigation with Colorful Design and Glass Effect --}}
+            <nav class="bg-[#F5EFE6]/90 backdrop-blur-md border-b-2 border-gray-200/50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-20">
 
@@ -495,6 +495,12 @@
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+        
+        /* iPhone-like Glass Effect for Header */
+        header {
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
         }
         
         /* Smooth Transitions */
