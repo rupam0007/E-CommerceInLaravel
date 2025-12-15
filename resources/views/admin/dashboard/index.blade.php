@@ -3,132 +3,147 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Admin Dashboard</h1>
+<div class="bg-[#F5EFE6] min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Admin Dashboard</h1>
+            <p class="text-gray-600 font-semibold">Welcome back! Here's what's happening with your store today.</p>
+        </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-500 dark:bg-opacity-30 text-indigo-600 dark:text-indigo-400">
-                    <i class="fas fa-shopping-cart fa-lg"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-100 hover:shadow-xl transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+                        <span class="material-icons text-white text-3xl">shopping_cart</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-bold text-gray-600 uppercase tracking-wide">Total Orders</p>
+                        <p class="text-3xl font-extrabold text-gray-900">{{ $stats['total_orders'] }}</p>
+                    </div>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Orders</p>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_orders'] }}</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-green-100 hover:shadow-xl transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                        <span class="material-icons text-white text-3xl">payments</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-bold text-gray-600 uppercase tracking-wide">Total Revenue</p>
+                        <p class="text-3xl font-extrabold text-gray-900">₹{{ number_format($stats['total_revenue'], 0) }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-100 hover:shadow-xl transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+                        <span class="material-icons text-white text-3xl">inventory_2</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-bold text-gray-600 uppercase tracking-wide">Total Products</p>
+                        <p class="text-3xl font-extrabold text-gray-900">{{ $stats['total_products'] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-2 border-orange-100 hover:shadow-xl transition-shadow">
+                <div class="flex items-center">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg">
+                        <span class="material-icons text-white text-3xl">people</span>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-bold text-gray-600 uppercase tracking-wide">Total Customers</p>
+                        <p class="text-3xl font-extrabold text-gray-900">{{ $stats['total_customers'] }}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-green-100 dark:bg-green-500 dark:bg-opacity-30 text-green-600 dark:text-green-400">
-                    <i class="fas fa-dollar-sign fa-lg"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</p>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-white">₹{{ number_format($stats['total_revenue'], 2) }}</p>
-                </div>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-500 dark:bg-opacity-30 text-blue-600 dark:text-blue-400">
-                    <i class="fas fa-boxes fa-lg"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Products</p>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_products'] }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-transparent dark:border-gray-700">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-500 dark:bg-opacity-30 text-yellow-600 dark:text-yellow-400">
-                    <i class="fas fa-users fa-lg"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Customers</p>
-                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total_customers'] }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        <div class="lg:col-span-7">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent dark:border-gray-700 overflow-hidden">
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                    <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-0">Recent Orders</h5>
-                    <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
-                        View All
-                    </a>
-                </div>
-                <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse($recent_orders as $order)
-                    <div class="p-4 flex justify-between items-start hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <div>
-                            <h6 class="font-medium text-gray-900 dark:text-white">Order #{{ $order->id }}</h6>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $order->user->name }}</p>
-                            <small class="text-xs text-gray-400 dark:text-gray-500">{{ $order->created_at->diffForHumans() }}</small>
+            <div class="lg:col-span-7">
+                <div class="bg-white rounded-xl shadow-lg border-2 border-gray-100 overflow-hidden">
+                    <div class="p-6 bg-gradient-to-r from-blue-500 to-indigo-600 flex justify-between items-center">
+                        <h5 class="text-xl font-bold text-white mb-0 flex items-center gap-2">
+                            <span class="material-icons">receipt_long</span>
+                            Recent Orders
+                        </h5>
+                        <a href="{{ route('admin.orders.index') }}" class="inline-flex items-center gap-1 px-4 py-2 bg-white text-blue-600 rounded-lg font-bold text-sm hover:bg-blue-50 transition-all shadow-md hover:shadow-lg">
+                            View All
+                            <span class="material-icons text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        @forelse($recent_orders as $order)
+                        <div class="p-5 flex justify-between items-start hover:bg-blue-50 transition-colors">
+                            <div>
+                                <h6 class="font-bold text-gray-900 text-lg">Order #{{ $order->id }}</h6>
+                                <p class="text-sm text-gray-700 font-semibold mt-1">{{ $order->user->name }}</p>
+                                <small class="text-xs text-gray-500 font-medium">{{ $order->created_at->diffForHumans() }}</small>
+                            </div>
+                            <div class="text-right">
+                                <h6 class="font-extrabold text-gray-900 mb-2 text-xl">₹{{ number_format($order->total_amount, 0) }}</h6>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold shadow-sm
+                                    @if($order->status === 'pending') bg-gradient-to-r from-yellow-400 to-orange-500 text-white
+                                    @elseif($order->status === 'delivered') bg-gradient-to-r from-green-500 to-emerald-600 text-white
+                                    @elseif($order->status === 'cancelled') bg-gradient-to-r from-red-500 to-pink-600 text-white
+                                    @else bg-gradient-to-r from-blue-500 to-indigo-600 text-white @endif">
+                                    {{ ucfirst($order->status) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <h6 class="font-semibold text-gray-900 dark:text-white mb-1">₹{{ number_format($order->total_amount, 2) }}</h6>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                @if($order->status === 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-500 dark:bg-opacity-20 dark:text-yellow-300
-                                @elseif($order->status === 'delivered') bg-green-100 text-green-800 dark:bg-green-500 dark:bg-opacity-20 dark:text-green-300
-                                @elseif($order->status === 'cancelled') bg-red-100 text-red-800 dark:bg-red-500 dark:bg-opacity-20 dark:text-red-300
-                                @else bg-blue-100 text-blue-800 dark:bg-blue-500 dark:bg-opacity-20 dark:text-blue-300 @endif">
-                                {{ ucfirst($order->status) }}
+                        @empty
+                        <div class="p-8 text-center">
+                            <span class="material-icons text-gray-400 mb-3" style="font-size: 60px;">shopping_cart</span>
+                            <p class="text-gray-600 font-semibold">No recent orders</p>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="bg-white rounded-xl shadow-lg border-2 border-gray-100 overflow-hidden">
+                    <div class="p-6 bg-gradient-to-r from-orange-500 to-red-600 flex justify-between items-center">
+                        <h5 class="text-xl font-bold text-white mb-0 flex items-center gap-2">
+                            <span class="material-icons">warning</span>
+                            Low Stock Alert
+                        </h5>
+                        <a href="{{ route('admin.products.index') }}" class="inline-flex items-center gap-1 px-4 py-2 bg-white text-orange-600 rounded-lg font-bold text-sm hover:bg-orange-50 transition-all shadow-md hover:shadow-lg">
+                            Manage
+                            <span class="material-icons text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        @forelse($low_stock_products as $product)
+                        <div class="p-5 flex justify-between items-center hover:bg-orange-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                @if($product->image)
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-12 h-12 rounded-lg object-cover border-2 border-gray-200">
+                                @else
+                                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center border-2 border-gray-200">
+                                    <span class="material-icons text-gray-500">image</span>
+                                </div>
+                                @endif
+                                <div>
+                                    <h6 class="font-bold text-gray-900 truncate" style="max-width: 150px;">{{ $product->name }}</h6>
+                                    <small class="text-sm text-gray-600 font-semibold">{{ $product->category->name }}</small>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold shadow-sm
+                                @if($product->stock_quantity == 0) bg-gradient-to-r from-red-500 to-pink-600 text-white
+                                @else bg-gradient-to-r from-yellow-400 to-orange-500 text-white @endif">
+                                {{ $product->stock_quantity }} left
                             </span>
                         </div>
-                    </div>
-                    @empty
-                    <div class="p-4 text-center text-gray-500 dark:text-gray-400">
-                        No recent orders
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-
-        <div class="lg:col-span-5">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-transparent dark:border-gray-700 overflow-hidden">
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-                    <h5 class="text-lg font-semibold text-gray-900 dark:text-white mb-0">Low Stock Alert</h5>
-                    <a href="{{ route('admin.products.index') }}" class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
-                        Manage Inventory
-                    </a>
-                </div>
-                <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @forelse($low_stock_products as $product)
-                    <div class="p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <div class="flex items-center">
-                            @if($product->image)
-                            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-10 h-10 rounded-md object-cover me-3">
-                            @else
-                            <div class="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-700 d-flex items-center justify-center me-3">
-                                <i class="fas fa-image text-gray-400 dark:text-gray-500"></i>
-                            </div>
-                            @endif
-                            <div>
-                                <h6 class="font-medium text-gray-900 dark:text-white truncate" style="max-width: 150px;">{{ $product->name }}</h6>
-                                <small class="text-sm text-gray-500 dark:text-gray-400">{{ $product->category->name }}</small>
-                            </div>
+                        @empty
+                        <div class="p-8 text-center">
+                            <span class="material-icons text-gray-400 mb-3" style="font-size: 60px;">check_circle</span>
+                            <p class="text-gray-600 font-semibold">All products are well stocked</p>
                         </div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            @if($product->stock_quantity == 0) bg-red-100 text-red-800 dark:bg-red-500 dark:bg-opacity-20 dark:text-red-300
-                            @else bg-yellow-100 text-yellow-800 dark:bg-yellow-500 dark:bg-opacity-20 dark:text-yellow-300 @endif">
-                            {{ $product->stock_quantity }} left
-                        </span>
+                        @endforelse
                     </div>
-                    @empty
-                    <div class_models="p-4 text-center text-gray-500 dark:text-gray-400">
-                        All products are well stocked
-                    </div>
-                    @endforelse
                 </div>
             </div>
         </div>
