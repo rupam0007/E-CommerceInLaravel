@@ -82,16 +82,30 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-10">
                         <div class="flex items-center gap-6 text-xs text-white">
-                            <span class="hidden md:inline-flex items-center gap-2 font-semibold">
-                                <span class="material-icons text-sm">local_shipping</span>
-                                <span>FREE Delivery on orders above ₹499</span>
-                            </span>
+                            @auth('admin')
+                                <span class="inline-flex items-center gap-2 font-bold bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-full">
+                                    <span class="material-icons text-sm">admin_panel_settings</span>
+                                    <span>Admin Panel</span>
+                                </span>
+                            @else
+                                <span class="hidden md:inline-flex items-center gap-2 font-semibold">
+                                    <span class="material-icons text-sm">local_shipping</span>
+                                    <span>FREE Delivery on orders above ₹499</span>
+                                </span>
+                            @endauth
                         </div>
                         <div class="flex items-center gap-5 text-xs text-white">
-                            <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
-                                <span class="material-icons text-sm">local_shipping</span>
-                                Track Order
-                            </a>
+                            @auth('admin')
+                                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
+                                    <span class="material-icons text-sm">dashboard</span>
+                                    Dashboard
+                                </a>
+                            @else
+                                <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
+                                    <span class="material-icons text-sm">local_shipping</span>
+                                    Track Order
+                                </a>
+                            @endauth
                             <span class="hidden sm:block opacity-50">|</span>
                             <a href="#" class="flex items-center gap-1 hover:bg-white/20 px-3 py-1.5 rounded-full transition-all duration-200 font-semibold">
                                 <span class="material-icons text-sm">support_agent</span>
@@ -122,13 +136,29 @@
 
                         {{-- Navigation Links with Colors --}}
                         <div class="hidden md:flex items-center gap-8 flex-1 justify-center">
-                            <a href="{{ route('home') }}" class="text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
-                                Home
-                            </a>
-                            <a href="{{ route('products.index') }}" class="text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
-                                Products
-                            </a>
+                            @auth('admin')
+                                <a href="{{ route('admin.dashboard') }}" class="text-sm font-bold {{ request()->routeIs('admin.dashboard') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Dashboard
+                                </a>
+                                <a href="{{ route('admin.products.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.products.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Products
+                                </a>
+                                <a href="{{ route('admin.orders.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.orders.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Orders
+                                </a>
+                                <a href="{{ route('admin.customers.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.customers.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Customers
+                                </a>
+                            @else
+                                <a href="{{ route('home') }}" class="text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Home
+                                </a>
+                                <a href="{{ route('products.index') }}" class="text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                    Products
+                                </a>
+                            @endauth
                             
+                            @guest('admin')
                             {{-- Categories Dropdown --}}
                             <div class="relative" id="categories-dropdown">
                                 <button type="button" class="flex items-center gap-1 text-sm font-bold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200" id="categories-button">
@@ -160,11 +190,13 @@
                                     </div>
                                 </div>
                             </div>
+                            @endguest
                         </div>
 
                         {{-- Colorful Action Icons --}}
                         <div class="flex items-center gap-3 sm:gap-4">
                             
+                            @guest('admin')
                             @guest
                             {{-- Login Button with Gradient - Visible on all screens --}}
                             <a href="{{ route('login') }}" class="inline-flex items-center gap-2 h-11 px-6 text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-105">
@@ -233,7 +265,68 @@
                                 </div>
                             </div>
                             @endguest
+                            @endguest
 
+                            @auth('admin')
+                            {{-- Admin Profile --}}
+                            <div class="relative z-[9999]">
+                                <button type="button" class="flex items-center gap-2 h-11 px-3 hover:bg-blue-50 rounded-lg transition-colors" id="admin-profile-button">
+                                    <div class="h-10 w-10 rounded-full overflow-hidden ring-2 ring-yellow-500 shadow-md flex-shrink-0">
+                                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500">
+                                            <span class="text-base font-bold text-white">{{ strtoupper(substr(Auth::guard('admin')->user()->name, 0, 1)) }}</span>
+                                        </div>
+                                    </div>
+                                    <span class="hidden sm:inline text-sm font-bold text-gray-800">{{ Str::limit(Auth::guard('admin')->user()->name, 12) }}</span>
+                                    <span class="material-icons hidden sm:block text-gray-600 text-lg">expand_more</span>
+                                </button>
+
+                                {{-- Admin Dropdown Menu --}}
+                                <div id="admin-profile-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden" role="menu">
+                                    <div class="px-5 py-4 bg-gradient-to-r from-yellow-400 to-orange-500">
+                                        <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::guard('admin')->user()->name }}</p>
+                                        <p class="text-xs text-gray-700 truncate mt-0.5">{{ Auth::guard('admin')->user()->email }}</p>
+                                    </div>
+                                    <div class="py-2">
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">dashboard</span>
+                                            </div>
+                                            Dashboard
+                                        </a>
+                                        <a href="{{ route('admin.products.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">inventory_2</span>
+                                            </div>
+                                            Products
+                                        </a>
+                                        <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">shopping_bag</span>
+                                            </div>
+                                            Orders
+                                        </a>
+                                        <a href="{{ route('admin.customers.index') }}" class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors" role="menuitem">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center">
+                                                <span class="material-icons text-white text-sm">people</span>
+                                            </div>
+                                            Customers
+                                        </a>
+                                        <hr class="my-2 border-gray-200">
+                                        <form method="POST" action="{{ route('admin.logout') }}">
+                                            @csrf
+                                            <button type="submit" class="flex items-center gap-3 w-full px-5 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left" role="menuitem">
+                                                <div class="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-lg flex items-center justify-center">
+                                                    <span class="material-icons text-white text-sm">logout</span>
+                                                </div>
+                                                Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endauth
+
+                            @guest('admin')
                             {{-- Wishlist with Colorful Badge --}}
                             <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-pink-50 rounded-lg transition-colors group">
                                 <span class="material-icons text-pink-500 group-hover:text-pink-600 transition-colors text-2xl">favorite</span>
@@ -245,6 +338,7 @@
                                 <span class="material-icons text-orange-500 group-hover:text-orange-600 transition-colors text-2xl">shopping_cart</span>
                                 <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -426,6 +520,10 @@
             animation: slideDown 0.2s ease-out;
         }
         
+        #admin-profile-menu:not(.hidden) {
+            animation: slideDown 0.2s ease-out;
+        }
+        
         #categories-menu:not(.hidden) {
             animation: slideDown 0.2s ease-out;
         }
@@ -435,6 +533,8 @@
         $(document).ready(function() {
             const $profileButton = $('#profile-button');
             const $profileMenu = $('#profile-menu');
+            const $adminProfileButton = $('#admin-profile-button');
+            const $adminProfileMenu = $('#admin-profile-menu');
             const $categoriesButton = $('#categories-button');
             const $categoriesMenu = $('#categories-menu');
 
@@ -445,11 +545,18 @@
                 $categoriesMenu.addClass('hidden');
             });
 
+            // Admin Profile dropdown toggle
+            $adminProfileButton.on('click', function(e) {
+                e.stopPropagation();
+                $adminProfileMenu.toggleClass('hidden');
+            });
+
             // Categories dropdown toggle
             $categoriesButton.on('click', function(e) {
                 e.stopPropagation();
                 $categoriesMenu.toggleClass('hidden');
                 $profileMenu.addClass('hidden');
+                $adminProfileMenu.addClass('hidden');
             });
 
             // Close dropdown when clicking outside
@@ -457,6 +564,11 @@
                 if (!$profileButton.is(event.target) && $profileButton.has(event.target).length === 0 &&
                     !$profileMenu.is(event.target) && $profileMenu.has(event.target).length === 0) {
                     $profileMenu.addClass('hidden');
+                }
+                
+                if (!$adminProfileButton.is(event.target) && $adminProfileButton.has(event.target).length === 0 &&
+                    !$adminProfileMenu.is(event.target) && $adminProfileMenu.has(event.target).length === 0) {
+                    $adminProfileMenu.addClass('hidden');
                 }
                 
                 if (!$categoriesButton.is(event.target) && $categoriesButton.has(event.target).length === 0 &&
@@ -469,6 +581,7 @@
             $(document).on('keydown', function(e) {
                 if (e.key === 'Escape') {
                     $profileMenu.addClass('hidden');
+                    $adminProfileMenu.addClass('hidden');
                     $categoriesMenu.addClass('hidden');
                 }
             });
