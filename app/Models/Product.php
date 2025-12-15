@@ -67,14 +67,27 @@ class Product extends Model
             return 'https://via.placeholder.com/800x800.png?text=Product';
         }
 
+        // If it's already a full URL
         if (Str::startsWith($image, ['http://', 'https://'])) {
             return $image;
         }
 
-        if (Str::startsWith($image, ['storage/', 'uploads/'])) {
+        // If it starts with storage/ (from public disk)
+        if (Str::startsWith($image, 'storage/')) {
             return asset($image);
         }
 
-        return asset('uploads/' . ltrim($image, '/'));
+        // If it's stored in public disk (e.g., products/xxx.jpg)
+        if (Str::startsWith($image, 'products/')) {
+            return asset('storage/' . $image);
+        }
+
+        // If it starts with uploads/
+        if (Str::startsWith($image, 'uploads/')) {
+            return asset($image);
+        }
+
+        // Default: assume it's in storage
+        return asset('storage/' . ltrim($image, '/'));
     }
 }
