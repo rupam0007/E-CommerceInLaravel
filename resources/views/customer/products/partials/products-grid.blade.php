@@ -1,12 +1,12 @@
 @forelse ($products as $product)
-<div class="relative bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border border-gray-200 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group">
+@php
+    $inWishlist = Auth::check() && Auth::user()->isInWishlist($product->id);
+@endphp
+<div class="relative bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border-2 {{ $inWishlist ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-pink-50' : 'border-gray-200' }} hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group">
     
     {{-- Wishlist Button --}}
-    @php
-        $inWishlist = Auth::check() && Auth::user()->isInWishlist($product->id);
-    @endphp
     <button type="button" 
-            class="wishlist-btn absolute top-3 right-3 z-20 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
+            class="wishlist-btn absolute top-3 right-3 z-20 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
             data-product-id="{{ $product->id }}"
             data-in-wishlist="{{ $inWishlist ? 'true' : 'false' }}">
         <svg class="w-5 h-5 heart-icon-filled {{ $inWishlist ? '' : 'hidden' }}" fill="currentColor" viewBox="0 0 20 20">
@@ -16,13 +16,21 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path>
         </svg>
     </button>
+    
+    @if($inWishlist)
+    {{-- Purple "Liked" Badge --}}
+    <div class="absolute top-3 left-3 z-20 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
+        <span class="material-icons text-sm">favorite</span>
+        Liked
+    </div>
+    @endif
 
     {{-- Product Image --}}
-    <a href="{{ route('products.show', $product) }}" class="flex-shrink-0 relative block overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50">
+    <a href="{{ route('products.show', $product) }}" class="flex-shrink-0 relative block overflow-hidden {{ $inWishlist ? 'bg-gradient-to-br from-purple-50 to-pink-50' : 'bg-gradient-to-br from-blue-50 to-indigo-50' }}">
         @if($product->image)
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-60 object-cover object-center transform group-hover:scale-110 transition-all duration-500 ease-in-out">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-60 object-cover object-center transform group-hover:scale-110 transition-all duration-500 ease-in-out {{ $inWishlist ? 'opacity-95' : '' }}">
         @else
-            <div class="w-full h-60 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center text-blue-600">
+            <div class="w-full h-60 bg-gradient-to-br {{ $inWishlist ? 'from-purple-100 to-pink-100' : 'from-blue-100 to-purple-100' }} flex items-center justify-center {{ $inWishlist ? 'text-purple-600' : 'text-blue-600' }}">
                 <svg class="h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
@@ -31,20 +39,20 @@
         
         {{-- Colorful Stock Badges --}}
         @if($product->stock_quantity <= 5 && $product->stock_quantity > 0)
-            <span class="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Only {{ $product->stock_quantity }} Left!</span>
+            <span class="absolute {{ $inWishlist ? 'top-14' : 'top-3' }} left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Only {{ $product->stock_quantity }} Left!</span>
         @elseif($product->stock_quantity == 0)
-            <span class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Out of Stock</span>
+            <span class="absolute {{ $inWishlist ? 'top-14' : 'top-3' }} left-3 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Out of Stock</span>
         @else
-            <span class="absolute top-3 left-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">In Stock</span>
+            <span class="absolute {{ $inWishlist ? 'top-14' : 'top-3' }} left-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">In Stock</span>
         @endif
     </a>
 
     {{-- Product Details --}}
-    <div class="flex-grow p-5 flex flex-col bg-white">
+    <div class="flex-grow p-5 flex flex-col {{ $inWishlist ? 'bg-gradient-to-b from-white to-purple-50' : 'bg-white' }}">
         <div class="mb-3">
-            <p class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider bg-gray-100 inline-block px-3 py-1 rounded-full">{{ optional($product->category)->name }}</p>
-            <h3 class="text-lg font-bold text-gray-900 leading-tight mb-2 line-clamp-2">
-                <a href="{{ route('products.show', $product) }}" class="hover:text-blue-600 transition-colors">
+            <p class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider {{ $inWishlist ? 'bg-purple-100 text-purple-700' : 'bg-gray-100' }} inline-block px-3 py-1 rounded-full">{{ optional($product->category)->name }}</p>
+            <h3 class="text-lg font-bold {{ $inWishlist ? 'text-purple-900' : 'text-gray-900' }} leading-tight mb-2 line-clamp-2">
+                <a href="{{ route('products.show', $product) }}" class="{{ $inWishlist ? 'hover:text-purple-600' : 'hover:text-blue-600' }} transition-colors">
                     {{ $product->name }}
                 </a>
             </h3>
