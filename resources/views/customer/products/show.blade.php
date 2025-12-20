@@ -3,19 +3,19 @@
 @section('title', $product->name . ' - Nexora')
 
 @section('content')
-<div class="bg-[#F5EFE6] min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+<div class="bg-[#F5EFE6] dark:bg-gray-900 min-h-screen transition-colors duration-300 relative z-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-0">
 
         {{-- Breadcrumb --}}
         <nav class="flex mb-8" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-2 bg-white px-5 py-3 rounded-full shadow-lg border-2 border-gray-100">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 bg-white dark:bg-gray-800 px-5 py-3 rounded-full shadow-lg border-2 border-gray-100 dark:border-gray-700 transition-colors duration-300">
                 <li class="inline-flex items-center">
-                    <a href="{{ route('home') }}" class="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">Home</a>
+                    <a href="{{ route('home') }}" class="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">Home</a>
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <span class="material-icons text-gray-400 text-sm">chevron_right</span>
-                        <a href="{{ route('products.index') }}" class="ml-1 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors md:ml-2">Products</a>
+                        <span class="material-icons text-gray-400 dark:text-gray-500 text-sm">chevron_right</span>
+                        <a href="{{ route('products.index') }}" class="ml-1 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors md:ml-2">Products</a>
                     </div>
                 </li>
                 @if($product->category)
@@ -40,32 +40,47 @@
             {{-- Product Image Section --}}
             <div class="relative group">
                 {{-- Main Image --}}
-                <div id="zoom-container" class="aspect-w-1 aspect-h-1 w-full rounded-2xl border-2 border-gray-100 bg-white overflow-hidden shadow-xl relative z-10 hover:shadow-2xl transition-shadow">
+                <div id="zoom-container" class="aspect-w-1 aspect-h-1 w-full rounded-2xl border-2 border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-xl relative z-10 hover:shadow-2xl transition-shadow">
                     @if($product->image)
                         <img src="{{ $product->image_url }}" 
                              alt="{{ $product->name }}"
                              id="main-product-image"
                              class="w-full h-full object-center object-cover transition-transform duration-200 ease-out cursor-crosshair">
                     @else
-                        <div class="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                            <span class="material-icons text-gray-400" style="font-size: 120px;">image</span>
+                        <div class="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 flex items-center justify-center">
+                            <span class="material-icons text-gray-400 dark:text-gray-600" style="font-size: 120px;">image</span>
                         </div>
                     @endif
                 </div>
 
-                {{-- Zoom Icon Button --}}
+                {{-- Enhanced Zoom Controls --}}
                 @if($product->image)
-                <button type="button" id="trigger-lightbox" 
-                        class="absolute top-4 right-4 z-50 p-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full transition-all duration-300 focus:outline-none shadow-xl transform hover:scale-110"
-                        title="Expand Image">
-                    <span class="material-icons">zoom_in</span>
-                </button>
+                <div class="absolute bottom-4 right-4 z-20 flex flex-col gap-2 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-2 border-2 border-gray-200 dark:border-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" id="zoom-controls">
+                    <button type="button" class="p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded transition-colors" onclick="zoomIn()" title="Zoom In">
+                        <span class="material-icons text-blue-600 dark:text-blue-400">zoom_in</span>
+                    </button>
+                    <button type="button" class="p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded transition-colors" onclick="zoomOut()" title="Zoom Out">
+                        <span class="material-icons text-blue-600 dark:text-blue-400">zoom_out</span>
+                    </button>
+                    <button type="button" class="p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded transition-colors" onclick="resetZoom()" title="Reset Zoom">
+                        <span class="material-icons text-blue-600 dark:text-blue-400">refresh</span>
+                    </button>
+                    <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+                    <button type="button" id="trigger-lightbox" class="p-2 hover:bg-blue-50 dark:hover:bg-gray-700 rounded transition-colors" title="Full Screen">
+                        <span class="material-icons text-blue-600 dark:text-blue-400">fullscreen</span>
+                    </button>
+                </div>
+
+                {{-- Zoom Level Indicator --}}
+                <div class="absolute top-4 left-4 z-20 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold opacity-0 transition-opacity duration-300" id="zoom-level">
+                    100%
+                </div>
                 @endif
             </div>
 
             {{-- Product Info --}}
             <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight transition-colors duration-300">
                     {{ $product->name }}
                 </h1>
 
@@ -104,18 +119,18 @@
                     @endif
                 </div>
 
-                <div class="mt-8 p-6 bg-white rounded-xl border-2 border-gray-100 shadow-md">
-                    <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                        <span class="material-icons text-blue-600 mr-2">description</span>
+                <div class="mt-8 p-6 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 shadow-md transition-colors duration-300">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span class="material-icons text-blue-600 dark:text-blue-400 mr-2">description</span>
                         Product Description
                     </h3>
-                    <div class="text-base text-gray-700 space-y-2 leading-relaxed">
+                    <div class="text-base text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
                         <p>{{ $product->description }}</p>
                     </div>
                 </div>
 
                 @if($product->stock_quantity > 0)
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-8">
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-8" id="add-to-cart-form">
                     @csrf
                     <div class="flex items-center gap-4">
                         <div class="w-32">
@@ -130,10 +145,12 @@
                             </div>
                         </div>
                         <div class="flex-1 pt-6">
-                            <button type="submit"
-                                class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border border-transparent rounded-xl py-4 px-8 flex items-center justify-center text-lg font-bold text-white focus:outline-none focus:ring-4 focus:ring-orange-300 shadow-xl transition-all duration-200 transform hover:scale-105">
-                                <span class="material-icons mr-2">shopping_cart</span>
-                                Add to Cart
+                            <button type="submit" id="add-to-cart-btn"
+                                class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border border-transparent rounded-xl py-4 px-8 flex items-center justify-center text-lg font-bold text-white focus:outline-none focus:ring-4 focus:ring-orange-300 shadow-xl transition-all duration-200 transform hover:scale-105 relative overflow-hidden group">
+                                <span class="material-icons mr-2 transition-transform duration-300 group-hover:scale-110" id="cart-icon">shopping_cart</span>
+                                <span id="btn-text">Add to Cart</span>
+                                {{-- Flying cart icon animation overlay --}}
+                                <span class="material-icons absolute opacity-0 text-white text-2xl flying-cart-icon">shopping_cart</span>
                             </button>
                         </div>
                     </div>
@@ -279,6 +296,108 @@
             </div>
         </div>
 
+        {{-- Complete the Set / Bundle Section --}}
+        @if($relatedProducts->count() > 0)
+        <div class="mt-16 pt-10 border-t-2 border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white flex items-center gap-3">
+                        <span class="material-icons text-orange-600 text-4xl">shopping_basket</span>
+                        Complete the Set
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2 font-semibold">Add these items together and save time!</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Bundle Total:</p>
+                    <p class="text-3xl font-extrabold text-green-600 dark:text-green-400" id="bundle-total">₹{{ number_format($product->price, 0) }}</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 border-2 border-orange-200 dark:border-orange-900">
+                {{-- Main Product (Always Included) --}}
+                <div class="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md mb-4 border-2 border-orange-400 dark:border-orange-600">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900 dark:to-amber-900 flex items-center justify-center">
+                            @if($product->image)
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="material-icons text-orange-600">image</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-gray-900 dark:text-white">{{ Str::limit($product->name, 50) }}</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">This item (included)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($product->price, 0) }}</p>
+                        <span class="inline-flex items-center px-2 py-1 rounded-full bg-orange-500 text-white text-xs font-bold">
+                            <span class="material-icons text-xs mr-1">check</span>
+                            Main Item
+                        </span>
+                    </div>
+                </div>
+
+                {{-- Related Products (Optional) --}}
+                <div class="space-y-3">
+                    @foreach($relatedProducts->take(3) as $relatedProduct)
+                    <label class="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer border-2 border-transparent hover:border-blue-400 dark:hover:border-blue-600 bundle-item">
+                        <div class="flex-shrink-0">
+                            <input type="checkbox" 
+                                   class="bundle-checkbox w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" 
+                                   data-product-id="{{ $relatedProduct->id }}"
+                                   data-product-price="{{ $relatedProduct->price }}"
+                                   data-product-name="{{ $relatedProduct->name }}">
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 flex items-center justify-center">
+                                @if($relatedProduct->image)
+                                    <img src="{{ $relatedProduct->image_url }}" alt="{{ $relatedProduct->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <span class="material-icons text-blue-600">image</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-gray-900 dark:text-white">{{ Str::limit($relatedProduct->name, 50) }}</h4>
+                            <div class="flex items-center gap-2 mt-1">
+                                @if($relatedProduct->stock_quantity > 0)
+                                    <span class="text-xs text-green-600 dark:text-green-400 font-semibold flex items-center gap-1">
+                                        <span class="material-icons text-xs">check_circle</span>
+                                        In Stock
+                                    </span>
+                                @else
+                                    <span class="text-xs text-red-600 dark:text-red-400 font-semibold flex items-center gap-1">
+                                        <span class="material-icons text-xs">cancel</span>
+                                        Out of Stock
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($relatedProduct->price, 0) }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">+ Add to bundle</p>
+                        </div>
+                    </label>
+                    @endforeach
+                </div>
+
+                {{-- Add Bundle to Cart Button --}}
+                <div class="mt-6 pt-6 border-t-2 border-orange-200 dark:border-orange-900">
+                    <button onclick="addBundleToCart()" 
+                            class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 px-8 rounded-xl font-bold text-lg transition-all shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center justify-center gap-3"
+                            id="add-bundle-btn">
+                        <span class="material-icons text-2xl">shopping_basket</span>
+                        <span>Add Selected Items to Cart (<span id="bundle-count">1</span> items)</span>
+                    </button>
+                    <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-3">
+                        💡 Save time by adding multiple items at once!
+                    </p>
+                </div>
+            </div>
+        </div>
+        @endif
+
         {{-- Related Products --}}
         @if($relatedProducts->count() > 0)
         <div class="mt-16 sm:mt-24 border-t-2 border-gray-200 pt-16">
@@ -324,25 +443,67 @@
         const lightboxImg = document.getElementById('lightbox-image');
         const triggerBtn = document.getElementById('trigger-lightbox');
         const closeBtn = document.getElementById('close-lightbox');
+        const zoomLevel = document.getElementById('zoom-level');
         
-        // --- Hover Zoom Logic ---
+        let currentZoom = 1;
+        const minZoom = 1;
+        const maxZoom = 4;
+        const zoomStep = 0.5;
+        
+        // --- Enhanced Hover Zoom Logic ---
         if (container && img) {
             container.addEventListener('mousemove', function(e) {
                 const { left, top, width, height } = container.getBoundingClientRect();
-                // Calculate percentage position
                 const x = (e.clientX - left) / width * 100;
                 const y = (e.clientY - top) / height * 100;
 
-                // Move origin to cursor position and scale
                 img.style.transformOrigin = `${x}% ${y}%`;
-                img.style.transform = 'scale(2.5)'; // Adjust zoom level here
+                img.style.transform = `scale(${currentZoom})`;
+                
+                if (currentZoom > 1 && zoomLevel) {
+                    zoomLevel.style.opacity = '1';
+                }
             });
 
             container.addEventListener('mouseleave', function() {
-                // Reset
-                img.style.transformOrigin = 'center center';
-                img.style.transform = 'scale(1)';
+                if (currentZoom === 1) {
+                    img.style.transformOrigin = 'center center';
+                    img.style.transform = 'scale(1)';
+                }
+                if (zoomLevel) {
+                    zoomLevel.style.opacity = '0';
+                }
             });
+        }
+
+        // Zoom control functions
+        window.zoomIn = function() {
+            if (currentZoom < maxZoom) {
+                currentZoom = Math.min(currentZoom + zoomStep, maxZoom);
+                updateZoom();
+            }
+        };
+
+        window.zoomOut = function() {
+            if (currentZoom > minZoom) {
+                currentZoom = Math.max(currentZoom - zoomStep, minZoom);
+                updateZoom();
+            }
+        };
+
+        window.resetZoom = function() {
+            currentZoom = minZoom;
+            updateZoom();
+        };
+
+        function updateZoom() {
+            if (img) {
+                img.style.transform = `scale(${currentZoom})`;
+            }
+            if (zoomLevel) {
+                zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+                zoomLevel.style.opacity = currentZoom > 1 ? '1' : '0';
+            }
         }
 
         // --- Lightbox Logic ---
@@ -429,6 +590,181 @@
                 updateStarVisuals(currentValue);
             });
         }
+
+        // --- MICRO-INTERACTIONS: Add to Cart Animation ---
+        const addToCartForm = document.getElementById('add-to-cart-form');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        
+        if (addToCartForm && addToCartBtn) {
+            addToCartForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const flyingIcon = addToCartBtn.querySelector('.flying-cart-icon');
+                const btnText = document.getElementById('btn-text');
+                const cartIcon = document.getElementById('cart-icon');
+                
+                // Get cart icon position in header
+                const headerCart = document.querySelector('#cart-count').parentElement;
+                const btnRect = addToCartBtn.getBoundingClientRect();
+                const cartRect = headerCart.getBoundingClientRect();
+                
+                // Calculate distance to fly
+                const deltaX = cartRect.left - btnRect.left;
+                const deltaY = cartRect.top - btnRect.top;
+                
+                // Show and animate the flying icon
+                if (flyingIcon) {
+                    flyingIcon.style.opacity = '1';
+                    flyingIcon.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`;
+                    flyingIcon.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                }
+                
+                // Button feedback
+                addToCartBtn.classList.add('scale-95');
+                cartIcon.classList.add('animate-bounce');
+                btnText.textContent = 'Adding...';
+                
+                // Submit form after animation
+                setTimeout(() => {
+                    this.submit();
+                }, 400);
+            });
+        }
+
+        // --- Bundle Functionality ---
+        const bundleCheckboxes = document.querySelectorAll('.bundle-checkbox');
+        const bundleTotalEl = document.getElementById('bundle-total');
+        const bundleCountEl = document.getElementById('bundle-count');
+        const mainProductPrice = {{ $product->price }};
+        
+        function updateBundleTotal() {
+            let total = mainProductPrice;
+            let count = 1;
+            
+            bundleCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    total += parseFloat(checkbox.dataset.productPrice);
+                    count++;
+                }
+            });
+            
+            if (bundleTotalEl) {
+                bundleTotalEl.textContent = '₹' + total.toLocaleString('en-IN');
+            }
+            if (bundleCountEl) {
+                bundleCountEl.textContent = count;
+            }
+        }
+        
+        bundleCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateBundleTotal);
+        });
+        
+        window.addBundleToCart = function() {
+            const selectedProducts = [{{ $product->id }}];
+            
+            bundleCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedProducts.push(parseInt(checkbox.dataset.productId));
+                }
+            });
+            
+            if (selectedProducts.length === 0) {
+                showToast('Please select at least one product', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('add-bundle-btn');
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-icons animate-spin">refresh</span> Adding to cart...';
+            
+            // Add products sequentially
+            let addedCount = 0;
+            selectedProducts.forEach((productId, index) => {
+                $.ajax({
+                    url: `/cart/add/${productId}`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Accept': 'application/json'
+                    },
+                    data: { quantity: 1 },
+                    success: function(response) {
+                        addedCount++;
+                        if (addedCount === selectedProducts.length) {
+                            $('#cart-count').text(response.count);
+                            btn.innerHTML = '<span class="material-icons">check_circle</span> Added to Cart!';
+                            btn.classList.remove('from-orange-500', 'to-orange-600');
+                            btn.classList.add('from-green-500', 'to-green-600');
+                            
+                            showToast(`Successfully added ${addedCount} items to cart!`, 'success');
+                            
+                            setTimeout(() => {
+                                btn.innerHTML = originalHtml;
+                                btn.classList.remove('from-green-500', 'to-green-600');
+                                btn.classList.add('from-orange-500', 'to-orange-600');
+                                btn.disabled = false;
+                                bundleCheckboxes.forEach(cb => cb.checked = false);
+                                updateBundleTotal();
+                            }, 2000);
+                        }
+                    },
+                    error: function() {
+                        btn.innerHTML = originalHtml;
+                        btn.disabled = false;
+                        showToast('Error adding some items to cart', 'error');
+                    }
+                });
+            });
+        };
+        
+        function showToast(message, type = 'info') {
+            if (typeof Toastify !== 'undefined') {
+                const backgrounds = {
+                    success: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    error: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                    info: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+                };
+                
+                Toastify({
+                    text: message,
+                    duration: 3000,
+                    gravity: 'top',
+                    position: 'right',
+                    style: {
+                        background: backgrounds[type] || backgrounds.info
+                    }
+                }).showToast();
+            }
+        }
     });
 </script>
+
+<style>
+    /* Micro-interaction styles */
+    .flying-cart-icon {
+        pointer-events: none;
+        z-index: 9999;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    @keyframes heartBeat {
+        0%, 100% { transform: scale(1); }
+        25% { transform: scale(1.1); }
+        50% { transform: scale(0.95); }
+        75% { transform: scale(1.05); }
+    }
+
+    /* Enhanced zoom controls */
+    #zoom-controls {
+        backdrop-filter: blur(10px);
+    }
+
+    #zoom-level {
+        backdrop-filter: blur(10px);
+    }
+</style>
 @endpush

@@ -3,7 +3,7 @@
 @section('title', 'Shopping Cart - Nexora')
 
 @section('content')
-<div class="bg-[#F5EFE6] min-h-screen py-8">
+<div class="bg-[#F5EFE6] min-h-screen py-8 relative z-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {{-- Colorful Page Header --}}
         <div class="mb-8">

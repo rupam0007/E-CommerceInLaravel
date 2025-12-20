@@ -91,4 +91,25 @@ class ProductController extends Controller
         $categories = Category::where('is_active', true)->get();
         return view('customer.categories.index', compact('categories'));
     }
+
+    public function quickView(Product $product)
+    {
+        $product->load('category');
+        $product->loadAvg('reviews', 'rating');
+        $product->loadCount('reviews');
+        
+        return view('customer.products.partials.quick-view', compact('product'));
+    }
+
+    public function compare(Request $request)
+    {
+        $ids = explode(',', $request->get('ids', ''));
+        
+        $products = Product::whereIn('id', $ids)
+            ->with('category')
+            ->withAvg('reviews', 'rating')
+            ->get();
+        
+        return view('customer.products.partials.comparison-table', compact('products'));
+    }
 }

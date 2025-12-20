@@ -5,13 +5,19 @@
 @section('content')
 
 <!-- Colorful Flipkart-Inspired Hero Section -->
-<div class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600">
-    <!-- Animated Background Elements -->
+<div class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 dark:from-gray-800 dark:via-gray-900 dark:to-black transition-all duration-500 z-0">
+    <!-- Animated Background Elements with Enhanced Animations -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-400 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-pink-500 rounded-full blur-3xl opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
-        <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-green-400 rounded-full blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-400 dark:bg-yellow-600 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-pink-500 dark:bg-pink-700 rounded-full blur-3xl opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-green-400 dark:bg-green-600 rounded-full blur-3xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+        {{-- Moving gradient orbs --}}
+        <div class="absolute top-1/4 right-1/4 w-64 h-64 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-3xl opacity-30 animate-float-slow"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full blur-3xl opacity-25 animate-float-slower"></div>
     </div>
+
+    <!-- Subtle animated gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent animate-gradient-shift opacity-50"></div>
 
     <!-- Hero Content -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -100,7 +106,7 @@
 </div>
 
 <!-- Colorful Features Section -->
-<div class="bg-[#F5EFE6] py-16">
+<div class="bg-[#F5EFE6] py-16 relative z-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Feature 1 -->
@@ -251,6 +257,55 @@
 
 @push('scripts')
 <style>
+    /* Enhanced animations for hero section */
+    @keyframes float-slow {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        25% {
+            transform: translate(20px, -20px) scale(1.05);
+        }
+        50% {
+            transform: translate(-20px, 20px) scale(0.95);
+        }
+        75% {
+            transform: translate(15px, 15px) scale(1.02);
+        }
+    }
+
+    @keyframes float-slower {
+        0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+            transform: translate(-30px, 20px) rotate(5deg);
+        }
+        66% {
+            transform: translate(30px, -15px) rotate(-5deg);
+        }
+    }
+
+    @keyframes gradient-shift {
+        0%, 100% {
+            transform: translate(-10%, -10%) rotate(0deg);
+        }
+        50% {
+            transform: translate(10%, 10%) rotate(180deg);
+        }
+    }
+
+    .animate-float-slow {
+        animation: float-slow 20s ease-in-out infinite;
+    }
+
+    .animate-float-slower {
+        animation: float-slower 25s ease-in-out infinite;
+    }
+
+    .animate-gradient-shift {
+        animation: gradient-shift 30s linear infinite;
+    }
+
     /* Scrollbar Hide */
     .scrollbar-hide::-webkit-scrollbar {
         display: none;

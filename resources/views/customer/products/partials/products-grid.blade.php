@@ -2,11 +2,21 @@
 @php
     $inWishlist = Auth::check() && Auth::user()->isInWishlist($product->id);
 @endphp
-<div class="relative bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border-2 {{ $inWishlist ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-pink-50' : 'border-gray-200' }} hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group">
+<div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden flex flex-col h-full border-2 {{ $inWishlist ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20' : 'border-gray-200 dark:border-gray-700' }} hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group z-0">
     
+    {{-- Product Comparison Checkbox --}}
+    <div class="absolute top-3 left-3 z-10">
+        <label class="flex items-center cursor-pointer group/compare">
+            <input type="checkbox" class="compare-checkbox hidden" data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}">
+            <div class="w-6 h-6 border-2 border-gray-400 rounded bg-white flex items-center justify-center transition-all duration-200 group-hover/compare:border-blue-500 checkbox-custom">
+                <span class="material-icons text-blue-600 text-sm opacity-0 checkmark-icon">check</span>
+            </div>
+        </label>
+    </div>
+
     {{-- Wishlist Button --}}
     <button type="button" 
-            class="wishlist-btn absolute top-3 right-3 z-20 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
+            class="wishlist-btn absolute top-3 right-3 z-10 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
             data-product-id="{{ $product->id }}"
             data-in-wishlist="{{ $inWishlist ? 'true' : 'false' }}">
         <svg class="w-5 h-5 heart-icon-filled {{ $inWishlist ? '' : 'hidden' }}" fill="currentColor" viewBox="0 0 20 20">
@@ -86,9 +96,11 @@
                 </button>
                 @endif
 
-                <a href="{{ route('products.show', $product) }}" class="flex items-center justify-center bg-white border-2 border-blue-600 text-blue-600 py-3 px-4 rounded-lg text-sm font-bold hover:bg-blue-50 transform hover:scale-105 transition-all duration-200">
+                <button class="quick-view-btn flex items-center justify-center bg-white border-2 border-blue-600 text-blue-600 py-3 px-4 rounded-lg text-sm font-bold hover:bg-blue-50 transform hover:scale-105 transition-all duration-200" 
+                        data-product-id="{{ $product->id }}" 
+                        title="Quick View">
                     <span class="material-icons text-lg">visibility</span>
-                </a>
+                </button>
             </div>
         </div>
     </div>
@@ -112,6 +124,165 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
+    // Product comparison state
+    let comparedProducts = [];
+    const maxComparison = 3;
+
+    // Handle comparison checkbox changes
+    $(document).on('change', '.compare-checkbox', function() {
+        const productId = $(this).data('product-id');
+        const productName = $(this).data('product-name');
+        const isChecked = $(this).is(':checked');
+
+        if (isChecked) {
+            if (comparedProducts.length >= maxComparison) {
+                $(this).prop('checked', false);
+                showToast('You can only compare up to 3 products at a time', 'error');
+                return;
+            }
+            comparedProducts.push({ id: productId, name: productName });
+        } else {
+            comparedProducts = comparedProducts.filter(p => p.id != productId);
+        }
+
+        updateComparisonBar();
+    });
+
+    function updateComparisonBar() {
+        const count = comparedProducts.length;
+        $('#compare-count').text(count);
+        
+        if (count > 0) {
+            $('#comparison-bar').removeClass('hidden translate-y-full');
+            $('#compare-btn').prop('disabled', count < 2);
+        } else {
+            $('#comparison-bar').addClass('translate-y-full');
+            setTimeout(() => $('#comparison-bar').addClass('hidden'), 300);
+        }
+
+        // Update product tags
+        const $container = $('#compared-products');
+        $container.empty();
+        comparedProducts.forEach(product => {
+            $container.append(`
+                <div class="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-2">
+                    ${product.name.substring(0, 20)}...
+                    <button onclick="removeFromComparison(${product.id})" class="hover:text-red-600">
+                        <span class="material-icons text-sm">close</span>
+                    </button>
+                </div>
+            `);
+        });
+
+        // Update checkbox visuals
+        $('.compare-checkbox').each(function() {
+            const checkbox = $(this);
+            const checkboxCustom = checkbox.siblings('.checkbox-custom');
+            const checkmark = checkboxCustom.find('.checkmark-icon');
+            
+            if (checkbox.is(':checked')) {
+                checkboxCustom.addClass('bg-blue-600 border-blue-600');
+                checkmark.removeClass('opacity-0');
+            } else {
+                checkboxCustom.removeClass('bg-blue-600 border-blue-600');
+                checkmark.addClass('opacity-0');
+            }
+        });
+    }
+
+    // Quick View functionality
+    $(document).on('click', '.quick-view-btn', function() {
+        const productId = $(this).data('product-id');
+        openQuickView(productId);
+    });
+
+    window.openQuickView = function(productId) {
+        $('#quick-view-modal').removeClass('hidden');
+        $('body').css('overflow', 'hidden');
+        
+        // Load product details
+        $.ajax({
+            url: `/products/${productId}/quick-view`,
+            type: 'GET',
+            success: function(response) {
+                $('#quick-view-content').html(response);
+            },
+            error: function() {
+                $('#quick-view-content').html(`
+                    <div class="text-center py-12">
+                        <span class="material-icons text-red-500 text-6xl mb-4">error</span>
+                        <p class="text-gray-600 dark:text-gray-300">Failed to load product details</p>
+                    </div>
+                `);
+            }
+        });
+    };
+
+    window.closeQuickView = function() {
+        $('#quick-view-modal').addClass('hidden');
+        $('body').css('overflow', '');
+    };
+
+    window.removeFromComparison = function(productId) {
+        $(`.compare-checkbox[data-product-id="${productId}"]`).prop('checked', false).trigger('change');
+    };
+
+    window.clearComparison = function() {
+        $('.compare-checkbox').prop('checked', false);
+        comparedProducts = [];
+        updateComparisonBar();
+    };
+
+    window.openComparisonModal = function() {
+        if (comparedProducts.length < 2) return;
+        
+        $('#comparison-modal').removeClass('hidden');
+        $('body').css('overflow', 'hidden');
+        
+        const productIds = comparedProducts.map(p => p.id).join(',');
+        
+        $.ajax({
+            url: `/products/compare?ids=${productIds}`,
+            type: 'GET',
+            success: function(response) {
+                $('#comparison-content').html(response);
+            },
+            error: function() {
+                $('#comparison-content').html(`
+                    <div class="text-center py-12">
+                        <span class="material-icons text-red-500 text-6xl mb-4">error</span>
+                        <p class="text-gray-600">Failed to load comparison</p>
+                    </div>
+                `);
+            }
+        });
+    };
+
+    window.closeComparisonModal = function() {
+        $('#comparison-modal').addClass('hidden');
+        $('body').css('overflow', '');
+    };
+
+    function showToast(message, type = 'info') {
+        if (typeof Toastify !== 'undefined') {
+            const backgrounds = {
+                success: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                error: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                info: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+            };
+            
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: 'top',
+                position: 'right',
+                style: {
+                    background: backgrounds[type] || backgrounds.info
+                }
+            }).showToast();
+        }
+    }
+
     // Add to Cart AJAX functionality
     $(document).on('click', '.add-to-cart-btn', function(e) {
         e.preventDefault();

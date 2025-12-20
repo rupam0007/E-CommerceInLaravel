@@ -37,6 +37,8 @@ Route::post('/logout', function () {
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{product}/quick-view', [ProductController::class, 'quickView'])->name('products.quick-view');
+Route::get('/products/compare', [ProductController::class, 'compare'])->name('products.compare');
 
 
 Route::get('/search', [ProductController::class, 'index'])->name('products.search');

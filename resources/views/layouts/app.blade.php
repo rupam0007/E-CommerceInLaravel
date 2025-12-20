@@ -72,11 +72,11 @@
     </script>
 </head>
 
-<body class="font-sans antialiased theme-bg transition-colors duration-300">
-    <div class="min-h-screen theme-bg transition-colors duration-300">
+<body class="font-sans antialiased bg-[#F5EFE6] dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen bg-[#F5EFE6] dark:bg-gray-900 transition-colors duration-300">
 
         {{-- Flipkart-Inspired Colorful Header with Glass Effect --}}
-        <header class="sticky top-0 z-[9998] backdrop-blur-xl bg-white/80 shadow-xl border-b border-gray-200/50">
+        <header class="sticky top-0 z-[9998] backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 shadow-xl border-b border-gray-200/50 dark:border-gray-700/50">
             {{-- Vibrant Top Bar with Gradient and Transparency --}}
             <div class="bg-gradient-to-r from-blue-600/95 via-blue-500/95 to-indigo-600/95 backdrop-blur-sm">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +117,7 @@
             </div>
 
             {{-- Main Navigation with Colorful Design and Glass Effect --}}
-            <nav class="bg-[#F5EFE6]/90 backdrop-blur-md border-b-2 border-gray-200/50">
+            <nav class="bg-[#F5EFE6]/90 dark:bg-gray-800/90 backdrop-blur-md border-b-2 border-gray-200/50 dark:border-gray-700/50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-20">
 
@@ -129,7 +129,7 @@
                                 </div>
                                 <div>
                                     <span class="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Nexora</span>
-                                    <span class="hidden lg:block text-xs text-gray-600 font-semibold tracking-wide">Explore <span class="text-yellow-500 italic">Plus</span></span>
+                                    <span class="hidden lg:block text-xs text-gray-600 dark:text-gray-300 font-semibold tracking-wide">Explore <span class="text-yellow-500 dark:text-yellow-400 italic">Plus</span></span>
                                 </div>
                             </a>
                         </div>
@@ -137,23 +137,23 @@
                         {{-- Navigation Links with Colors --}}
                         <div class="hidden md:flex items-center gap-8 flex-1 justify-center">
                             @auth('admin')
-                                <a href="{{ route('admin.dashboard') }}" class="text-sm font-bold {{ request()->routeIs('admin.dashboard') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('admin.dashboard') }}" class="text-sm font-bold {{ request()->routeIs('admin.dashboard') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Dashboard
                                 </a>
-                                <a href="{{ route('admin.products.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.products.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('admin.products.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.products.*') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Products
                                 </a>
-                                <a href="{{ route('admin.orders.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.orders.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('admin.orders.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.orders.*') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Orders
                                 </a>
-                                <a href="{{ route('admin.customers.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.customers.*') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('admin.customers.index') }}" class="text-sm font-bold {{ request()->routeIs('admin.customers.*') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Customers
                                 </a>
                             @else
-                                <a href="{{ route('home') }}" class="text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('home') }}" class="text-sm font-bold {{ request()->routeIs('home') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Home
                                 </a>
-                                <a href="{{ route('products.index') }}" class="text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200">
+                                <a href="{{ route('products.index') }}" class="text-sm font-bold {{ request()->routeIs('products.index') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200">
                                     Products
                                 </a>
                             @endauth
@@ -161,7 +161,7 @@
                             @guest('admin')
                             {{-- Categories Dropdown --}}
                             <div class="relative" id="categories-dropdown">
-                                <button type="button" class="flex items-center gap-1 text-sm font-bold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} pb-1 transition-all duration-200" id="categories-button">
+                                <button type="button" class="flex items-center gap-1 text-sm font-bold {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400' }} pb-1 transition-all duration-200" id="categories-button">
                                     Categories
                                     <span class="material-icons text-lg">expand_more</span>
                                 </button>
@@ -327,15 +327,21 @@
                             @endauth
 
                             @guest('admin')
+                            {{-- Dark Mode Toggle --}}
+                            <button type="button" id="theme-toggle" class="p-2.5 hover:bg-purple-50 dark:hover:bg-gray-700 rounded-lg transition-all group relative overflow-hidden">
+                                <span class="material-icons text-purple-600 dark:text-yellow-400 group-hover:text-purple-700 dark:group-hover:text-yellow-300 transition-all text-2xl theme-icon-sun hidden dark:block">light_mode</span>
+                                <span class="material-icons text-purple-600 dark:text-yellow-400 group-hover:text-purple-700 dark:group-hover:text-yellow-300 transition-all text-2xl theme-icon-moon block dark:hidden">dark_mode</span>
+                            </button>
+
                             {{-- Wishlist with Colorful Badge --}}
-                            <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-pink-50 rounded-lg transition-colors group">
-                                <span class="material-icons text-pink-500 group-hover:text-pink-600 transition-colors text-2xl">favorite</span>
+                            <a href="{{ route('wishlist.index') }}" class="relative p-2.5 hover:bg-pink-50 dark:hover:bg-gray-700 rounded-lg transition-colors group">
+                                <span class="material-icons text-pink-500 dark:text-pink-400 group-hover:text-pink-600 dark:group-hover:text-pink-300 transition-colors text-2xl">favorite</span>
                                 <span id="wishlist-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
 
                             {{-- Cart with Colorful Badge --}}
-                            <a href="{{ route('cart.index') }}" class="relative p-2.5 hover:bg-orange-50 rounded-lg transition-colors group">
-                                <span class="material-icons text-orange-500 group-hover:text-orange-600 transition-colors text-2xl">shopping_cart</span>
+                            <a href="{{ route('cart.index') }}" class="relative p-2.5 hover:bg-orange-50 dark:hover:bg-gray-700 rounded-lg transition-colors group">
+                                <span class="material-icons text-orange-500 dark:text-orange-400 group-hover:text-orange-600 dark:group-hover:text-orange-300 transition-colors text-2xl">shopping_cart</span>
                                 <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md">0</span>
                             </a>
                             @endguest
@@ -590,6 +596,29 @@
                     $adminProfileMenu.addClass('hidden');
                     $categoriesMenu.addClass('hidden');
                 }
+            });
+
+            // Dark Mode Toggle
+            const $themeToggle = $('#theme-toggle');
+            const root = document.documentElement;
+
+            $themeToggle.on('click', function() {
+                const currentTheme = root.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                if (newTheme === 'dark') {
+                    root.classList.add('dark');
+                } else {
+                    root.classList.remove('dark');
+                }
+
+                localStorage.setItem('theme-preference', newTheme);
+                
+                // Add a smooth rotation animation to the button
+                $(this).addClass('rotate-180');
+                setTimeout(() => {
+                    $(this).removeClass('rotate-180');
+                }, 300);
             });
         });
     </script>
