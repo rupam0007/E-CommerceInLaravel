@@ -20,6 +20,7 @@
                             <th class="px-3 py-2">Name</th>
                             <th class="px-3 py-2">Category</th>
                             <th class="px-3 py-2">Price</th>
+                            <th class="px-3 py-2">Discount</th>
                             <th class="px-3 py-2">Stock</th>
                             <th class="px-3 py-2">Actions</th>
                         </tr>
@@ -29,7 +30,21 @@
                         <tr>
                             <td class="px-3 py-2 align-middle">{{ $product->name }}</td>
                             <td class="px-3 py-2 align-middle">{{ $product->category->name ?? '-' }}</td>
-                            <td class="px-3 py-2 align-middle">₹{{ number_format($product->price, 2) }}</td>
+                            <td class="px-3 py-2 align-middle">
+                                @if($product->has_discount)
+                                    <span class="text-decoration-line-through text-muted">₹{{ number_format($product->price, 2) }}</span>
+                                    <span class="text-success fw-bold d-block">₹{{ number_format($product->discount_price, 2) }}</span>
+                                @else
+                                    ₹{{ number_format($product->price, 2) }}
+                                @endif
+                            </td>
+                            <td class="px-3 py-2 align-middle">
+                                @if($product->has_discount)
+                                    <span class="badge bg-success">{{ number_format($product->discount_percentage, 0) }}% OFF</span>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
                             <td class="px-3 py-2 align-middle">{{ $product->stock_quantity }}</td>
                             <td class="px-3 py-2 align-middle">
                                 <div class="d-flex gap-2">
@@ -44,7 +59,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4">No products found.</td>
+                            <td colspan="6" class="text-center py-4">No products found.</td>
                         </tr>
                         @endforelse
                     </tbody>

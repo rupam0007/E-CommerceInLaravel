@@ -96,11 +96,24 @@
 
                 <div class="mt-6">
                     <div class="flex items-baseline gap-3">
-                        <p class="text-4xl text-gray-900 font-extrabold">₹{{ number_format($product->price, 0) }}</p>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md">
-                            <span class="material-icons text-sm mr-1">local_offer</span>
-                            Best Price
-                        </span>
+                        @if($product->has_discount)
+                            <div>
+                                <div class="flex items-baseline gap-3 mb-2">
+                                    <p class="text-4xl text-green-600 font-extrabold">₹{{ number_format($product->discount_price, 0) }}</p>
+                                    <p class="text-2xl text-gray-400 line-through">₹{{ number_format($product->price, 0) }}</p>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-md">
+                                        {{ number_format($product->discount_percentage, 0) }}% OFF
+                                    </span>
+                                </div>
+                                <p class="text-sm text-green-600 font-semibold">You Save: ₹{{ number_format($product->discount_amount, 0) }}</p>
+                            </div>
+                        @else
+                            <p class="text-4xl text-gray-900 font-extrabold">₹{{ number_format($product->price, 0) }}</p>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md">
+                                <span class="material-icons text-sm mr-1">local_offer</span>
+                                Best Price
+                            </span>
+                        @endif
                     </div>
                     <p class="mt-2 text-sm text-green-600 font-semibold">Free Delivery on orders above ₹499</p>
                 </div>
@@ -309,7 +322,7 @@
                 </div>
                 <div class="text-right">
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Bundle Total:</p>
-                    <p class="text-3xl font-extrabold text-green-600 dark:text-green-400" id="bundle-total">₹{{ number_format($product->price, 0) }}</p>
+                    <p class="text-3xl font-extrabold text-green-600 dark:text-green-400" id="bundle-total">₹{{ number_format($product->final_price, 0) }}</p>
                 </div>
             </div>
 
@@ -330,7 +343,14 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">This item (included)</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($product->price, 0) }}</p>
+                        @if($product->has_discount)
+                            <div>
+                                <p class="text-sm text-gray-400 line-through">₹{{ number_format($product->price, 0) }}</p>
+                                <p class="text-xl font-extrabold text-green-600">₹{{ number_format($product->final_price, 0) }}</p>
+                            </div>
+                        @else
+                            <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($product->price, 0) }}</p>
+                        @endif
                         <span class="inline-flex items-center px-2 py-1 rounded-full bg-orange-500 text-white text-xs font-bold">
                             <span class="material-icons text-xs mr-1">check</span>
                             Main Item
@@ -346,7 +366,7 @@
                             <input type="checkbox" 
                                    class="bundle-checkbox w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" 
                                    data-product-id="{{ $relatedProduct->id }}"
-                                   data-product-price="{{ $relatedProduct->price }}"
+                                   data-product-price="{{ $relatedProduct->final_price }}"
                                    data-product-name="{{ $relatedProduct->name }}">
                         </div>
                         <div class="flex-shrink-0">
@@ -375,7 +395,15 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($relatedProduct->price, 0) }}</p>
+                            @if($relatedProduct->has_discount)
+                                <div>
+                                    <p class="text-sm text-gray-400 line-through">₹{{ number_format($relatedProduct->price, 0) }}</p>
+                                    <p class="text-xl font-extrabold text-green-600">₹{{ number_format($relatedProduct->final_price, 0) }}</p>
+                                    <span class="text-xs font-bold text-red-600">{{ number_format($relatedProduct->discount_percentage, 0) }}% OFF</span>
+                                </div>
+                            @else
+                                <p class="text-xl font-extrabold text-gray-900 dark:text-white">₹{{ number_format($relatedProduct->price, 0) }}</p>
+                            @endif
                             <p class="text-xs text-gray-500 dark:text-gray-400">+ Add to bundle</p>
                         </div>
                     </label>
@@ -635,7 +663,7 @@
         const bundleCheckboxes = document.querySelectorAll('.bundle-checkbox');
         const bundleTotalEl = document.getElementById('bundle-total');
         const bundleCountEl = document.getElementById('bundle-count');
-        const mainProductPrice = {{ $product->price }};
+        const mainProductPrice = {{ $product->final_price }};
         
         function updateBundleTotal() {
             let total = mainProductPrice;

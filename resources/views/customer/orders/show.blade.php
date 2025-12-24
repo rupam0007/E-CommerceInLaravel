@@ -244,9 +244,13 @@
                     <!-- Order Actions -->
                     <div class="border-t theme-border pt-3 mt-3">
                         @if($order->status === 'pending' && $order->payment_status !== 'completed')
-                            <button class="w-full mb-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
-                                Cancel Order
-                            </button>
+                            <form action="{{ route('orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="w-full mb-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200">
+                                    Cancel Order
+                                </button>
+                            </form>
                         @endif
                         
                         @if($order->status === 'delivered')

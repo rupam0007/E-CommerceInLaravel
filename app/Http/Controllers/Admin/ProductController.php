@@ -31,6 +31,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'has_discount' => 'nullable|boolean',
             'stock_quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -39,6 +41,15 @@ class ProductController extends Controller
         ]);
 
         $data = $request->all();
+        
+        // Calculate discount price if discount is enabled
+        if ($request->has_discount && $request->discount_percentage > 0) {
+            $data['discount_price'] = $request->price - ($request->price * $request->discount_percentage / 100);
+        } else {
+            $data['has_discount'] = false;
+            $data['discount_percentage'] = 0;
+            $data['discount_price'] = null;
+        }
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
@@ -61,6 +72,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'has_discount' => 'nullable|boolean',
             'stock_quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -69,6 +82,15 @@ class ProductController extends Controller
         ]);
 
         $data = $request->all();
+        
+        // Calculate discount price if discount is enabled
+        if ($request->has_discount && $request->discount_percentage > 0) {
+            $data['discount_price'] = $request->price - ($request->price * $request->discount_percentage / 100);
+        } else {
+            $data['has_discount'] = false;
+            $data['discount_percentage'] = 0;
+            $data['discount_price'] = null;
+        }
 
         if ($request->hasFile('image')) {
             if ($product->image) {

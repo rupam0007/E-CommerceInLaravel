@@ -142,4 +142,25 @@ class OrderController extends Controller
 
         return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully!');
     }
+
+    public function cancel(Order $order)
+    {
+        // Verify the order belongs to the authenticated user
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Only allow cancellation of pending orders with unpaid payment status
+        if ($order->status !== Order::STATUS_PENDING || $order->payment_status === 'completed') {
+            return redirect()->back()->with('error', 'This order cannot be cancelled.');
+        }
+
+        // Update order status to cancelled
+        $order->update([
+            'status' => Order::STATUS_CANCELLED,
+            'cancelled_at' => now()
+        ]);
+
+        return redirect()->route('orders.show', $order)->with('success', 'Order has been cancelled successfully.');
+    }
 }

@@ -61,6 +61,35 @@
                         </div>
                     </div>
 
+                    {{-- Discount Section --}}
+                    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-lg border-2 border-indigo-200 dark:border-indigo-800">
+                        <div class="flex items-center mb-4">
+                            <input type="checkbox" name="has_discount" id="has_discount" value="1" 
+                                class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" 
+                                {{ old('has_discount') ? 'checked' : '' }}>
+                            <label for="has_discount" class="ml-3 text-sm font-semibold text-gray-700">Enable Discount</label>
+                        </div>
+                        
+                        <div id="discount-fields" class="{{ old('has_discount') ? '' : 'hidden' }}">
+                            <label for="discount_percentage" class="block text-sm font-semibold text-gray-700 mb-2">Discount Percentage (%)</label>
+                            <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" min="0" max="100" 
+                                value="{{ old('discount_percentage', 0) }}" 
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+                                placeholder="0.00">
+                            @error('discount_percentage')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                            
+                            <div id="discount-preview" class="mt-3 p-3 bg-white rounded-lg border border-indigo-200 hidden">
+                                <p class="text-sm text-gray-600">
+                                    <span class="font-semibold">Original Price:</span> ₹<span id="original-price-display">0</span><br>
+                                    <span class="font-semibold">Discount:</span> <span id="discount-amount-display">0</span>%<br>
+                                    <span class="font-semibold text-green-600">Final Price:</span> ₹<span id="final-price-display">0</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- Category --}}
                     <div>
                         <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
@@ -115,4 +144,50 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hasDiscountCheckbox = document.getElementById('has_discount');
+    const discountFields = document.getElementById('discount-fields');
+    const priceInput = document.getElementById('price');
+    const discountPercentageInput = document.getElementById('discount_percentage');
+    const discountPreview = document.getElementById('discount-preview');
+    const originalPriceDisplay = document.getElementById('original-price-display');
+    const discountAmountDisplay = document.getElementById('discount-amount-display');
+    const finalPriceDisplay = document.getElementById('final-price-display');
+
+    // Toggle discount fields
+    hasDiscountCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            discountFields.classList.remove('hidden');
+            calculateDiscount();
+        } else {
+            discountFields.classList.add('hidden');
+            discountPreview.classList.add('hidden');
+        }
+    });
+
+    // Calculate discount on input changes
+    function calculateDiscount() {
+        const price = parseFloat(priceInput.value) || 0;
+        const discountPercentage = parseFloat(discountPercentageInput.value) || 0;
+        
+        if (price > 0 && discountPercentage > 0) {
+            const discountAmount = (price * discountPercentage) / 100;
+            const finalPrice = price - discountAmount;
+            
+            originalPriceDisplay.textContent = price.toFixed(2);
+            discountAmountDisplay.textContent = discountPercentage.toFixed(2);
+            finalPriceDisplay.textContent = finalPrice.toFixed(2);
+            discountPreview.classList.remove('hidden');
+        } else {
+            discountPreview.classList.add('hidden');
+        }
+    }
+
+    priceInput.addEventListener('input', calculateDiscount);
+    discountPercentageInput.addEventListener('input', calculateDiscount);
+});
+</script>
+
 @endsection

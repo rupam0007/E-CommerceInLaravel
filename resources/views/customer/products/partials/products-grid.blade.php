@@ -2,7 +2,7 @@
 @php
     $inWishlist = Auth::check() && Auth::user()->isInWishlist($product->id);
 @endphp
-<div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden flex flex-col h-full border-2 {{ $inWishlist ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20' : 'border-gray-200 dark:border-gray-700' }} hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 ease-in-out group z-0">
+<div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden flex flex-col h-full border-2 {{ $inWishlist ? 'border-purple-400 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20' : 'border-gray-200 dark:border-gray-700' }} hover:shadow-2xl group z-0">
     
     {{-- Product Comparison Checkbox --}}
     <div class="absolute top-3 left-3 z-10">
@@ -16,7 +16,7 @@
 
     {{-- Wishlist Button --}}
     <button type="button" 
-            class="wishlist-btn absolute top-3 right-3 z-10 p-2.5 rounded-full shadow-lg transition-all duration-200 {{ $inWishlist ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
+            class="wishlist-btn absolute top-3 right-3 z-10 p-2.5 rounded-full shadow-lg {{ $inWishlist ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white wishlist-active scale-110' : 'bg-white text-gray-400 hover:text-pink-500 hover:bg-pink-50' }}"
             data-product-id="{{ $product->id }}"
             data-in-wishlist="{{ $inWishlist ? 'true' : 'false' }}">
         <svg class="w-5 h-5 heart-icon-filled {{ $inWishlist ? '' : 'hidden' }}" fill="currentColor" viewBox="0 0 20 20">
@@ -38,13 +38,20 @@
     {{-- Product Image --}}
     <a href="{{ route('products.show', $product) }}" class="flex-shrink-0 relative block overflow-hidden {{ $inWishlist ? 'bg-gradient-to-br from-purple-50 to-pink-50' : 'bg-gradient-to-br from-blue-50 to-indigo-50' }}">
         @if($product->image)
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-60 object-cover object-center transform group-hover:scale-110 transition-all duration-500 ease-in-out {{ $inWishlist ? 'opacity-95' : '' }}">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-60 object-cover object-center {{ $inWishlist ? 'opacity-95' : '' }}">
         @else
             <div class="w-full h-60 bg-gradient-to-br {{ $inWishlist ? 'from-purple-100 to-pink-100' : 'from-blue-100 to-purple-100' }} flex items-center justify-center {{ $inWishlist ? 'text-purple-600' : 'text-blue-600' }}">
                 <svg class="h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
             </div>
+        @endif
+        
+        {{-- Discount Badge --}}
+        @if($product->has_discount)
+            <span class="absolute top-3 right-3 bg-gradient-to-r from-red-600 to-pink-600 text-white text-sm font-black px-4 py-2 rounded-lg shadow-2xl transform rotate-3">
+                {{ number_format($product->discount_percentage, 0) }}% OFF
+            </span>
         @endif
         
         {{-- Colorful Stock Badges --}}
@@ -80,13 +87,26 @@
 
         <div class="mt-auto pt-4 border-t-2 border-gray-100">
             <div class="flex items-baseline mb-4">
-                <span class="text-3xl font-extrabold text-gray-900">₹{{ number_format($product->price, 0) }}</span>
-                <span class="text-sm font-semibold text-green-600 ml-2">Free Delivery</span>
+                @if($product->has_discount)
+                    <div class="flex flex-col">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-3xl font-extrabold text-green-600">₹{{ number_format($product->discount_price, 0) }}</span>
+                            <span class="text-lg line-through text-gray-400">₹{{ number_format($product->price, 0) }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-orange-500 px-2 py-1 rounded">{{ number_format($product->discount_percentage, 0) }}% OFF</span>
+                            <span class="text-xs font-semibold text-green-600">Save ₹{{ number_format($product->discount_amount, 0) }}</span>
+                        </div>
+                    </div>
+                @else
+                    <span class="text-3xl font-extrabold text-gray-900">₹{{ number_format($product->price, 0) }}</span>
+                    <span class="text-sm font-semibold text-green-600 ml-2">Free Delivery</span>
+                @endif
             </div>
 
             <div class="flex space-x-2">
                 @if($product->stock_quantity > 0)
-                <button class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg text-sm font-bold text-center hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 add-to-cart-btn" data-product-id="{{ $product->id }}">
+                <button class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg text-sm font-bold text-center hover:shadow-xl flex items-center justify-center gap-2 add-to-cart-btn" data-product-id="{{ $product->id }}">
                     <span class="material-icons text-lg">shopping_cart</span>
                     Add to Cart
                 </button>
@@ -96,7 +116,7 @@
                 </button>
                 @endif
 
-                <button class="quick-view-btn flex items-center justify-center bg-white border-2 border-blue-600 text-blue-600 py-3 px-4 rounded-lg text-sm font-bold hover:bg-blue-50 transform hover:scale-105 transition-all duration-200" 
+                <button class="quick-view-btn flex items-center justify-center bg-white border-2 border-blue-600 text-blue-600 py-3 px-4 rounded-lg text-sm font-bold hover:bg-blue-50" 
                         data-product-id="{{ $product->id }}" 
                         title="Quick View">
                     <span class="material-icons text-lg">visibility</span>
@@ -433,4 +453,58 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<!-- Quick View Modal -->
+<div id="quick-view-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="fixed inset-0 bg-black opacity-50" onclick="closeQuickView()"></div>
+        <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full p-6 z-10">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <span class="material-icons">close</span>
+            </button>
+            <div id="quick-view-content">
+                <div class="text-center py-12">
+                    <span class="material-icons animate-spin text-indigo-600 text-6xl">refresh</span>
+                    <p class="text-gray-600 dark:text-gray-300 mt-4">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comparison Modal -->
+<div id="comparison-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="fixed inset-0 bg-black opacity-50" onclick="closeComparisonModal()"></div>
+        <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-7xl w-full p-6 z-10">
+            <button onclick="closeComparisonModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <span class="material-icons">close</span>
+            </button>
+            <div id="comparison-content">
+                <div class="text-center py-12">
+                    <span class="material-icons animate-spin text-indigo-600 text-6xl">refresh</span>
+                    <p class="text-gray-600 dark:text-gray-300 mt-4">Loading comparison...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comparison Bar -->
+<div id="comparison-bar" class="hidden fixed bottom-0 left-0 right-0 bg-indigo-600 text-white p-4 shadow-lg transform translate-y-full z-40">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <span class="font-bold">Compare Products (<span id="compare-count">0</span>/3)</span>
+            <div id="compared-products" class="flex gap-2"></div>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="clearComparison()" class="px-4 py-2 bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100">
+                Clear All
+            </button>
+            <button id="compare-btn" onclick="openComparisonModal()" class="px-4 py-2 bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100" disabled>
+                Compare Now
+            </button>
+        </div>
+    </div>
+</div>
 @endpush

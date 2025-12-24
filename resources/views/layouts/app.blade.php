@@ -96,17 +96,17 @@
                         </div>
                         <div class="flex items-center gap-4 text-xs text-white">
                             @auth('admin')
-                                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-1 hover:opacity-80 transition">
+                                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-1 hover:text-purple-200">
                                     <span class="material-icons text-sm">dashboard</span>
                                     Dashboard
                                 </a>
                             @else
-                                <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:opacity-80 transition">
+                                <a href="{{ route('orders.index') }}" class="hidden sm:flex items-center gap-1 hover:text-purple-200">
                                     <span class="material-icons text-sm">local_shipping</span>
                                     Track Order
                                 </a>
                             @endauth
-                            <a href="#" class="flex items-center gap-1 hover:opacity-80 transition">
+                            <a href="#" class="flex items-center gap-1 hover:text-purple-200">
                                 <span class="material-icons text-sm">support_agent</span>
                                 Support
                             </a>
@@ -122,34 +122,34 @@
 
                         {{-- Logo --}}
                         <div class="flex-shrink-0">
-                            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
-                                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center group-hover:scale-105 transition">
+                            <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+                                <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
                                     <span class="material-icons text-white text-2xl">shopping_bag</span>
                                 </div>
-                                <span class="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">Nexora</span>
+                                <span class="text-xl font-bold text-purple-600">Nexora</span>
                             </a>
                         </div>
 
                         {{-- Navigation Links --}}
                         <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
                             @auth('admin')
-                                <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium {{ request()->routeIs('admin.dashboard') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Dashboard
                                 </a>
-                                <a href="{{ route('admin.products.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.products.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('admin.products.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.products.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Products
                                 </a>
-                                <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.orders.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('admin.orders.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.orders.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Orders
                                 </a>
-                                <a href="{{ route('admin.customers.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.customers.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('admin.customers.index') }}" class="text-sm font-medium {{ request()->routeIs('admin.customers.*') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Customers
                                 </a>
                             @else
-                                <a href="{{ route('home') }}" class="text-sm font-medium {{ request()->routeIs('home') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('home') }}" class="text-sm font-medium {{ request()->routeIs('home') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Home
                                 </a>
-                                <a href="{{ route('products.index') }}" class="text-sm font-medium {{ request()->routeIs('products.index') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition">
+                                <a href="{{ route('products.index') }}" class="text-sm font-medium {{ request()->routeIs('products.index') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}">
                                     Products
                                 </a>
                             @endauth
@@ -157,7 +157,7 @@
                             @guest('admin')
                             {{-- Categories Dropdown --}}
                             <div class="relative" id="categories-dropdown">
-                                <button type="button" class="flex items-center gap-1 text-sm font-medium {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }} transition" id="categories-button">
+                                <button type="button" class="flex items-center gap-1 text-sm font-medium {{ request()->routeIs('categories.*') || request()->routeIs('products.category') ? 'text-purple-600 dark:text-purple-400' : 'theme-text-muted hover-theme-accent' }}" id="categories-button">
                                     Categories
                                     <span class="material-icons text-sm">expand_more</span>
                                 </button>
@@ -165,7 +165,7 @@
                                 {{-- Clean Dropdown Menu --}}
                                 <div id="categories-menu" class="hidden absolute left-0 top-full mt-2 w-64 theme-surface rounded-xl shadow-lg theme-border border overflow-hidden z-50">
                                     <div class="py-1 max-h-96 overflow-y-auto">
-                                        <a href="{{ route('categories.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition">
+                                        <a href="{{ route('categories.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface">
                                             <span class="material-icons text-purple-600 text-lg">apps</span>
                                             All Categories
                                         </a>
@@ -174,7 +174,7 @@
                                             $allCategories = \App\Models\Category::all();
                                         @endphp
                                         @foreach($allCategories as $category)
-                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm hover-theme-surface theme-text-muted hover-theme-accent transition">
+                                        <a href="{{ route('products.category', $category) }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm hover-theme-surface theme-text-muted hover-theme-accent">
                                             <span class="material-icons text-lg">category</span>
                                             {{ $category->name }}
                                         </a>
@@ -191,14 +191,14 @@
                             @guest('admin')
                             @guest
                             {{-- Login Button --}}
-                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition">
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg">
                                 <span class="material-icons text-lg">person</span>
                                 <span class="hidden sm:inline">Login</span>
                             </a>
                             @else
                             {{-- User Profile --}}
                             <div class="relative z-[9999]">
-                                <button type="button" class="flex items-center gap-2 h-10 px-2.5 hover-theme-surface rounded-lg transition" id="profile-button">
+                                <button type="button" class="flex items-center gap-2 h-10 px-2.5 hover-theme-surface rounded-lg" id="profile-button">
                                     @php 
                                         $user = Auth::user();
                                         $media = $user->profile_media ?? ['type' => 'text', 'url' => ''];
@@ -209,7 +209,7 @@
                                         @elseif(isset($media['type']) && $media['type'] == 'image' && !empty($media['url']))
                                             <img src="{{ $media['url'] }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-700">
+                                            <div class="w-full h-full flex items-center justify-center bg-purple-600">
                                                 <span class="text-sm font-bold text-white">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                             </div>
                                         @endif
@@ -225,22 +225,22 @@
                                         <p class="text-xs text-purple-100 truncate mt-0.5">{{ $user->email }}</p>
                                     </div>
                                     <div class="py-1">
-                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('profile.show') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">account_circle</span>
                                             My Profile
                                         </a>
-                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">shopping_bag</span>
                                             My Orders
                                         </a>
-                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('wishlist.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">favorite</span>
                                             My Wishlist
                                         </a>
                                         <hr class="theme-border my-1">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left" role="menuitem">
+                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 text-left" role="menuitem">
                                                 <span class="material-icons text-lg">logout</span>
                                                 Logout
                                             </button>
@@ -254,9 +254,9 @@
                             @auth('admin')
                             {{-- Admin Profile --}}
                             <div class="relative z-[9999]">
-                                <button type="button" class="flex items-center gap-2 h-10 px-2.5 hover-theme-surface rounded-lg transition" id="admin-profile-button">
+                                <button type="button" class="flex items-center gap-2 h-10 px-2.5 hover-theme-surface rounded-lg" id="admin-profile-button">
                                     <div class="h-9 w-9 rounded-full overflow-hidden ring-2 ring-purple-600 flex-shrink-0">
-                                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-700">
+                                        <div class="w-full h-full flex items-center justify-center bg-purple-600">
                                             <span class="text-sm font-bold text-white">{{ strtoupper(substr(Auth::guard('admin')->user()->name, 0, 1)) }}</span>
                                         </div>
                                     </div>
@@ -271,26 +271,26 @@
                                         <p class="text-xs text-purple-100 truncate mt-0.5">{{ Auth::guard('admin')->user()->email }}</p>
                                     </div>
                                     <div class="py-1">
-                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">dashboard</span>
                                             Dashboard
                                         </a>
-                                        <a href="{{ route('admin.products.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('admin.products.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">inventory_2</span>
                                             Products
                                         </a>
-                                        <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">shopping_bag</span>
                                             Orders
                                         </a>
-                                        <a href="{{ route('admin.customers.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface transition" role="menuitem">
+                                        <a href="{{ route('admin.customers.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium hover-theme-surface" role="menuitem">
                                             <span class="material-icons text-purple-600 text-lg">people</span>
                                             Customers
                                         </a>
                                         <hr class="theme-border my-1">
                                         <form method="POST" action="{{ route('admin.logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left" role="menuitem">
+                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 text-left" role="menuitem">
                                                 <span class="material-icons text-lg">logout</span>
                                                 Logout
                                             </button>
@@ -332,134 +332,80 @@
         </main>
 
         {{-- Scroll to Top Button --}}
-        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: linear-gradient(to right, #6D94C5, #456882); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); z-index: 99999; transition: all 0.3s;">
+        <div id="scroll-to-top" style="position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: #6366f1; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2); z-index: 99999;">
             <span class="material-icons" style="font-size: 32px;">arrow_upward</span>
         </div>
 
         {{-- Clean Footer --}}
         <footer class="mt-auto theme-surface border-t theme-border">
             {{-- Main Footer Content --}}
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     
                     {{-- About Section --}}
                     <div>
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                                </svg>
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                                <span class="material-icons text-white text-lg">shopping_bag</span>
                             </div>
-                            <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">Nexora</h3>
+                            <h3 class="text-lg font-bold text-purple-600 dark:text-purple-400">Nexora</h3>
                         </div>
-                        <p class="text-sm theme-text-muted mb-4">
+                        <p class="text-sm theme-text-muted mb-3">
                             Your trusted online marketplace for quality products at the best prices.
                         </p>
-                        <div class="flex gap-3">
-                            <a href="#" class="w-9 h-9 theme-icon-button">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        <div class="flex gap-2">
+                            <a href="#" class="w-8 h-8 theme-icon-button">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                             </a>
-                            <a href="#" class="w-9 h-9 theme-icon-button">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                            <a href="#" class="w-8 h-8 theme-icon-button">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                             </a>
-                            <a href="#" class="w-9 h-9 theme-icon-button">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+                            <a href="#" class="w-8 h-8 theme-icon-button">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
                             </a>
                         </div>
                     </div>
 
                     {{-- Quick Links --}}
                     <div>
-                        <h4 class="text-sm font-semibold uppercase mb-4 text-purple-600 dark:text-purple-400">Quick Links</h4>
-                        <ul class="space-y-2.5 text-sm">
-                            <li><a href="{{ route('home') }}" class="theme-text-muted hover-theme-accent transition">Home</a></li>
-                            <li><a href="{{ route('products.index') }}" class="theme-text-muted hover-theme-accent transition">All Products</a></li>
-                            <li><a href="{{ route('categories.index') }}" class="theme-text-muted hover-theme-accent transition">Categories</a></li>
-                            <li><a href="{{ route('cart.index') }}" class="theme-text-muted hover-theme-accent transition">Shopping Cart</a></li>
-                            <li><a href="{{ route('wishlist.index') }}" class="theme-text-muted hover-theme-accent transition">My Wishlist</a></li>
-                        </ul>
-                    </div>
-
-                    {{-- Customer Care --}}
-                    <div>
-                        <h4 class="text-sm font-semibold uppercase mb-4 text-purple-600 dark:text-purple-400">Customer Care</h4>
-                        <ul class="space-y-2.5 text-sm">
-                            <li><a href="{{ route('profile.show') }}" class="theme-text-muted hover-theme-accent transition">My Account</a></li>
-                            <li><a href="{{ route('orders.index') }}" class="theme-text-muted hover-theme-accent transition">Track Order</a></li>
-                            <li><a href="#" class="theme-text-muted hover-theme-accent transition">Help Center</a></li>
-                            <li><a href="#" class="theme-text-muted hover-theme-accent transition">Returns & Refunds</a></li>
-                            <li><a href="#" class="theme-text-muted hover-theme-accent transition">Shipping Info</a></li>
+                        <h4 class="text-sm font-semibold uppercase mb-3 text-purple-600 dark:text-purple-400">Quick Links</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="{{ route('home') }}" class="theme-text-muted hover-theme-accent">Home</a></li>
+                            <li><a href="{{ route('products.index') }}" class="theme-text-muted hover-theme-accent">Products</a></li>
+                            <li><a href="{{ route('cart.index') }}" class="theme-text-muted hover-theme-accent">Cart</a></li>
+                            <li><a href="{{ route('orders.index') }}" class="theme-text-muted hover-theme-accent">Orders</a></li>
                         </ul>
                     </div>
 
                     {{-- Contact Info --}}
                     <div>
-                        <h4 class="text-sm font-semibold uppercase mb-4 text-purple-600 dark:text-purple-400">Contact Us</h4>
-                        <ul class="space-y-3 text-sm">
+                        <h4 class="text-sm font-semibold uppercase mb-3 text-purple-600 dark:text-purple-400">Contact Us</h4>
+                        <ul class="space-y-2 text-sm">
                             <li class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span>123 E-Commerce Street<br>Kolkata, WB 700001</span>
+                                <span class="material-icons text-purple-600 dark:text-purple-400 text-base mt-0.5">location_on</span>
+                                <span class="theme-text-muted">Ramnagar, West Bengal</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#6D94C5] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                                <span>support@nexora.com</span>
+                                <span class="material-icons text-purple-600 dark:text-purple-400 text-base">email</span>
+                                <a href="mailto:girirupam25@gmail.com" class="theme-text-muted hover-theme-accent">girirupam25@gmail.com</a>
                             </li>
                             <li class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-[#6D94C5] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                                <span>+91 1800-123-4567</span>
+                                <span class="material-icons text-purple-600 dark:text-purple-400 text-base">phone</span>
+                                <a href="tel:+919800278101" class="theme-text-muted hover-theme-accent">+91 9800278101</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-                {{-- Payment Methods & Trust Badges --}}
-                <div class="mt-12 pt-8 border-t border-[#456882] dark:border-[#1B3C53]">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-4 flex-wrap justify-center md:justify-start">
-                            <span class="text-sm text-[#E8DFCA] opacity-70">We Accept:</span>
-                            <div class="flex gap-2">
-                                <div class="h-8 px-3 bg-[#1B3C53] dark:bg-[#456882] rounded flex items-center justify-center">
-                                    <span class="text-xs font-bold text-white">VISA</span>
-                                </div>
-                                <div class="h-8 px-3 theme-surface theme-border border rounded flex items-center justify-center">
-                                    <span class="text-xs font-semibold">MC</span>
-                                </div>
-                                <div class="h-8 px-3 theme-surface theme-border border rounded flex items-center justify-center">
-                                    <span class="text-xs font-semibold">AMEX</span>
-                                </div>
-                                <div class="h-8 px-3 theme-surface theme-border border rounded flex items-center justify-center">
-                                    <span class="text-xs font-semibold text-purple-600 dark:text-purple-400">PayPal</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="flex items-center gap-2 text-sm">
-                                <svg class="w-5 h-5 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                </svg>
-                                <span class="theme-text-muted">Secure Payments</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            {{-- Bottom Bar --}}
+            {{-- Footer Bottom --}}
             <div class="border-t theme-border bg-purple-600">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white">
                         <p>&copy; {{ date('Y') }} Nexora. All rights reserved.</p>
-                        <div class="flex gap-6">
-                            <a href="#" class="hover:opacity-80 transition">Privacy Policy</a>
-                            <a href="#" class="hover:opacity-80 transition">Terms of Service</a>
-                            <a href="#" class="hover:opacity-80 transition">Cookie Policy</a>
+                        <div class="flex gap-4 text-xs">
+                            <a href="#" class="hover:text-purple-200">Privacy</a>
+                            <a href="#" class="hover:text-purple-200">Terms</a>
                         </div>
                     </div>
                 </div>
@@ -481,13 +427,6 @@
         header {
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             backdrop-filter: saturate(180%) blur(20px);
-        }
-        
-        /* Smooth Transitions */
-        * {
-            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
         }
         
         /* Dropdown Animation */
@@ -587,12 +526,6 @@
                 }
 
                 localStorage.setItem('theme-preference', newTheme);
-                
-                // Add a smooth rotation animation to the button
-                $(this).addClass('rotate-180');
-                setTimeout(() => {
-                    $(this).removeClass('rotate-180');
-                }, 300);
             });
         });
     </script>

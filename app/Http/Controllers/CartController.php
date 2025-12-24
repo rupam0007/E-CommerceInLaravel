@@ -66,7 +66,7 @@ class CartController extends Controller
                 'user_id' => $userId,
                 'product_id' => $product->id,
                 'quantity' => $request->quantity,
-                'price' => $product->price 
+                'price' => $product->final_price 
             ]);
         }
 

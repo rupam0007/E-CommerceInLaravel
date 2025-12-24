@@ -98,9 +98,13 @@
                                     </div>
                                     
                                     @if($order->status === 'pending' && $order->payment_status !== 'completed')
-                                        <button class="text-red-500 hover:text-red-400 text-sm font-medium transition-colors">
-                                            Cancel Order
-                                        </button>
+                                        <form action="{{ route('orders.cancel', $order) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-red-500 hover:text-red-400 text-sm font-medium transition-colors">
+                                                Cancel Order
+                                            </button>
+                                        </form>
                                     @endif
                                 </div>
                             </div>

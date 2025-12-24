@@ -14,6 +14,9 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'discount_percentage',
+        'discount_price',
+        'has_discount',
         'stock_quantity',
         'category_id',
         'image',
@@ -25,6 +28,9 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
+        'discount_percentage' => 'decimal:2',
+        'discount_price' => 'decimal:2',
+        'has_discount' => 'boolean',
         'is_active' => 'boolean',
         'weight' => 'decimal:2'
     ];
@@ -57,6 +63,22 @@ class Product extends Model
     public function scopeInStock($query)
     {
         return $query->where('stock_quantity', '>', 0);
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        if ($this->has_discount && $this->discount_price) {
+            return $this->discount_price;
+        }
+        return $this->price;
+    }
+
+    public function getDiscountAmountAttribute()
+    {
+        if ($this->has_discount && $this->discount_price) {
+            return $this->price - $this->discount_price;
+        }
+        return 0;
     }
 
     public function getImageUrlAttribute(): string

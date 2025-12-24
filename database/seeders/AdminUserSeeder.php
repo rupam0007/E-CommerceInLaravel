@@ -10,19 +10,33 @@ class AdminUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * 
+     * To create a new admin user, run:
+     * php artisan db:seed --class=AdminUserSeeder
+     * 
+     * You can modify the email, name, and password below before running.
      */
     public function run(): void
     {
+        // Modify these values to create your admin account
         $email = 'admin@nexora.com';
+        $name = 'Admin User';
+        $password = 'Admin@123456';
 
-        $user = Admin::firstOrCreate(
+        $admin = Admin::firstOrCreate(
             ['email' => $email],
             [
-                'name' => 'Admin User',
-                'password' => Hash::make('Admin@123456'),
+                'name' => $name,
+                'password' => Hash::make($password),
             ]
         );
 
-        $this->command?->info("Admin user available: {$user->email} / Admin@123456");
+        if ($admin->wasRecentlyCreated) {
+            $this->command?->info("✓ Admin user created successfully!");
+            $this->command?->info("  Email: {$email}");
+            $this->command?->info("  Password: {$password}");
+        } else {
+            $this->command?->info("✓ Admin user already exists: {$email}");
+        }
     }
 }
