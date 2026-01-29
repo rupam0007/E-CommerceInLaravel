@@ -112,4 +112,18 @@ class Product extends Model
         // Default: assume it's in storage
         return asset('storage/' . ltrim($image, '/'));
     }
+
+    /**
+     * Check if the product is in the authenticated user's wishlist.
+     */
+    public function getIsInWishlistAttribute(): bool
+    {
+        if (!auth()->check()) {
+            return false;
+        }
+        
+        return Wishlist::where('user_id', auth()->id())
+            ->where('product_id', $this->id)
+            ->exists();
+    }
 }

@@ -11,7 +11,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['count', 'add']);
     }
 
     private function getCartData($userId)
@@ -38,12 +38,41 @@ class CartController extends Controller
 
     public function add(Request $request, Product $product)
     {
-        $request->validate(['quantity' => 'required|integer|min:1']);
+        // Check if user is authenticated for AJAX requests
+        if (!Auth::check()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Please login to add items to cart.',
+                    'redirect' => route('login')
+                ], 401);
+            }
+            return redirect()->route('login')->with('error', 'Please login to add items to cart.');
+        }
+
+        // For AJAX requests, manually validate and return JSON on failure
+        $isAjax = $request->ajax() || $request->wantsJson() || $request->header('Accept') === 'application/json';
+        
+        if ($isAjax) {
+            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+                'quantity' => 'required|integer|min:1'
+            ]);
+            
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ], 422);
+            }
+        } else {
+            $request->validate(['quantity' => 'required|integer|min:1']);
+        }
+        
         $userId = Auth::id();
 
         if ($product->stock_quantity < $request->quantity) {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Not enough stock available.'], 422);
+            if ($isAjax) {
+                return response()->json(['success' => false, 'message' => 'Not enough stock available.'], 422);
             }
             return redirect()->back()->with('error', 'Not enough stock available.');
         }
@@ -55,8 +84,8 @@ class CartController extends Controller
         if ($cartItem) {
             $newQuantity = $cartItem->quantity + $request->quantity;
             if ($product->stock_quantity < $newQuantity) {
-                 if ($request->ajax()) {
-                    return response()->json(['message' => 'Not enough stock available for this quantity.'], 422);
+                 if ($isAjax) {
+                    return response()->json(['success' => false, 'message' => 'Not enough stock available for this quantity.'], 422);
                  }
                 return redirect()->back()->with('error', 'Not enough stock available for this quantity.');
             }
@@ -70,7 +99,7 @@ class CartController extends Controller
             ]);
         }
 
-        if ($request->ajax()) {
+        if ($isAjax) {
             $data = $this->getCartData($userId);
             return response()->json([
                 'success' => true,

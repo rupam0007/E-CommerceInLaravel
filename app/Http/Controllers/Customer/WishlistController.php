@@ -12,7 +12,7 @@ class WishlistController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('count');
+        $this->middleware('auth')->except(['count', 'toggle']);
     }
 
     public function index()
@@ -44,6 +44,18 @@ class WishlistController extends Controller
 
     public function toggle(Product $product)
     {
+        // Check authentication for AJAX requests
+        if (!Auth::check()) {
+            if (request()->wantsJson() || request()->ajax() || request()->header('Accept') === 'application/json') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Please login to manage wishlist.',
+                    'redirect' => route('login')
+                ], 401);
+            }
+            return redirect()->route('login')->with('error', 'Please login to manage wishlist.');
+        }
+
         $wishlistItem = Wishlist::where('user_id', Auth::id())
             ->where('product_id', $product->id)
             ->first();

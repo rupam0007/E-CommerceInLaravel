@@ -5,96 +5,223 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @theme {
-    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Simple Professional Theme */
+/* ============================================
+   MINIMAL PROFESSIONAL E-COMMERCE THEME
+   Color Palette: Slate, Stone, and subtle accents
+   ============================================ */
+
 :root {
-    --color-bg: 249 250 251;
-    --color-text: 17 24 39;
+    /* Backgrounds */
+    --color-bg: 250 250 250;
+    --color-bg-secondary: 245 245 245;
     --color-surface: 255 255 255;
-    --color-border: 229 231 235;
-    --color-primary: 99 102 241;
-    --color-primary-hover: 79 70 229;
-    --color-muted: 107 114 128;
-    --color-success: 34 197 94;
-    --color-warning: 251 191 36;
-    --color-error: 239 68 68;
+    
+    /* Text */
+    --color-text: 23 23 23;
+    --color-text-secondary: 64 64 64;
+    --color-muted: 115 115 115;
+    
+    /* Borders */
+    --color-border: 229 229 229;
+    --color-border-hover: 212 212 212;
+    
+    /* Primary - Elegant slate blue */
+    --color-primary: 51 65 85;
+    --color-primary-hover: 30 41 59;
+    --color-primary-light: 71 85 105;
+    
+    /* Accent - Subtle warm tone */
+    --color-accent: 120 113 108;
+    
+    /* Status */
+    --color-success: 22 163 74;
+    --color-success-bg: 240 253 244;
+    --color-warning: 202 138 4;
+    --color-warning-bg: 254 252 232;
+    --color-error: 220 38 38;
+    --color-error-bg: 254 242 242;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
 }
 
 .dark {
-    --color-bg: 17 24 39;
-    --color-text: 243 244 246;
-    --color-surface: 31 41 55;
-    --color-border: 55 65 81;
-    --color-primary: 129 140 248;
-    --color-primary-hover: 165 180 252;
-    --color-muted: 156 163 175;
+    --color-bg: 23 23 23;
+    --color-bg-secondary: 30 30 30;
+    --color-surface: 38 38 38;
+    
+    --color-text: 250 250 250;
+    --color-text-secondary: 212 212 212;
+    --color-muted: 163 163 163;
+    
+    --color-border: 64 64 64;
+    --color-border-hover: 82 82 82;
+    
+    --color-primary: 148 163 184;
+    --color-primary-hover: 203 213 225;
+    --color-primary-light: 100 116 139;
+    
+    --color-accent: 168 162 158;
+    
     --color-success: 74 222 128;
-    --color-warning: 252 211 77;
+    --color-success-bg: 20 83 45;
+    --color-warning: 250 204 21;
+    --color-warning-bg: 113 63 18;
     --color-error: 248 113 113;
+    --color-error-bg: 127 29 29;
 }
 
+/* Base Styles */
 body {
     background-color: rgb(var(--color-bg));
     color: rgb(var(--color-text));
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Theme Classes */
-.theme-bg { background-color: rgb(var(--color-bg)); color: rgb(var(--color-text)); }
-.theme-surface { background-color: rgb(var(--color-surface)); color: rgb(var(--color-text)); }
-.theme-border { border-color: rgb(var(--color-border)); }
-.theme-text-muted { color: rgb(var(--color-muted)); }
-.hover-theme-accent:hover { color: rgb(var(--color-primary)); }
-.theme-accent { color: rgb(var(--color-primary)); }
+/* ============================================
+   THEME UTILITY CLASSES
+   ============================================ */
 
-/* Button Styles */
+.theme-bg { 
+    background-color: rgb(var(--color-bg)); 
+    color: rgb(var(--color-text)); 
+}
+
+.theme-bg-secondary { 
+    background-color: rgb(var(--color-bg-secondary)); 
+}
+
+.theme-surface { 
+    background-color: rgb(var(--color-surface)); 
+    color: rgb(var(--color-text)); 
+}
+
+.theme-border { 
+    border-color: rgb(var(--color-border)); 
+}
+
+.theme-text { 
+    color: rgb(var(--color-text)); 
+}
+
+.theme-text-secondary { 
+    color: rgb(var(--color-text-secondary)); 
+}
+
+.theme-text-muted { 
+    color: rgb(var(--color-muted)); 
+}
+
+.theme-accent { 
+    color: rgb(var(--color-primary)); 
+}
+
+.hover-theme-accent:hover { 
+    color: rgb(var(--color-primary)); 
+}
+
+.hover-theme-surface:hover { 
+    background-color: rgb(var(--color-bg-secondary)); 
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
 .btn-primary {
     background-color: rgb(var(--color-primary));
     color: white;
-    padding: 0.625rem 1.25rem;
+    padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
-.btn-primary:hover { background-color: rgb(var(--color-primary-hover)); }
+
+.btn-primary:hover { 
+    background-color: rgb(var(--color-primary-hover)); 
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: rgb(var(--color-text));
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    border: 1px solid rgb(var(--color-border));
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(var(--color-bg-secondary));
+    border-color: rgb(var(--color-border-hover));
+}
 
 .theme-icon-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.625rem;
     border-radius: 0.5rem;
     color: rgb(var(--color-muted));
+    transition: all 0.2s ease;
 }
+
 .theme-icon-button:hover {
     color: rgb(var(--color-primary));
-    background-color: rgb(var(--color-primary) / 0.1);
+    background-color: rgb(var(--color-bg-secondary));
 }
+
+/* ============================================
+   CARD STYLES
+   ============================================ */
 
 .theme-card {
     background-color: rgb(var(--color-surface));
     border: 1px solid rgb(var(--color-border));
     border-radius: 0.75rem;
+    transition: all 0.3s ease;
 }
-.theme-card:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-.hover-theme-surface:hover { background-color: rgb(var(--color-border) / 0.3); }
 
-/* Input Styles */
+.theme-card:hover { 
+    box-shadow: var(--shadow-lg);
+    border-color: rgb(var(--color-border-hover));
+}
+
+/* ============================================
+   INPUT STYLES
+   ============================================ */
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
+input[type="search"],
 textarea,
 select {
     background-color: rgb(var(--color-surface));
     border: 1px solid rgb(var(--color-border));
     color: rgb(var(--color-text));
     border-radius: 0.5rem;
-    padding: 0.625rem 0.875rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
 }
 
 input:focus,
@@ -105,24 +232,130 @@ select:focus {
     box-shadow: 0 0 0 3px rgb(var(--color-primary) / 0.1);
 }
 
-/* Override Tailwind */
+input::placeholder,
+textarea::placeholder {
+    color: rgb(var(--color-muted));
+}
+
+/* ============================================
+   BADGES & STATUS
+   ============================================ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 9999px;
+}
+
+.badge-primary {
+    background-color: rgb(var(--color-primary) / 0.1);
+    color: rgb(var(--color-primary));
+}
+
+.badge-success {
+    background-color: rgb(var(--color-success-bg));
+    color: rgb(var(--color-success));
+}
+
+.badge-warning {
+    background-color: rgb(var(--color-warning-bg));
+    color: rgb(var(--color-warning));
+}
+
+.badge-error {
+    background-color: rgb(var(--color-error-bg));
+    color: rgb(var(--color-error));
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    color: rgb(var(--color-text));
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-down {
+    animation: slideDown 0.2s ease-out;
+}
+
+/* ============================================
+   SCROLLBAR (Minimal)
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(var(--color-bg-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-border-hover));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-muted));
+}
+
+/* ============================================
+   OVERRIDES FOR CONSISTENCY
+   ============================================ */
+
 .bg-white { background-color: rgb(var(--color-surface)) !important; }
 .bg-gray-50, .bg-gray-100 { background-color: rgb(var(--color-bg)) !important; }
 .bg-gray-800, .bg-gray-900 { background-color: rgb(var(--color-surface)) !important; }
 .text-gray-900, .text-gray-800 { color: rgb(var(--color-text)) !important; }
+.text-gray-700 { color: rgb(var(--color-text-secondary)) !important; }
 .text-gray-600, .text-gray-500 { color: rgb(var(--color-muted)) !important; }
 .border-gray-200, .border-gray-300 { border-color: rgb(var(--color-border)) !important; }
 
-/* Primary Color */
+/* Primary Color overrides */
 .bg-indigo-600, .bg-purple-600 { background-color: rgb(var(--color-primary)) !important; color: white !important; }
 .hover\:bg-indigo-700:hover, .hover\:bg-purple-700:hover { background-color: rgb(var(--color-primary-hover)) !important; }
 .text-indigo-600, .text-purple-600 { color: rgb(var(--color-primary)) !important; }
 .border-indigo-600, .border-purple-600 { border-color: rgb(var(--color-primary)) !important; }
+.text-blue-600 { color: rgb(var(--color-primary)) !important; }
 
-/* Status Colors */
-.bg-green-600 { background-color: rgb(var(--color-success)) !important; color: white !important; }
-.text-green-600 { color: rgb(var(--color-success)) !important; }
-.bg-yellow-500 { background-color: rgb(var(--color-warning)) !important; }
-.text-yellow-500 { color: rgb(var(--color-warning)) !important; }
-.bg-red-600 { background-color: rgb(var(--color-error)) !important; color: white !important; }
-.text-red-600 { color: rgb(var(--color-error)) !important; }
+/* Status Color overrides */
+.bg-green-600, .bg-green-500 { background-color: rgb(var(--color-success)) !important; color: white !important; }
+.text-green-600, .text-green-500 { color: rgb(var(--color-success)) !important; }
+.bg-yellow-500, .bg-yellow-400 { background-color: rgb(var(--color-warning)) !important; }
+.text-yellow-500, .text-yellow-600 { color: rgb(var(--color-warning)) !important; }
+.bg-red-600, .bg-red-500 { background-color: rgb(var(--color-error)) !important; color: white !important; }
+.text-red-600, .text-red-500 { color: rgb(var(--color-error)) !important; }
+
+/* ============================================
+   SELECTION
+   ============================================ */
+
+::selection {
+    background-color: rgb(var(--color-primary) / 0.2);
+    color: rgb(var(--color-text));
+}

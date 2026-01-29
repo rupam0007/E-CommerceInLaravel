@@ -58,8 +58,8 @@
                 <div class="card-header">Top Selling Products</div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-dark table-hover mb-0">
-                            <thead style="background-color: var(--hover-bg);">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Product</th>
                                     <th>Category</th>
@@ -75,7 +75,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="3" class="text-center py-4">No data for selected period.</td>
+                                    <td colspan="3" class="text-center py-4 text-muted">No data for selected period.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -90,8 +90,8 @@
                 <div class="card-header">Order Status Distribution</div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-dark table-hover mb-0">
-                            <thead style="background-color: var(--hover-bg);">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
                                 <tr>
                                     <th>Status</th>
                                     <th>Count</th>
@@ -105,7 +105,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="2" class="text-center py-4">No data for selected period.</td>
+                                    <td colspan="2" class="text-center py-4 text-muted">No data for selected period.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -120,8 +120,8 @@
         <div class="card-header">Daily Revenue</div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-dark table-hover mb-0">
-                    <thead style="background-color: var(--hover-bg);">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
                         <tr>
                             <th>Date</th>
                             <th>Orders</th>
@@ -137,7 +137,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="3" class="text-center py-4">No data for selected period.</td>
+                            <td colspan="3" class="text-center py-4 text-muted">No data for selected period.</td>
                         </tr>
                         @endforelse
                     </tbody>

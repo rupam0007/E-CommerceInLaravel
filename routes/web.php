@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\WishlistController;
 use App\Http\Controllers\Customer\ProfileController;
@@ -20,6 +21,9 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\ReviewController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Notification API for live product notifications
+Route::get('/api/new-products', [NotificationController::class, 'getNewProducts'])->name('api.new-products');
 
 
 

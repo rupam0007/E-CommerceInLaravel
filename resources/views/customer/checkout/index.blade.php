@@ -153,27 +153,14 @@
             </div>
         </div>
         @else
-        <div class="text-center py-16 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
-            <svg class="mx-auto h-12 w-12 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="text-center py-16 bg-white border border-gray-200 rounded-lg shadow-sm">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
             </svg>
-            <h3 class="text-lg font-semibold text-white mt-4 mb-2">Your cart is empty</h3>
-            <p class="text-gray-400 mb-6 text-sm">Add some products to your cart before checkout.</p>
+            <h3 class="text-lg font-semibold text-gray-900 mt-4 mb-2">Your cart is empty</h3>
+            <p class="text-gray-500 mb-6 text-sm">Add some products to your cart before checkout.</p>
             <a href="{{ route('products.index') }}"
-                class="inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors duration-200">
-                Browse Products
-
-                    <button type="submit" form="checkout-form"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg font-medium transition">
-                        Place Order
-                    </button>
-                </div>
-            </div>
-        </div>
-        @else
-        <div class="text-center py-16">
-            <p class="theme-text-muted mb-4">Your cart is empty.</p>
-            <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition">
+                class="inline-flex items-center px-6 py-3 text-base font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 shadow-sm transition-colors duration-200">
                 Browse Products
             </a>
         </div>

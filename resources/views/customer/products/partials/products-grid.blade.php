@@ -106,13 +106,18 @@
 
             <div class="flex space-x-2">
                 @if($product->stock_quantity > 0)
-                <button class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-lg text-sm font-bold text-center hover:shadow-xl flex items-center justify-center gap-2 add-to-cart-btn" data-product-id="{{ $product->id }}">
-                    <span class="material-icons text-lg">shopping_cart</span>
-                    Add to Cart
+                <button class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-3 rounded-lg hover:shadow-xl flex items-center justify-center add-to-cart-btn" 
+                        data-product-id="{{ $product->id }}"
+                        title="Add to Cart">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
                 </button>
                 @else
-                <button disabled class="flex-1 bg-gray-200 text-gray-500 py-3 px-4 rounded-lg text-sm font-bold cursor-not-allowed">
-                    Sold Out
+                <button disabled class="bg-gray-200 text-gray-500 p-3 rounded-lg cursor-not-allowed" title="Out of Stock">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
                 </button>
                 @endif
 
@@ -303,71 +308,70 @@ $(document).ready(function() {
         }
     }
 
-    // Add to Cart AJAX functionality
-    $(document).on('click', '.add-to-cart-btn', function(e) {
+    // Add to Cart AJAX functionality - optimized
+    $(document).on('click', '.add-to-cart-btn', async function(e) {
         e.preventDefault();
         
         const $btn = $(this);
+        if ($btn.prop('disabled')) return;
+        
         const productId = $btn.data('product-id');
         const originalHtml = $btn.html();
         
-        // Disable button and show loading state
-        $btn.prop('disabled', true).html('<span class="material-icons animate-spin">refresh</span> Adding...');
+        // Show loading state
+        $btn.prop('disabled', true).html('<svg class="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>');
         
-        $.ajax({
-            url: `/cart/add/${productId}`,
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'Accept': 'application/json'
-            },
-            data: {
-                quantity: 1
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Update cart count
-                    $('#cart-count').text(response.count);
-                    
-                    // Show success state
-                    $btn.html('<span class="material-icons">check_circle</span> Added!').removeClass('from-orange-500 to-orange-600').addClass('from-green-500 to-green-600');
-                    
-                    // Show toast notification
-                    if (typeof Toastify !== 'undefined') {
-                        Toastify({
-                            text: "Product added to cart successfully!",
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                                background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                            }
-                        }).showToast();
-                    }
-                    
-                    // Reset button after 2 seconds
-                    setTimeout(function() {
-                        $btn.html(originalHtml).removeClass('from-green-500 to-green-600').addClass('from-orange-500 to-orange-600').prop('disabled', false);
-                    }, 2000);
-                }
-            },
-            error: function(xhr) {
-                console.error('Error adding to cart:', xhr);
-                $btn.html(originalHtml).prop('disabled', false);
-                
-                if (typeof Toastify !== 'undefined') {
-                    Toastify({
-                        text: xhr.responseJSON?.message || "Error adding to cart. Please try again.",
-                        duration: 3000,
-                        gravity: "top",
-                        position: "right",
-                        style: {
-                            background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
-                        }
-                    }).showToast();
-                }
+        try {
+            const response = await fetch(`/cart/add/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: 1 })
+            });
+            
+            // Handle non-JSON responses
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Please login to add items to cart');
             }
-        });
+            
+            const data = await response.json();
+            
+            if (response.status === 401) {
+                showToast(data.message || 'Please login to add items to cart', 'info');
+                setTimeout(() => window.location.href = data.redirect || '/login', 1000);
+                return;
+            }
+            
+            if (response.ok && data.success) {
+                // Show success state
+                $btn.html('<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>')
+                    .removeClass('from-orange-500 to-orange-600')
+                    .addClass('from-green-500 to-green-600');
+                
+                showToast('Added to cart!', 'success');
+                
+                // Update cart badge
+                if (typeof updateCartBadge === 'function') updateCartBadge();
+                
+                // Reset after short delay
+                setTimeout(() => {
+                    $btn.html(originalHtml)
+                        .removeClass('from-green-500 to-green-600')
+                        .addClass('from-orange-500 to-orange-600')
+                        .prop('disabled', false);
+                }, 1000);
+            } else {
+                throw new Error(data.message || 'Failed to add to cart');
+            }
+        } catch (error) {
+            $btn.html(originalHtml).prop('disabled', false);
+            showToast(error.message || 'Failed to add to cart', 'error');
+        }
     });
 
     // Wishlist AJAX functionality
@@ -377,12 +381,6 @@ $(document).ready(function() {
         const $btn = $(this);
         const productId = $btn.data('product-id');
         const isInWishlist = $btn.data('in-wishlist') === 'true';
-        
-        // Check if user is authenticated
-        @guest
-            window.location.href = "{{ route('login') }}";
-            return;
-        @endguest
         
         // Disable button during request
         $btn.prop('disabled', true).css('opacity', '0.6');
@@ -433,9 +431,30 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 console.error('Error toggling wishlist:', xhr);
+                
+                // Handle 401 Unauthorized - redirect to login
+                if (xhr.status === 401) {
+                    const data = xhr.responseJSON;
+                    if (typeof Toastify !== 'undefined') {
+                        Toastify({
+                            text: data?.message || "Please login to manage wishlist",
+                            duration: 2000,
+                            gravity: "top",
+                            position: "right",
+                            style: {
+                                background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                            }
+                        }).showToast();
+                    }
+                    setTimeout(function() {
+                        window.location.href = data?.redirect || '/login';
+                    }, 1500);
+                    return;
+                }
+                
                 if (typeof Toastify !== 'undefined') {
                     Toastify({
-                        text: "Error updating wishlist. Please try again.",
+                        text: xhr.responseJSON?.message || "Error updating wishlist. Please try again.",
                         duration: 3000,
                         gravity: "top",
                         position: "right",

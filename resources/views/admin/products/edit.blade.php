@@ -1,167 +1,157 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Admin • Edit Product')
+@section('title', 'Edit Product')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Edit Product</h1>
-        <p class="text-gray-600 mt-2">Update your product information</p>
-    </div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Edit: {{ $product->name }}</h6>
+                @if($product->image)
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                @endif
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-    <div class="bg-white shadow-xl rounded-xl border border-gray-200">
-        <div class="p-8">
-            <form method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data" class="space-y-6">
-                @csrf
-                @method('PUT')
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Product Name --}}
-                    <div class="md:col-span-2">
-                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
+                    <!-- Product Name -->
+                    <div class="mb-4">
+                        <label for="name" class="form-label fw-medium">Product Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                            class="form-control @error('name') is-invalid @enderror" 
                             placeholder="Enter product name" required>
                         @error('name')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    {{-- Description --}}
-                    <div class="md:col-span-2">
-                        <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-medium">Description <span class="text-danger">*</span></label>
                         <textarea name="description" id="description" rows="4" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            placeholder="Describe your product" required>{{ old('description', $product->description) }}</textarea>
+                            class="form-control @error('description') is-invalid @enderror" 
+                            placeholder="Enter product description" required>{{ old('description', $product->description) }}</textarea>
                         @error('description')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- Price & Stock --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="price" class="block text-sm font-semibold text-gray-700 mb-2">Price (₹)</label>
-                        <input type="number" name="price" id="price" step="0.01" min="0" value="{{ old('price', $product->price) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            placeholder="0.00" required>
-                        @error('price')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div>
-                        <label for="stock_quantity" class="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity</label>
-                        <input type="number" name="stock_quantity" id="stock_quantity" value="{{ old('stock_quantity', $product->stock_quantity) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            placeholder="0" required>
-                        @error('stock_quantity')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
+                    <!-- Price & Stock -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="price" class="form-label fw-medium">Price (₹) <span class="text-danger">*</span></label>
+                            <input type="number" name="price" id="price" step="0.01" min="0" value="{{ old('price', $product->price) }}" 
+                                class="form-control @error('price') is-invalid @enderror" 
+                                placeholder="0.00" required>
+                            @error('price')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                {{-- Discount Section --}}
-                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-lg border-2 border-indigo-200 dark:border-indigo-800">
-                    <div class="flex items-center mb-4">
-                        <input type="checkbox" name="has_discount" id="has_discount" value="1" 
-                            class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" 
-                            {{ old('has_discount', $product->has_discount) ? 'checked' : '' }}>
-                        <label for="has_discount" class="ml-3 text-sm font-semibold text-gray-700">Enable Discount</label>
-                    </div>
-                    
-                    <div id="discount-fields" class="{{ old('has_discount', $product->has_discount) ? '' : 'hidden' }}">
-                        <label for="discount_percentage" class="block text-sm font-semibold text-gray-700 mb-2">Discount Percentage (%)</label>
-                        <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" min="0" max="100" 
-                            value="{{ old('discount_percentage', $product->discount_percentage ?? 0) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
-                            placeholder="0.00">
-                        @error('discount_percentage')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                        
-                        <div id="discount-preview" class="mt-3 p-3 bg-white rounded-lg border border-indigo-200">
-                            <p class="text-sm text-gray-600">
-                                <span class="font-semibold">Original Price:</span> ₹<span id="original-price-display">{{ $product->price }}</span><br>
-                                <span class="font-semibold">Discount:</span> <span id="discount-amount-display">{{ $product->discount_percentage ?? 0 }}</span>%<br>
-                                <span class="font-semibold text-green-600">Final Price:</span> ₹<span id="final-price-display">{{ $product->discount_price ?? $product->price }}</span>
-                            </p>
+                        <div class="col-md-6">
+                            <label for="stock_quantity" class="form-label fw-medium">Stock Quantity <span class="text-danger">*</span></label>
+                            <input type="number" name="stock_quantity" id="stock_quantity" value="{{ old('stock_quantity', $product->stock_quantity) }}" 
+                                class="form-control @error('stock_quantity') is-invalid @enderror" 
+                                placeholder="0" required>
+                            @error('stock_quantity')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
-                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Category --}}
-                    <div>
-                        <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
-                        <select name="category_id" id="category_id" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            required>
-                            <option value="">Select a category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- SKU --}}
-                    <div>
-                        <label for="sku" class="block text-sm font-semibold text-gray-700 mb-2">SKU</label>
-                        <input type="text" name="sku" id="sku" value="{{ old('sku', $product->sku) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            placeholder="SKU123" required>
-                        @error('sku')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Weight --}}
-                    <div>
-                        <label for="weight" class="block text-sm font-semibold text-gray-700 mb-2">Weight (kg)</label>
-                        <input type="number" name="weight" id="weight" step="0.01" min="0" value="{{ old('weight', $product->weight) }}" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                            placeholder="0.00">
-                        @error('weight')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Image --}}
-                    <div>
-                        <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">Product Image</label>
-                        <input type="file" name="image" id="image" accept="image/*" 
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        @error('image')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                        @if($product->image)
-                            <div class="mt-2">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-20 w-20 object-cover rounded-lg border border-gray-200">
+                    <!-- Discount Section -->
+                    <div class="mb-4 p-4 bg-light rounded border">
+                        <div class="form-check mb-3">
+                            <input type="checkbox" name="has_discount" id="has_discount" value="1" 
+                                class="form-check-input" {{ old('has_discount', $product->has_discount) ? 'checked' : '' }}>
+                            <label for="has_discount" class="form-check-label fw-medium">Enable Discount</label>
+                        </div>
+                        
+                        <div id="discount-fields" class="{{ old('has_discount', $product->has_discount) ? '' : 'd-none' }}">
+                            <label for="discount_percentage" class="form-label fw-medium">Discount Percentage (%)</label>
+                            <input type="number" name="discount_percentage" id="discount_percentage" step="0.01" min="0" max="100" 
+                                value="{{ old('discount_percentage', $product->discount_percentage ?? 0) }}" 
+                                class="form-control @error('discount_percentage') is-invalid @enderror" 
+                                placeholder="0.00">
+                            @error('discount_percentage')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            
+                            <div id="discount-preview" class="mt-3 p-3 bg-white rounded border">
+                                <small class="text-muted">
+                                    <strong>Original Price:</strong> ₹<span id="original-price-display">{{ $product->price }}</span><br>
+                                    <strong>Discount:</strong> <span id="discount-amount-display">{{ $product->discount_percentage ?? 0 }}</span>%<br>
+                                    <strong class="text-success">Final Price:</strong> ₹<span id="final-price-display">{{ $product->discount_price ?? $product->price }}</span>
+                                </small>
                             </div>
-                        @endif
+                        </div>
                     </div>
-                </div>
 
-                {{-- Buttons --}}
-                <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
-                    <a href="{{ route('admin.products.index') }}" 
-                        class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-                        Cancel
-                    </a>
-                    <button type="submit" 
-                        class="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                        Update Product
-                    </button>
-                </div>
-            </form>
+                    <!-- Category & SKU -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="category_id" class="form-label fw-medium">Category <span class="text-danger">*</span></label>
+                            <select name="category_id" id="category_id" class="form-select @error('category_id') is-invalid @enderror" required>
+                                <option value="">Select a category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="sku" class="form-label fw-medium">SKU</label>
+                            <input type="text" name="sku" id="sku" value="{{ old('sku', $product->sku) }}" 
+                                class="form-control @error('sku') is-invalid @enderror" 
+                                placeholder="SKU123">
+                            @error('sku')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Weight & Image -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="weight" class="form-label fw-medium">Weight (kg) <span class="text-muted small">(Optional)</span></label>
+                            <input type="number" name="weight" id="weight" step="0.01" min="0" value="{{ old('weight', $product->weight) }}" 
+                                class="form-control @error('weight') is-invalid @enderror" 
+                                placeholder="0.00">
+                            @error('weight')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="image" class="form-label fw-medium">Product Image <span class="text-muted small">(Optional)</span></label>
+                            <input type="file" name="image" id="image" accept="image/*" 
+                                class="form-control @error('image') is-invalid @enderror">
+                            @error('image')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex gap-3 pt-4 border-top">
+                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                            <span class="material-icons" style="font-size: 18px;">save</span>
+                            Update Product
+                        </button>
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -177,17 +167,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const discountAmountDisplay = document.getElementById('discount-amount-display');
     const finalPriceDisplay = document.getElementById('final-price-display');
 
-    // Toggle discount fields
     hasDiscountCheckbox.addEventListener('change', function() {
         if (this.checked) {
-            discountFields.classList.remove('hidden');
+            discountFields.classList.remove('d-none');
             calculateDiscount();
         } else {
-            discountFields.classList.add('hidden');
+            discountFields.classList.add('d-none');
         }
     });
 
-    // Calculate discount on input changes
     function calculateDiscount() {
         const price = parseFloat(priceInput.value) || 0;
         const discountPercentage = parseFloat(discountPercentageInput.value) || 0;
@@ -205,11 +193,9 @@ document.addEventListener('DOMContentLoaded', function() {
     priceInput.addEventListener('input', calculateDiscount);
     discountPercentageInput.addEventListener('input', calculateDiscount);
     
-    // Initial calculation if discount is already enabled
     if (hasDiscountCheckbox.checked) {
         calculateDiscount();
     }
 });
 </script>
-
 @endsection

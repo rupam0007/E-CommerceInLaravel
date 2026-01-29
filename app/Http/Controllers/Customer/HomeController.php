@@ -14,17 +14,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // --- START: FIX ---
-        // 'is_featured' ki jagah, hum random products dikhayenge
-        // Taki naye demo products homepage par dikhein
-        $featuredProducts = Product::with('category')
+        // Featured products - random selection for variety
+        $featuredProducts = Product::with(['category', 'reviews'])
+            ->withAvg('reviews', 'rating')
             ->inRandomOrder()
             ->limit(8)
             ->get();
-        // --- END: FIX ---
 
-        $categories = Category::limit(3)->get();
+        // New arrivals - latest products
+        $newArrivals = Product::with(['category', 'reviews'])
+            ->withAvg('reviews', 'rating')
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
 
-        return view('customer.home', compact('featuredProducts', 'categories'));
+        $categories = Category::all();
+
+        return view('customer.home', compact('featuredProducts', 'newArrivals', 'categories'));
     }
 }

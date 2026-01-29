@@ -153,14 +153,18 @@
                     <td class="p-4 text-center">
                         <div class="flex flex-col gap-2">
                             @if($product->stock_quantity > 0)
-                                <button class="add-to-cart-btn bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-2 px-4 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
-                                        data-product-id="{{ $product->id }}">
-                                    <span class="material-icons text-sm">shopping_cart</span>
-                                    Add to Cart
+                                <button class="add-to-cart-btn bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white p-3 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center mx-auto"
+                                        data-product-id="{{ $product->id }}"
+                                        title="Add to Cart">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
                                 </button>
                             @else
-                                <button disabled class="bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 py-2 px-4 rounded-lg font-bold cursor-not-allowed">
-                                    Out of Stock
+                                <button disabled class="bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 p-3 rounded-lg cursor-not-allowed mx-auto" title="Out of Stock">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
                                 </button>
                             @endif
                             <a href="{{ route('products.show', $product) }}" 

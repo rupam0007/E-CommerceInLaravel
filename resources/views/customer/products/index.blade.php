@@ -3,34 +3,35 @@
 @section('title', $pageTitle . ' - Nexora')
 
 @section('content')
-<div class="bg-[#F5EFE6] dark:bg-gray-900 min-h-screen transition-colors duration-300 relative z-0">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-0">
+<div class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 py-6">
         
-        {{-- Header Section --}}
-        <div class="mb-10 text-center">
-            <h1 class="text-4xl font-bold font-serif text-gray-900 dark:text-white transition-colors">
-                {{ $pageTitle }}
-            </h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg transition-colors">{{ $pageDescription }}</p>
-        </div>
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+            <a href="{{ route('home') }}" class="hover:text-primary-500">Home</a>
+            <span class="material-icons text-lg">chevron_right</span>
+            <span class="text-gray-900 font-medium">{{ $pageTitle }}</span>
+        </nav>
 
-        <div class="flex flex-col lg:flex-row gap-8">
+        <div class="flex gap-6">
             
-            {{-- Sidebar Filters --}}
-            <div class="lg:w-1/4 space-y-8">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Filters</h3>
+            <!-- Sidebar Filters -->
+            <div class="hidden lg:block w-64 flex-shrink-0">
+                <div class="bg-white rounded shadow-sm sticky top-20">
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold text-gray-900">Filters</h3>
+                    </div>
                     
-                    <form action="{{ route('products.index') }}" method="GET">
+                    <form action="{{ route('products.index') }}" method="GET" class="p-4 space-y-5">
                         @if(request('search'))
                             <input type="hidden" name="search" value="{{ request('search') }}">
                         @endif
 
-                        {{-- Category Filter --}}
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                        <!-- Category Filter -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <select name="category" onchange="this.form.submit()" 
-                                class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded text-sm focus:outline-none focus:border-primary-500">
                                 <option value="">All Categories</option>
                                 @foreach($categories as $cat)
                                     @php
@@ -48,111 +49,114 @@
                             </select>
                         </div>
 
-                        {{-- Sort Filter --}}
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sort By</label>
+                        <!-- Sort Filter -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
                             <select name="sort" onchange="this.form.submit()" 
-                                class="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest Arrivals</option>
+                                class="w-full px-3 py-2 bg-white border border-gray-200 rounded text-sm focus:outline-none focus:border-primary-500">
+                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
                                 <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
                                 <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
                             </select>
                         </div>
 
-                        {{-- Reset Button --}}
-                        <a href="{{ route('products.index') }}" class="block w-full text-center bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white py-2 px-4 rounded-md text-sm transition-colors border border-gray-300 dark:border-gray-600">
+                        <!-- Reset Button -->
+                        <a href="{{ route('products.index') }}" class="block w-full text-center bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded text-sm transition">
                             Clear Filters
                         </a>
                     </form>
                 </div>
             </div>
 
-            {{-- Main Product Grid --}}
-            <div class="lg:w-3/4">
-                {{-- Result Count --}}
-                <div class="flex justify-between items-center mb-6">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">
-                        Showing <span class="font-medium text-gray-900 dark:text-white">{{ $products->firstItem() ?? 0 }}</span> to <span class="font-medium text-gray-900 dark:text-white">{{ $products->lastItem() ?? 0 }}</span> of <span class="font-medium text-gray-900 dark:text-white">{{ $products->total() }}</span> results
-                    </p>
+            <!-- Main Content -->
+            <div class="flex-1">
+                <!-- Header -->
+                <div class="bg-white rounded shadow-sm p-4 mb-4">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-xl font-semibold text-gray-900">{{ $pageTitle }}</h1>
+                            <p class="text-sm text-gray-500">
+                                Showing {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} of {{ $products->total() }} products
+                            </p>
+                        </div>
+                        
+                        <!-- Mobile Filter Toggle -->
+                        <button class="lg:hidden flex items-center gap-2 px-4 py-2 border rounded text-sm" onclick="toggleMobileFilter()">
+                            <span class="material-icons text-lg">tune</span>
+                            Filters
+                        </button>
+                    </div>
                 </div>
 
-                {{-- GRID FIX: Wrapper added here --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-0">
-                    @include('customer.products.partials.products-grid', ['products' => $products])
+                <!-- Product Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+                    @include('customer.products.partials.products-grid-new', ['products' => $products])
                 </div>
 
-                {{-- Pagination --}}
-                <div class="mt-10">
+                <!-- Pagination -->
+                @if($products->hasPages())
+                <div class="mt-6 bg-white rounded shadow-sm p-4">
                     {{ $products->withQueryString()->links() }}
                 </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 
-{{-- Quick View Modal --}}
-<div id="quick-view-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-        {{-- Background overlay --}}
-        <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity backdrop-blur-sm" aria-hidden="true"></div>
-
-        {{-- Modal panel --}}
-        <div class="relative inline-block bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full">
-            {{-- Close button --}}
-            <button type="button" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors" onclick="closeQuickView()">
-                <span class="material-icons text-3xl">close</span>
+<!-- Mobile Filter Modal -->
+<div id="mobile-filter" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50" onclick="toggleMobileFilter()"></div>
+    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-lg">Filters</h3>
+            <button onclick="toggleMobileFilter()" class="p-2 hover:bg-gray-100 rounded-full">
+                <span class="material-icons">close</span>
             </button>
-
-            {{-- Modal content --}}
-            <div id="quick-view-content" class="p-8">
-                <div class="flex items-center justify-center h-64">
-                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                </div>
-            </div>
         </div>
-    </div>
-</div>
-
-{{-- Product Comparison Bar --}}
-<div id="comparison-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-2xl transform translate-y-full transition-transform duration-300 hidden">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <span class="text-white font-bold text-lg">Compare Products (<span id="compare-count">0</span>/3)</span>
-                <div id="compared-products" class="flex gap-2"></div>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="openComparisonModal()" class="bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" id="compare-btn" disabled>
-                    <span class="flex items-center gap-2">
-                        <span class="material-icons">compare_arrows</span>
-                        Compare Now
-                    </span>
-                </button>
-                <button onclick="clearComparison()" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-600 transition-colors">
-                    Clear All
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Comparison Modal --}}
-<div id="comparison-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" role="dialog" aria-modal="true">
-    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-        <div class="fixed inset-0 bg-black bg-opacity-75 transition-opacity backdrop-blur-sm" onclick="closeComparisonModal()"></div>
         
-        <div class="relative inline-block bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 w-full max-w-6xl">
-            <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Product Comparison</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" onclick="closeComparisonModal()">
-                    <span class="material-icons text-3xl">close</span>
-                </button>
+        <form action="{{ route('products.index') }}" method="GET" class="space-y-5">
+            @if(request('search'))
+                <input type="hidden" name="search" value="{{ request('search') }}">
+            @endif
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <select name="category" class="w-full px-3 py-3 bg-white border border-gray-200 rounded text-sm">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            
-            <div id="comparison-content" class="p-6 overflow-x-auto">
-                <!-- Comparison table will be loaded here -->
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <select name="sort" class="w-full px-3 py-3 bg-white border border-gray-200 rounded text-sm">
+                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                    <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                    <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                </select>
             </div>
-        </div>
+
+            <div class="flex gap-3 pt-4">
+                <a href="{{ route('products.index') }}" class="flex-1 text-center py-3 border rounded font-medium">Clear</a>
+                <button type="submit" class="flex-1 bg-primary-500 text-white py-3 rounded font-medium">Apply</button>
+            </div>
+        </form>
     </div>
 </div>
+
 @endsection
+
+@push('scripts')
+<script>
+function toggleMobileFilter() {
+    const modal = document.getElementById('mobile-filter');
+    modal.classList.toggle('hidden');
+    document.body.classList.toggle('overflow-hidden');
+}
+</script>
+@endpush
